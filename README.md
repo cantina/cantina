@@ -1,1 +1,3 @@
-Main WWW gateway for Cantina.
+= Cantina: App =
+
+Primary layer for a Cantina application.
