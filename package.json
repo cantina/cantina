@@ -1,0 +1,23 @@
+{
+  "author": "Brian Link <cpubrian@gmail.com>",
+  "name": "cantina-app",
+  "description": "Main application logic for a cantina stack.",
+  "version": "0.1.0",
+  "homepage": "http://cantina.guthub.com",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cantina/cantina-app.git"
+  },
+  "main": "./lib/app.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "~1.0.3"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "~0.6.16"
+  }
+}
