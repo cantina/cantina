@@ -12,12 +12,14 @@
   "scripts": {
     "test": "make test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "cantina-service": "git+ssh://git@github.com:cantina/cantina-service.git"
+  },
   "devDependencies": {
     "mocha": "~1.0.3"
   },
   "optionalDependencies": {},
   "engines": {
-    "node": "~0.6.16"
+    "node": "~0.6.0"
   }
 }
