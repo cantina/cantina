@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-var app = require('../lib/app');
+require('../lib/app').start();
