@@ -8,7 +8,9 @@ describe('Plugins', function() {
   describe('controllers', function() {
     var cantina = require('../');
     var app = cantina.app({
-      root: __dirname
+      root: __dirname,
+      name: 'test-controllers',
+      version: '0.0.1',
     });
 
     before(function() {
