@@ -16,7 +16,7 @@
   "dependencies": {
     "flatiron": "~0.1.17",
     "union": "~0.3.0",
-    "amino": "~0.7.0"
+    "amino": "~0.8.0"
   },
   "devDependencies": {
     "mocha": "~1.0.3"
