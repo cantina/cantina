@@ -1,3 +1,5 @@
-# Cantina: App #
+# Cantina #
 
-Primary layer for a Cantina application.
+A framework for developing interconnected services and applications.
+
+Powered by amino.
