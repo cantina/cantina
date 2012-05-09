@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "flatiron": "~0.1.17",
-    "pkginfo": "0.2.3",
+    "pkginfo": "~0.2.3",
     "union": "~0.3.0",
     "amino": "~0.8.0"
   },

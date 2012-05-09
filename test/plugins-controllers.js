@@ -7,7 +7,7 @@ var assert = require('assert');
 describe('Plugins', function() {
   describe('controllers', function() {
     var cantina = require('../');
-    var app = cantina.app({
+    var app = cantina.createApp({
       root: __dirname,
       name: 'test-controllers',
       version: '0.0.1',
