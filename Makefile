@@ -6,4 +6,3 @@ test:
     --reporter $(REPORTER)
 
 .PHONY: test
-
