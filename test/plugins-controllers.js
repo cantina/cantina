@@ -2,19 +2,24 @@
  * Tests for the plugin: controllers.
  */
 
-var assert = require('assert');
+var assert = require('assert'),
+    cantina = require('../');
 
 describe('Plugins', function() {
-  describe('controllers', function() {
-    var cantina = require('../');
-    var app = cantina.createApp({
-      root: __dirname,
-      name: 'test-controllers',
-      version: '0.0.1',
-    });
+  describe('Controllers', function() {
+    var app;
 
-    before(function() {
+    before(function(done) {
+      app = cantina.createApp({
+        root: __dirname,
+        name: 'cantina-test-plugins-controllers',
+        version: '0.0.1',
+        silent: true
+      });
+
       app.use(cantina.plugins.controllers, {path: 'fixtures/controllers'});
+
+      done();
     });
 
     it('should load controllers based on options.path', function(done) {
