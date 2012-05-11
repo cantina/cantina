@@ -7,12 +7,13 @@ var assert = require('assert'),
     amino = require('amino');
 
 describe('Plugin: Views', function() {
-  var app, i = 0, currentName;
+  var app;
 
+  // Create a fresh app before each test.
   beforeEach(function(done) {
     app = cantina.createApp({
       root: __dirname,
-      name: 'cantina-test-plugin-views-' + (i++),
+      name: 'cantina-test-plugin-views',
       version: '0.0.1',
       silent: true
     });
@@ -20,6 +21,16 @@ describe('Plugin: Views', function() {
       path: 'fixtures/views'
     });
     app.start(done);
+  });
+
+  // Stop the app after each test.
+  afterEach(function(done) {
+    app.stop(function() {
+      // Hard clear the amino services because we'd normally have to wait for
+      // a pub/sub delay.
+      amino.globalAgent.services[app.info.name] = [];
+      done();
+    });
   });
 
   it('should be able to render templates with data', function(done) {

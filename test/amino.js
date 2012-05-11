@@ -24,6 +24,10 @@ describe('Amino', function() {
     app.start(done);
   });
 
+  after(function(done) {
+    app.stop(done);
+  });
+
   it('should respond to requests to `/`', function(done) {
     amino.request('amino://cantina-test-amino/', function(err, res, body) {
       assert.equal(res.body, 'Test', 'The response body matches the expected content');
