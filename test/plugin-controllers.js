@@ -11,7 +11,7 @@ describe('Plugin: Controllers', function() {
   before(function(done) {
     app = cantina.createApp({
       root: __dirname,
-      name: 'cantina-test-plugins-controllers',
+      name: 'cantina-test-plugin-controllers',
       version: '0.0.1',
       silent: true
     });

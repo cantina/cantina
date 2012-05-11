@@ -2,10 +2,11 @@
  * Test the application utility functions.
  */
 
-var assert = require('assert');
+var assert = require('assert'),
+    cantina = require('../');
 
 describe('Plugin: Utils', function() {
-  var app = require('../').app;
+  var app = cantina.createApp();
 
   describe('defaults', function() {
     var start, defaults, end;
