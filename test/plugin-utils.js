@@ -8,7 +8,7 @@ var assert = require('assert'),
 describe('Plugin: Utils', function() {
   var app = cantina.createApp();
 
-  describe('defaults', function() {
+  describe('Defaults', function() {
     var start, defaults, end;
 
     start = {
