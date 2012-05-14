@@ -14,5 +14,5 @@ home.routes = {
 
 // Index.
 function index() {
-  this.render('index', 'Welcome to my application!');
+  this.render('index', '{{description}}');
 }
