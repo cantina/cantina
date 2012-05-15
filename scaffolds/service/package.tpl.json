@@ -1,0 +1,26 @@
+{
+  "name": "{{name}}",
+  "description": "{{description}}",
+  "version": "0.0.1",
+  "private": true,
+  "homepage": "cantina.guthub.com",
+  "repository": {
+    "url": ""
+  },
+  "main": "./lib",
+  "scripts": {
+    "start": "./bin/service.js",
+    "test": "make test"
+  },
+  "dependencies": {
+    "cantina": "git+ssh://git@github.com:cantina/cantina.git",
+    "pkginfo": "~0.2.3"
+  },
+  "devDependencies": {
+    "mocha": "~1.0.3"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "~0.6.0"
+  }
+}
