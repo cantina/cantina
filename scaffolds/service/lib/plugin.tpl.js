@@ -19,6 +19,6 @@ exports.detach = function() {
 }
 
 // The application and its plugins are being initialized.
-exports.init = function() {
-
+exports.init = function(done) {
+  done();
 }
