@@ -26,12 +26,7 @@ describe('Plugin: Static', function() {
 
     // Stop the app after each test.
     afterEach(function(done) {
-      app.stop(function() {
-        // Hard clear the amino services because we'd normally have to wait for
-        // a pub/sub delay.
-        amino.globalAgent.services[app.info.name] = [];
-        done();
-      });
+      app.stop(true, done);
     });
 
     it('should serve static content', function(done) {
