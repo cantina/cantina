@@ -6,7 +6,11 @@
 var cantina = require('cantina');
 
 // Create the service application.
-var app = module.exports = cantina.app;
+exports.create = function(options) {
+  var app = cantina.createApp(options);
 
-// Load plugins.  For example:
-app.use(cantina.plugins.controllers);
+  // Load plugins.  For example:
+  app.use(cantina.plugins.controllers);
+
+  return app;
+};
