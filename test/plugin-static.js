@@ -4,24 +4,21 @@
 
 var assert = require('assert'),
     cantina = require('../'),
-    amino = require('amino');
+    amino = require('amino'),
+    path = require('path');
 
 describe('Plugin: Static', function() {
   var app;
 
   describe('Serving Content', function() {
     // Create a fresh app before each test.
-    beforeEach(function(done) {
+    beforeEach(function() {
       app = cantina.createApp({
         root: __dirname,
         name: 'cantina-test-plugin-static',
         version: '0.0.1',
         silent: true
       });
-      app.use(cantina.plugins.static, {
-        path: 'fixtures/static'
-      });
-      app.start(done);
     });
 
     // Stop the app after each test.
@@ -29,11 +26,29 @@ describe('Plugin: Static', function() {
       app.stop(true, done);
     });
 
-    it('should serve static content', function(done) {
-      amino.request('amino://' + app.info.name + '/turtles.txt', function(err, res, body) {
-        assert.ifError(err);
-        assert.equal(body, 'Leonardo, Raphael, Michelangelo, Donatello', 'the static content was not served');
-        done();
+    it('should serve static content from a relative path', function(done) {
+      app.use(cantina.plugins.static, {
+        path: 'fixtures/static'
+      });
+      app.start(function() {
+        amino.request('amino://' + app.info.name + '/turtles.txt', function(err, res, body) {
+          assert.ifError(err);
+          assert.equal(body, 'Leonardo, Raphael, Michelangelo, Donatello', 'the static content was not served');
+          done();
+        });
+      });
+    });
+
+    it('should serve static content from an absolute path', function(done) {
+      app.use(cantina.plugins.static, {
+        path: path.resolve(__dirname, 'fixtures/static')
+      });
+      app.start(function() {
+        amino.request('amino://' + app.info.name + '/turtles.txt', function(err, res, body) {
+          assert.ifError(err);
+          assert.equal(body, 'Leonardo, Raphael, Michelangelo, Donatello', 'the static content was not served');
+          done();
+        });
       });
     });
   });
