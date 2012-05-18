@@ -41,7 +41,7 @@ describe('Plugin: Views', function() {
     });
 
     it('should be able to render templates with static helpers', function(done) {
-      app.viewHelper({name: 'Donatello'});
+      app.views.helper({name: 'Donatello'});
       app.router.get('hello', function() {
         this.render('hello');
       });
@@ -53,7 +53,7 @@ describe('Plugin: Views', function() {
     });
 
     it('should be able to render templates with dynamic helpers', function(done) {
-      app.viewHelper(function(done) {
+      app.views.helper(function(done) {
         done(null, {name: 'Michelangelo'});
       });
       app.router.get('hello', function() {
