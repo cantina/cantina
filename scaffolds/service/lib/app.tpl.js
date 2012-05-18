@@ -9,6 +9,8 @@ var cantina = require('cantina');
 exports.create = function(options) {
   var app = cantina.createApp(options);
 
+  options = options || {};
+
   // Load plugins.  For example:
   app.use(cantina.plugins.controllers);
 
