@@ -2,23 +2,13 @@
  * {{title}}
  */
 
-var _plugin, _app;
+var utils = require('cantina').plugins.utils;
 
 // Expose this service's package info.
 require('pkginfo')(module);
 
-// Lazy-load the plugin.
-exports.__defineGetter__('plugin', function () {
-  if (!_plugin) {
-    _plugin = require('./plugin');
-  }
-  return _plugin;
-});
-
-// Lazy-load the app.
-exports.__defineGetter__('app', function () {
-  if (!_app) {
-    _app = require('./app');
-  }
-  return _app;
+// Lazy-load sub-modules.
+utils.lazy(exports, __dirname, {
+  plugin: './plugin',
+  app: './app'
 });
