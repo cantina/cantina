@@ -23,7 +23,13 @@
     "hardhat": "~0.0.1"
   },
   "devDependencies": {
-    "mocha": "~1.0.3"
+    "mocha": "~1.0.3",
+    "amino": "~0.8.0",
+    "union": "~0.3.0",
+    "connect": "~2.3.0",
+    "consolidate": "~0.3.0",
+    "handlebars": "~1.0.5beta",
+    "jade": "~0.26.0"
   },
   "optionalDependencies": {},
   "engines": {
