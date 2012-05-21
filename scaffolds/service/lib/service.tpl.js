@@ -11,8 +11,7 @@ exports.create = function(options) {
 
   options = options || {};
 
-  // Load plugins.  For example:
-  app.use(cantina.plugins.controllers);
+  // Load plugins with app.use().
 
   return app;
 };

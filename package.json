@@ -2,7 +2,7 @@
   "author": "Brian Link <cpubrian@gmail.com>",
   "name": "cantina",
   "description": "Framework for Cantina applications and services.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "homepage": "http://cantina.guthub.com",
   "repository": {
@@ -25,11 +25,7 @@
   "devDependencies": {
     "mocha": "~1.0.3",
     "amino": "~0.8.0",
-    "union": "~0.3.0",
-    "connect": "~2.3.0",
-    "consolidate": "~0.3.0",
-    "handlebars": "~1.0.5beta",
-    "jade": "~0.26.0"
+    "union": "~0.3.0"
   },
   "optionalDependencies": {},
   "engines": {

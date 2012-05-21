@@ -9,6 +9,5 @@ require('pkginfo')(module);
 
 // Lazy-load sub-modules.
 utils.lazy(exports, __dirname, {
-  plugin: './plugin',
-  service: './service'
+  plugin: './plugin'
 });

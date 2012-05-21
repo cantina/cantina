@@ -9,7 +9,6 @@
   },
   "main": "./lib",
   "scripts": {
-    "start": "./bin/service.js",
     "test": "make test"
   },
   "dependencies": {
