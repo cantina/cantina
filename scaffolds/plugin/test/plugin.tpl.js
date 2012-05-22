@@ -3,7 +3,7 @@
  */
 
 var assert = require('assert'),
-    {{name}} = require('../');
+    plugin = require('../').plugin;
 
 describe('{{title}}', function() {
 

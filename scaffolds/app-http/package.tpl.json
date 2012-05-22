@@ -13,7 +13,8 @@
     "cantina": "git+ssh://git@github.com:cantina/cantina.git#v0.3.0",
     "cantina-controllers": "git+ssh://git@github.com:cantina/cantina-controllers.git#v0.1.0",
     "cantina-static": "git+ssh://git@github.com:cantina/cantina-static.git#v0.1.0",
-    "cantina-views": "git+ssh://git@github.com:cantina/cantina-views.git#v0.1.0"
+    "cantina-views": "git+ssh://git@github.com:cantina/cantina-views.git#v0.1.0",
+    "pkginfo": "~0.2.3"
   },
   "devDependencies": {
     "mocha": "~1.0.3"

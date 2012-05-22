@@ -3,7 +3,7 @@
  */
 
 var assert = require('assert'),
-    {{name}} = require('../');
+    service = require('../').service;
 
 describe('{{title}}', function() {
 

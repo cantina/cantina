@@ -2,7 +2,7 @@
  * {{title}}
  */
 
-var utils = require('cantina').utils;
+var utils = require('cantina').plugins.utils;
 
 // Expose this service's package info.
 require('pkginfo')(module);
