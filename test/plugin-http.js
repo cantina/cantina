@@ -53,6 +53,10 @@ describe('Plugin: HTTP', function() {
       app.start(9090, done);
     });
 
+    after(function(done) {
+      app.stop(done);
+    });
+
     it('should respond to requests to `/`', function(done) {
       amino.request('http://localhost:9090/', function(err, res, body) {
         assert.equal(res.body, 'Test HTTP', 'The response body matches the expected content');
