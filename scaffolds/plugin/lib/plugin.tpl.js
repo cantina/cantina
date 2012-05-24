@@ -1,5 +1,5 @@
 /**
- * {{title}} plugin.
+ * {{{title}}} plugin.
  */
 
 // Expose this service's package info.

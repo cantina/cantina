@@ -1,5 +1,5 @@
 /**
- * {{title}}
+ * {{{title}}}
  */
 
 var utils = require('cantina').plugins.utils;

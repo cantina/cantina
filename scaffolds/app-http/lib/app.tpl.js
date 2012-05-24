@@ -1,5 +1,5 @@
 /**
- * {{description}}}
+ * {{{description}}}
  */
 
 var cantina = require('cantina'),

@@ -1,7 +1,7 @@
 {
   "author": "Your name here",
-  "name": "{{name}}",
-  "description": "{{description}}}",
+  "name": "{{{name}}}",
+  "description": "{{{description}}}",
   "version": "0.0.0",
   "private" : true,
   "main": "./lib/app.js",

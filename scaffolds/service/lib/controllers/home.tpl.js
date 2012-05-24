@@ -1,5 +1,5 @@
 /**
- * {{title}}: Home Controller.
+ * {{{title}}}: Home Controller.
  */
 
 var home = module.exports = {

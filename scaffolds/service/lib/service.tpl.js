@@ -1,5 +1,5 @@
 /**
- * {{title}} application (daemon).
+ * {{{title}}} application (daemon).
  */
 
 // Module dependencies.
