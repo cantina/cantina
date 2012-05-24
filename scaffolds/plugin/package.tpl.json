@@ -12,7 +12,7 @@
     "test": "make test"
   },
   "dependencies": {
-    "cantina": "git+ssh://git@github.com:cantina/cantina.git#v0.3.0",
+    "cantina": "git+ssh://git@github.com:cantina/cantina.git",
     "pkginfo": "~0.2.3"
   },
   "devDependencies": {
