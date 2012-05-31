@@ -40,7 +40,7 @@ Then runnning `npm install` will check out the lastest version into your
 `node_modules/` folder.
 
 Alternatively, you may decide to clone Cantina into your global `node_modules` and
-sym-link the bin script so you can use the scaffolding utility.  On most
+sym-link the bin script so you can use the scaffolding utility.  On unix-like
 machines you might do something similar to:
 
 ```
@@ -101,11 +101,18 @@ cantina: Describe your app (My App):
 cantina: Created an http application.
 ```
 
+Quick Start
+-----------
+
+
+
 Usage
-----------------------------
+------
 The best way to get started is to used the scaffolding utility, but if going
 the manual route, the first thing you'll want to do with Cantina is create
 your application instance.
+
+### Create your app ###
 
 ```js
 var cantina = require('cantina');
@@ -134,6 +141,7 @@ Some things to note about `app` (assuming you are using the default `http` mode)
     to your application's root directory (`app.root`).
   - Some cantina core plugins have already been attached (via `app.use()`)
     including: 'http', 'middleware' and 'utils'.  See full plugin docs below.
+
 
 
 

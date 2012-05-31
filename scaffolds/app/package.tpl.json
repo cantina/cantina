@@ -13,14 +13,12 @@
     "cantina": "git+ssh://git@github.com:cantina/cantina.git",
     "cantina-static": "git+ssh://git@github.com:cantina/cantina-static.git",
     "cantina-views": "git+ssh://git@github.com:cantina/cantina-views.git",
-    "pkginfo": "~0.2.3"
+    "pkginfo": "~0.2.3",{{#if amino}}
+    "amino": "*",{{/if}}
+    "union": "~0.3.0"
   },
   "devDependencies": {
     "mocha": "~1.0.3"
-  },
-  "optionalDependencies": {
-    "amino": "~0.8.0",
-    "union": "~0.3.0"
   },
   "engines": {
     "node": "*"

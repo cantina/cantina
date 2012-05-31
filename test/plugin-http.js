@@ -30,6 +30,7 @@ describe('Plugin: HTTP', function() {
 
     it('should respond to requests to `/`', function(done) {
       amino.request('amino://' + app.info.name + '/', function(err, res, body) {
+        assert.ifError(err);
         assert.equal(res.body, 'Test Amino', 'The response body matches the expected content');
         done();
       });
@@ -46,11 +47,12 @@ describe('Plugin: HTTP', function() {
         version: '0.0.1',
         silent: true,
         amino: false,
+        port: 9090
       });
       app.router.get('/', function() {
         this.res.end('Test HTTP');
       });
-      app.start(9090, done);
+      app.start(done);
     });
 
     after(function(done) {
@@ -59,6 +61,7 @@ describe('Plugin: HTTP', function() {
 
     it('should respond to requests to `/`', function(done) {
       amino.request('http://localhost:9090/', function(err, res, body) {
+        assert.ifError(err);
         assert.equal(res.body, 'Test HTTP', 'The response body matches the expected content');
         done();
       });

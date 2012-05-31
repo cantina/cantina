@@ -5,7 +5,10 @@
 var cantina = require('cantina');
 
 // Create and export the app.
-var app = module.exports = cantina.app;
+var app = module.exports = cantina.createApp({
+  // app options here ...
+  {{#unless amino}}amino: false{{/unless}}
+});
 
 // Attach plugins.
 app.use(cantina.plugins.controllers);
