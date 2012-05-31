@@ -1,11 +1,11 @@
 /**
- * test/plugin.js - Tests for {{{title}}}.
+ * test/plugin.js - Test the {{{title}}} plugin.
  */
 
 var assert = require('assert'),
     plugin = require('../').plugin;
 
-describe('{{title}}', function() {
+describe('{{{title}}} Plugin', function() {
 
   it('should do something', function(done) {
     done();

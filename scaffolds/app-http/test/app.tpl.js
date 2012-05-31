@@ -1,5 +1,5 @@
 /**
- * Tests for {{{title}}}.
+ * test/app.js - Tests for {{{title}}}.
  */
 
 var assert = require('assert'),

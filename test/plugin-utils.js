@@ -1,5 +1,5 @@
 /**
- * Test the application utility functions.
+ * test/plugin-utils.js - Tests for the utils plugin.
  */
 
 var assert = require('assert'),

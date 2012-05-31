@@ -1,18 +1,21 @@
 /**
- * Home controller.
+ * home.js - Home controller.
  */
 
+// Define the controller.
 var home = module.exports = {
   name: 'home',
   description: 'Home Controller'
 };
 
-// Setup the routes.
+// Routes to be auto-mounted.
 home.routes = {
   '/': { get: index }
 };
 
-// Index.
+/**
+ * Index route controller.
+ */
 function index() {
   this.render('index', '{{description}}');
 }

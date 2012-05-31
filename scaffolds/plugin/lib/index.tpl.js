@@ -1,5 +1,5 @@
 /**
- * {{{title}}}
+ * index.js - {{{title}}}
  */
 
 var utils = require('cantina').plugins.utils;

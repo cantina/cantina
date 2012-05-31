@@ -1,7 +1,8 @@
 /**
- * {{{title}}}: Home Controller.
+ * home.js - {{{title}}}: Home Controller.
  */
 
+// Define the controller.
 var home = module.exports = {
   name: 'home',
   description:'Home Controller'
@@ -15,7 +16,7 @@ home.routes = {
 };
 
 /**
- * Serve the '/' route.
+ * Serve the index route.
  */
 function index() {
   this.res.end('{{title}}')

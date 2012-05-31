@@ -1,5 +1,5 @@
 /**
- * {{{description}}}
+ * app.js - {{{description}}}
  */
 
 var cantina = require('cantina'),

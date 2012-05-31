@@ -1,5 +1,5 @@
 /**
- * Confirm that the application correctly starts http services.
+ * test/plugin-http.js - Tests for the http plugin.
  */
 
 var assert = require('assert'),

@@ -1,5 +1,5 @@
 /**
- * Tests for the plugin: controllers.
+ * test/plugin-controllers.js - Tests for the controllers plugin.
  */
 
 var assert = require('assert'),
