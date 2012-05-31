@@ -27,7 +27,40 @@ components to facilitate our application structure and workflow.
 
 Installation
 ------------
-TODO: Update this if we publish cantina to npm.
+Util cantina is hosted through npm, the easiest way to use it in your app is to
+include it in your package.json as a dependency like:
+
+```
+  "dependencies": {
+    "cantina": "git+ssh://git@github.com:cantina/cantina.git"
+  },
+```
+
+Then runnning `npm install` will check out the lastest version into your
+`node_modules/` folder.
+
+Alternatively, you may decide to clone Cantina into your global `node_modules` and
+sym-link the bin script so you can use the scaffolding utility.  On most
+machines you might do something similar to:
+
+```
+$ cd /usr/local/lib/node_modules
+
+$ git clone git@github.com:cantina/cantina.git
+Cloning into 'cantina'...
+remote: Counting objects: 532, done.
+remote: Compressing objects: 100% (246/246), done.
+remote: Total 532 (delta 254), reused 502 (delta 224)
+Receiving objects: 100% (532/532), 63.68 KiB | 53 KiB/s, done.
+Resolving deltas: 100% (254/254), done.
+
+$ cd cantina
+
+$ npm install
+
+$ ln -s /usr/local/lib/node_modules/cantina/bin/cantina /usr/local/bin/cantina
+
+```
 
 Scaffolding
 -----------
@@ -35,13 +68,7 @@ Cantina provides a command-line utility to help you quickly set up our preferred
 application structure.  There is no 'right' way to use Cantina, be we like
 consistency between our applications.
 
-### Setup ###
-Until cantina is hosted through npm, you'll need to manually install a global
-copy of cantina on your machine, as well as sym-link the binary to somewhere
-in your $PATH. `/usr/local/bin/` will work in most cases.
-
-### Usage ###
-To see usage instructions for cantina, run the `cantina` script.
+To see current usage instructions run the `cantina` script.
 ```
 $ cantina
 help:
@@ -53,7 +80,7 @@ help:
 ```
 
 #### create ####
-`cantina create` or `cantina create <type>` will jump you into he scaffolding
+`cantina create` or `cantina create <type>` will jump you into the scaffolding
 utility.  You'll be prompted for information about your app/service/plugin
 and then the appropriate folders and files will be copied into your current
 working directory.
@@ -76,12 +103,12 @@ cantina: Created an http application.
 
 Usage
 ----------------------------
-The first thing you'll want to do with Cantina is create your application
-instance.
+The best way to get started is to used the scaffolding utility, but if going
+the manual route, the first thing you'll want to do with Cantina is create
+your application instance.
 
 ```js
 var cantina = require('cantina');
-
 var app = cantina.app;
 ```
 
@@ -99,7 +126,7 @@ var app = cantina.createApp({
 Some things to note about `app` (assuming you are using the default `http` mode):
 
   - `app` is a flatiron app.
-  - So, `app` is also a broadway app.
+  - `app` is also a broadway app.
   - `app` has a [director](https://github.com/flatiron/director)
     router attached as `app.router`.
   - Unless overriden, info from your package.json will be used to fill in
