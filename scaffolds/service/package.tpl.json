@@ -3,7 +3,7 @@
   "description": "{{{description}}}",
   "version": "0.0.1",
   "private": true,
-  "homepage": "cantina.guthub.com",
+  "homepage": "cantina.github.com",
   "repository": {
     "url": ""
   },
@@ -13,7 +13,7 @@
     "test": "make test"
   },
   "dependencies": {
-    "cantina": "git+ssh://git@github.com:cantina/cantina.git#v0.3.0",
+    "cantina": "git+ssh://git@github.com:cantina/cantina.git",
     "pkginfo": "~0.2.3"
   },
   "devDependencies": {
