@@ -14,6 +14,9 @@ Table of Contents
   - [Scaffolding](#scaffolding)
   - [Quick Start](#quick-start)
   - [Usage](#usage)
+    - [Create your app](#create-your-app)
+    - [Using plugins](#using-plugins)
+    - [Using connect middleware](#using-connect-middleware)
   - [Amino](#amino)
   - [Plugins](#plugins)
   - [Services](#services)
@@ -233,7 +236,7 @@ While you are welcome to fill up your `app.js` with as much logic as you like,
 the main idea behind Cantina is to divide functionality into independent plugins.
 'Plugins' follow the broadway spec (so please reference their docs for more info).
 
-Loaing a plugin into your app is as simple as:
+Loading a plugin into your app is as simple as:
 
 ```js
 app.use(cantina.plugins.controllers);
@@ -249,7 +252,7 @@ app.use(cantina.plugins.controllers, {
 ```
 
 ### Using connect middleware ###
-Flatiron's http server (which Cantina inherits from) is built on
+Flatiron's http server (which Cantina inherits from) is built on the
 [union](https://github.com/flatiron/union) middleware kernel.  Union is
 fully backwards compatiple with [connect](https://github.com/senchalabs/connect).
 
