@@ -176,9 +176,7 @@ app.views.helper(function(callback) {
   // this.res, and this.app are available.
 
   // Provide the current date.
-  callback({
-    date: new Date().toString('dddd, MMMM yyyy')
-  });
+  callback(null, {date: new Date().toString()});
 });
 ```
 
@@ -231,10 +229,49 @@ Some things to note about `app` (assuming you are using the default `http` mode)
     including: 'http', 'middleware' and 'utils'.  See full plugin docs below.
 
 ### Using plugins ###
-TODO: Describe how to do this.
+While you are welcome to fill up your `app.js` with as much logic as you like,
+the main idea behind Cantina is to divide functionality into independent plugins.
+'Plugins' follow the broadway spec (so please reference their docs for more info).
+
+Loaing a plugin into your app is as simple as:
+
+```js
+app.use(cantina.plugins.controllers);
+```
+
+Many plugins accept options, so for example to override some of the controller
+plugin's defaults you might do:
+
+```js
+app.use(cantina.plugins.controllers, {
+  path: 'controllers' // The default is 'lib/controllers'
+});
+```
 
 ### Using connect middleware ###
-TODO: Describe how to do this.
+Flatiron's http server (which Cantina inherits from) is built on
+[union](https://github.com/flatiron/union) middleware kernel.  Union is
+fully backwards compatiple with [connect](https://github.com/senchalabs/connect).
+
+Cantina exposes an easy method of attaching middleware via `app.middleware()`.
+So, for example if you wanted to use connect's popular static middleware to
+serve your public assets you could do the following:
+
+```js
+var cantina = require('cantina'),
+    connect = require('connect'),
+    app = cantina.app;
+
+app.middleware(connect.static('public'));
+```
+
+Note: Part of the Cantina platform is [cantina-static](https://github.com/cantina/cantina-static)
+which exposes connect's static middleware with some sane defaults and dependency
+checking. You can use it like:
+
+```js
+app.use(require('connect-static').plugin);
+```
 
 Amino
 -----
