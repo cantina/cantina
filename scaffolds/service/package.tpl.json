@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "cantina": "git+ssh://git@github.com:cantina/cantina.git",
-    "pkginfo": "~0.2.3"
+    "pkginfo": "~0.2.3",{{#if amino}}
+    "amino": "*",{{/if}}
+    "union": "~0.3.2"
   },
   "devDependencies": {
     "mocha": "~1.0.3"
