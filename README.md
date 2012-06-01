@@ -103,12 +103,13 @@ cantina: Created an http application.
 
 Quick Start
 -----------
-
-
+TODO: Describe how to run the app scaffolding, npm install, start the app,
+and hit it in the browser.  Also show how to add a route to the home
+controller that uses a custom view.
 
 Usage
 ------
-The best way to get started is to used the scaffolding utility, but if going
+The easiest way to get started is to use the scaffolding utility, but if going
 the manual route, the first thing you'll want to do with Cantina is create
 your application instance.
 
@@ -142,11 +143,47 @@ Some things to note about `app` (assuming you are using the default `http` mode)
   - Some cantina core plugins have already been attached (via `app.use()`)
     including: 'http', 'middleware' and 'utils'.  See full plugin docs below.
 
+### Using plugins ###
+TODO: Describe how to do this.
 
+### Using connect middleware ###
+TODO: Describe how to do this.
 
+Amino
+-----
+TODO: Quick intro to amino and how it effects Cantina apps/services.
 
+Plugins
+-------
+TODO: Describe what a plugin is and why they should be used.
 
+### Available Plugins ###
+TODO: List all known plugins and what they do, linking to their repos for more
+info.
 
+### Create your own plugin ###
+TODO: Show how to run the plugin scaffolding and what you might want to do with
+it.
 
+Services
+--------
+TODO: Describe what a service is and when they should be used.
 
+### Available Services ###
+TODO: List all known services and what they do, linking to their repos for more
+info.
 
+### Create you own service ###
+TODO: Show how to run the service scaffolding and what you might want to do
+with it.
+
+Running the Tests
+-----------------
+TODO: Describe how to run the tests.  Note: Right now they require a working
+amino setup (redis).
+
+Contributing
+------------
+TODO: Describe what belongs in cantina core vs external plugins/services.
+How to contribute?  How to get your cantina-compatible plugins/services
+listed here?
