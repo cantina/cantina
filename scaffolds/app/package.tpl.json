@@ -15,7 +15,8 @@
     "cantina-views": "git+ssh://git@github.com:cantina/cantina-views.git",
     "pkginfo": "~0.2.3",{{#if amino}}
     "amino": "*",{{/if}}
-    "union": "~0.3.0"
+    "union": "~0.3.0",
+    "handlebars": "~1.0.5beta"
   },
   "devDependencies": {
     "mocha": "~1.0.3"

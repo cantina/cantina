@@ -104,7 +104,7 @@ $ mkdir my-app
 $ cd my-app
 ```
 
-Step 2: Run the scaffolding utility, providing the requested information.
+Step 2: Run the scaffolding utility, providing any requested details.
 ```
 $ cantina create
 cantina: What type? [app/plugin/service] (app): app
@@ -116,9 +116,60 @@ cantina: Created an http application.
 
 Quick Start
 -----------
-TODO: Describe how to run the app scaffolding, npm install, start the app,
-and hit it in the browser.  Also show how to add a route to the home
-controller that uses a custom view.
+As a quick exercise, we'll walk you through creating the 'app'
+scaffolding, starting up your app, visiting it in your browser, and making a
+small addition to the home controller and home view.
+
+#### Step 1: Run the app scaffolding: ####
+```
+$ mkdir app
+
+$ cd app
+
+$ cantina create app
+cantina: Name your app (for package.json) (my-app):
+cantina: Describe your app (My App):
+cantina: Would you like to use Amino? [yes/no] (yes): no
+cantina: Created an http application.
+```
+Note: I said 'no' to Amino, since we won't need to use it for this example.
+
+#### Step 2: Start you app ####
+```
+$ npm install
+
+$ npm start
+```
+Note: The default port is `8080`, but you can overide this by running:
+`$ ./bin/app --port=9090`
+
+#### Step 3: Visit the app in your browser ####
+Goto [http://localhost:8080](http://localhost:8080) to visit your app.
+
+Kinda boring?  Lets make a few quick tweaks.
+
+#### Step 4: Make a few edits ####
+First we'll edit the app title.  Open `lib/app.js` in your editor of choice.
+Find the code block where the views helper is being defined and change the
+title to something a little more interesting like:
+
+```js
+// lib/app.js
+
+// [file contents ...]
+
+// Views helper.
+app.views.helper({
+  title: 'Super Awesome Webpage 2.0'
+});
+```
+
+You just edited a 'static' views helper.  They allow you make app-level data
+available to all templates.  Lets say we want to make something dynamic
+available.
+
+...
+
 
 Usage
 ------
