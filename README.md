@@ -7,6 +7,19 @@ An opinionated application framework built on-top of, and compatible with,
 Optionally, empower your application with clustered scalability via
 [amino](https://github.com/cantina/amino).
 
+Table of Contents
+-----------------
+  - [About/Why](#aboutwhy)
+  - [Installation](#installation)
+  - [Scaffolding](#scaffolding)
+  - [Quick Start](#quick-start)
+  - [Usage](#usage)
+  - [Amino](#amino)
+  - [Plugins](#plugins)
+  - [Services](#services)
+  - [Running the Tests](#running-the-tests)
+  - [Contributing](#contributing)
+
 About/Why?
 ----------
 
@@ -133,8 +146,8 @@ var app = cantina.createApp({
 
 Some things to note about `app` (assuming you are using the default `http` mode):
 
-  - `app` is a flatiron app.
-  - `app` is also a broadway app.
+  - `app` is a [flatiron](http://flatironjs.org/) app.
+  - `app` is also a [broadway](https://github.com/flatiron/broadway) app.
   - `app` has a [director](https://github.com/flatiron/director)
     router attached as `app.router`.
   - Unless overriden, info from your package.json will be used to fill in
