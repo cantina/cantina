@@ -118,7 +118,7 @@ Quick Start
 -----------
 As a quick exercise, we'll walk you through creating the 'app'
 scaffolding, starting up your app, visiting it in your browser, and making a
-small addition to the home controller and home view.
+small addition to the home view.
 
 #### Step 1: Run the app scaffolding: ####
 ```
@@ -132,7 +132,7 @@ cantina: Describe your app (My App):
 cantina: Would you like to use Amino? [yes/no] (yes): no
 cantina: Created an http application.
 ```
-Note: I said 'no' to Amino, since we won't need to use it for this example.
+Note: I answered 'no' to Amino, since we don't need it for this example.
 
 #### Step 2: Start you app ####
 ```
@@ -141,7 +141,7 @@ $ npm install
 $ npm start
 ```
 Note: The default port is `8080`, but you can overide this by running:
-`$ ./bin/app --port=9090`
+`$ ./bin/app --port=9090` instead of `npm start`.
 
 #### Step 3: Visit the app in your browser ####
 Goto [http://localhost:8080](http://localhost:8080) to visit your app.
@@ -166,9 +166,32 @@ app.views.helper({
 
 You just edited a 'static' views helper.  They allow you make app-level data
 available to all templates.  Lets say we want to make something dynamic
-available.
+available like the current date (stupid, I know).  Add a dynamic helper below
+the existing static one like:
 
-...
+```js
+// Dynamic views helper.
+app.views.helper(function(callback) {
+  // Note: This function will be called in the 'router' scope, so this.req,
+  // this.res, and this.app are available.
+
+  // Provide the current date.
+  callback({
+    date: new Date().toString('dddd, MMMM yyyy')
+  });
+});
+```
+
+Now we need to add the date to our template.  Open up `lib/views/index.hbs` and
+edit its contents to match:
+
+```html
+<h1>{{title}}</h1>
+<h3>{{date}}</h3>
+<p>{{content}}</p>
+```
+
+Now re-start your app and refresh your browser to see the changes.
 
 
 Usage
