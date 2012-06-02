@@ -321,116 +321,117 @@ Cantina ships with a handful of plugins that seemed essential to most
 applications.  Please be aware that with future versions of cantina some
 of these plugins may be moved to their own projects.
 
-#### cantina.plugins.http ###
-The http plugin handles setting up a flatiron http application with or without
-amino support.  It is loaded by default in all cantina apps.  Any options passed
-in during attachment (`app.use()`) will be passed through to flatiron.
+  - #### cantina.plugins.http ###
+    The http plugin handles setting up a flatiron http application with or without
+    amino support.  It is loaded by default in all cantina apps.  Any options passed
+    in during attachment (`app.use()`) will be passed through to flatiron.
 
-If you are NOT using amino, you can override the default host and port
-via command line arguments (`--port=9090 --host=1.1.1.1`) or plugin options:
+    If you are NOT using amino, you can override the default host and port
+    via command line arguments (`--port=9090 --host=1.1.1.1`) or plugin options:
 
-```js
-var app = cantina.createApp({
-  host: '1.1.1.1',
-  port: 9090
-});
-```
+    ```js
+    var app = cantina.createApp({
+      host: '1.1.1.1',
+      port: 9090
+    });
+    ```
 
-#### cantina.plugins.middleware ####
-Adds a convenient method for attaching middleware to your application.  You
-may register route-sentitive middleware via optional parameters like:
+  - #### cantina.plugins.middleware ####
+    Adds a convenient method for attaching middleware to your application.  You
+    may register route-sentitive middleware via optional parameters like:
 
-```js
-function loadUser(req, res, next) {
-  // load a user from a database or something.
-  // ...
-  req.user = user;
-  next();
-};
+    ```js
+    function loadUser(req, res, next) {
+      // load a user from a database or something.
+      // ...
+      req.user = user;
+      next();
+    };
 
-app.middleware('GET', 'users/*', loadUser);
-```
-#### cantina.plugins.controllers ####
-Given a folder containing 'controller' plugins, this plugin loads them all
-and provides some syntactic sugar for specifiying router handlers.
+    app.middleware('GET', 'users/*', loadUser);
+    ```
 
-Assuming your application hierarchy looks something like:
+  - #### cantina.plugins.controllers ####
+    Given a folder containing 'controller' plugins, this plugin loads them all
+    and provides some syntactic sugar for specifiying router handlers.
 
-```
-app/
-  bin/
-  lib/
-    controllers/
-      home.js <----- a controller plugin
-    views/
-    app.js
-  public/
-  ...
-```
+    Assuming your application hierarchy looks something like:
 
-... and if the contents of `home.js` are:
+    ```
+    app/
+      bin/
+      lib/
+        controllers/
+          home.js <----- a controller plugin
+        views/
+        app.js
+      public/
+      ...
+    ```
 
-```js
-/* home.js */
+    ... and if the contents of `home.js` are:
 
-// Define the controller.
-exports.name: 'home';
-exports.description: 'Home Controller';
+    ```js
+    /* home.js */
 
-// Routes to be auto-mounted.
-// Note: This is a director 'routing table'.
-exports.routes = {
-  '/': { get: index }
-};
+    // Define the controller.
+    exports.name: 'home';
+    exports.description: 'Home Controller';
 
-// Index route handler.
-function index() {
-  this.render('index', 'Welcome to my application!');
-}
-```
+    // Routes to be auto-mounted.
+    // Note: This is a director 'routing table'.
+    exports.routes = {
+      '/': { get: index }
+    };
 
-... then `cantina.plugins.controllers` will auto-load `home.js` and mount the
-exported routing table.  You may add as many controller plugins in the
-`controllers/` directory as you like.
+    // Index route handler.
+    function index() {
+      this.render('index', 'Welcome to my application!');
+    }
+    ```
 
-#### cantina.plugins.utils ####
-Utility functions mostly used internally, but might be usefull in your app
-or plugins.  The utility functions can be accessed via `cantina.plugins.utils`
-or via `app.utils` (the utils plugin both exports the methods as well as
-attaches itself to the application instance).
+    ... then `cantina.plugins.controllers` will auto-load `home.js` and mount the
+    exported routing table.  You may add as many controller plugins in the
+    `controllers/` directory as you like.
 
-  - `app.utils.defaults(obj, properties)` - Extend an object with default
-    poperties.
-  - `app.utils.lazy(obj, [root,] paths)` - Expose node.js modules as lazy-loaded
-    properties on an object.  `obj` with be extended with the properties and
-    `paths` should be an array of module paths.  `root` can optionally be
-    specified which allows the `paths` to be relative to it.
-  - `app.utils.parseUrl(url)` - A cached version of the node.js core url.parse
-    method.
+  - #### cantina.plugins.utils ####
+    Utility functions mostly used internally, but might be usefull in your app
+    or plugins.  The utility functions can be accessed via `cantina.plugins.utils`
+    or via `app.utils` (the utils plugin both exports the methods as well as
+    attaches itself to the application instance).
+
+      - `app.utils.defaults(obj, properties)` - Extend an object with default
+        poperties.
+      - `app.utils.lazy(obj, [root,] paths)` - Expose node.js modules as lazy-loaded
+        properties on an object.  `obj` with be extended with the properties and
+        `paths` should be an array of module paths.  `root` can optionally be
+        specified which allows the `paths` to be relative to it.
+      - `app.utils.parseUrl(url)` - A cached version of the node.js core url.parse
+        method.
 
 ### Cantina platform plugins ###
 These plugins are part of the cantina platform:
 
-#### [cantina-static](http://github.com/cantina/cantina-static) ####
-Serve static assets via connect's static middleware.
+  - #### [cantina-static](http://github.com/cantina/cantina-static) ####
+    Serve static assets via connect's static middleware.
 
-#### [cantina-views](http://github.com/cantina/cantina-views) ####
-Adds a full-featured views system to your cantina application.  Register views
-namespaces, register views partials, and render views with your favorite
-templating engine. `cantina-views` is built with [consolidate.js](https://github.com/visionmedia/consolidate.js.git)
-which, as of this writing, supports 14 different template engines.
+  - #### [cantina-views](http://github.com/cantina/cantina-views) ####
+    Adds a full-featured views system to your cantina application.  Register views
+    namespaces, register views partials, and render views with your favorite
+    templating engine. `cantina-views` is built with [consolidate.js](https://github.com/visionmedia/consolidate.js.git)
+    which, as of this writing, supports 14 different template engines.
 
-`cantina-views` was developed with plugins in mind, so your plugins can easily
-add their own views and partials that the main application can render or
-reference.
+    `cantina-views` was developed with plugins in mind, so your plugins can easily
+    add their own views and partials that the main application can render or
+    reference.
 
-#### [cantina-auth](http://github.com/cantina/cantina-auth) ####
-Adds [passport](https://github.com/jaredhanson/passport.git)-based
-authentication to your cantina application.
+  - #### [cantina-auth](http://github.com/cantina/cantina-auth) ####
+    Adds [passport](https://github.com/jaredhanson/passport.git)-based
+    authentication to your cantina application.
 
-#### [cantina-socketio](http://github.com/cantina/cantina-socketio) ####
-Adds [socket.io](https://github.com/learnboost/socket.io) support to your
-cantina application.
+  - #### [cantina-socketio](http://github.com/cantina/cantina-socketio) ####
+    Adds [socket.io](https://github.com/learnboost/socket.io) support to your
+    cantina application.
 
 ### Create your own plugin ###
 The `cantina` command-line utility can help you quickly set up the struture for
