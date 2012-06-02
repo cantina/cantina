@@ -321,7 +321,7 @@ Cantina ships with a handful of plugins that seemed essential to most
 applications.  Please be aware that with future versions of cantina some
 of these plugins may be moved to their own projects.
 
-  - #### cantina.plugins.http ###
+  - ** cantina.plugins.http **
     The http plugin handles setting up a flatiron http application with or without
     amino support.  It is loaded by default in all cantina apps.  Any options passed
     in during attachment (`app.use()`) will be passed through to flatiron.
@@ -336,7 +336,7 @@ of these plugins may be moved to their own projects.
     });
     ```
 
-  - #### cantina.plugins.middleware ####
+  - ** cantina.plugins.middleware **
     Adds a convenient method for attaching middleware to your application.  You
     may register route-sentitive middleware via optional parameters like:
 
@@ -351,7 +351,7 @@ of these plugins may be moved to their own projects.
     app.middleware('GET', 'users/*', loadUser);
     ```
 
-  - #### cantina.plugins.controllers ####
+  - ** cantina.plugins.controllers **
     Given a folder containing 'controller' plugins, this plugin loads them all
     and provides some syntactic sugar for specifiying router handlers.
 
@@ -394,7 +394,7 @@ of these plugins may be moved to their own projects.
     exported routing table.  You may add as many controller plugins in the
     `controllers/` directory as you like.
 
-  - #### cantina.plugins.utils ####
+  - ** cantina.plugins.utils **
     Utility functions mostly used internally, but might be usefull in your app
     or plugins.  The utility functions can be accessed via `cantina.plugins.utils`
     or via `app.utils` (the utils plugin both exports the methods as well as
@@ -412,10 +412,10 @@ of these plugins may be moved to their own projects.
 ### Cantina platform plugins ###
 These plugins are part of the cantina platform:
 
-  - #### [cantina-static](http://github.com/cantina/cantina-static) ####
+  - ** [cantina-static](http://github.com/cantina/cantina-static) **
     Serve static assets via connect's static middleware.
 
-  - #### [cantina-views](http://github.com/cantina/cantina-views) ####
+  - ** [cantina-views](http://github.com/cantina/cantina-views) **
     Adds a full-featured views system to your cantina application.  Register views
     namespaces, register views partials, and render views with your favorite
     templating engine. `cantina-views` is built with [consolidate.js](https://github.com/visionmedia/consolidate.js.git)
@@ -425,11 +425,11 @@ These plugins are part of the cantina platform:
     add their own views and partials that the main application can render or
     reference.
 
-  - #### [cantina-auth](http://github.com/cantina/cantina-auth) ####
+  - ** [cantina-auth](http://github.com/cantina/cantina-auth) **
     Adds [passport](https://github.com/jaredhanson/passport.git)-based
     authentication to your cantina application.
 
-  - #### [cantina-socketio](http://github.com/cantina/cantina-socketio) ####
+  - ** [cantina-socketio](http://github.com/cantina/cantina-socketio) **
     Adds [socket.io](https://github.com/learnboost/socket.io) support to your
     cantina application.
 
