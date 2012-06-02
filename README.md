@@ -348,7 +348,7 @@ function loadUser(req, res, next) {
   next();
 };
 
-app.middleware('GET", 'users/*', loadUser);
+app.middleware('GET', 'users/*', loadUser);
 ```
 #### cantina.plugins.controllers ####
 Given a folder containing 'controller' plugins, this plugin loads them all
@@ -411,11 +411,36 @@ attaches itself to the application instance).
 ### Cantina platform plugins ###
 These plugins are part of the cantina platform:
 
+#### [cantina-static](http://github.com/cantina/cantina-static) ####
+Serve static assets via connect's static middleware.
 
+#### [cantina-views](http://github.com/cantina/cantina-views) ####
+Adds a full-featured views system to your cantina application.  Register views
+namespaces, register views partials, and render views with your favorite
+templating engine. `cantina-views` is built with [consolidate.js](https://github.com/visionmedia/consolidate.js.git)
+which, as of this writing, supports 14 different template engines.
+
+`cantina-views` was developed with plugins in mind, so your plugins can easily
+add their own views and partials that the main application can render or
+reference.
+
+#### [cantina-auth](http://github.com/cantina/cantina-auth) ####
+Adds [passport](https://github.com/jaredhanson/passport.git)-based
+authentication to your cantina application.
+
+#### [cantina-socketio](http://github.com/cantina/cantina-socketio) ####
+Adds [socket.io](https://github.com/learnboost/socket.io) support to your
+cantina application.
 
 ### Create your own plugin ###
-TODO: Show how to run the plugin scaffolding and what you might want to do with
-it.
+The `cantina` command-line utility can help you quickly set up the struture for
+a new plugin.  Just run:
+
+```
+$ cantina create plugin
+```
+
+... and provide the neccesary plugin details.
 
 Services
 --------
