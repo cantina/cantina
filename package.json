@@ -26,7 +26,8 @@
   "devDependencies": {
     "mocha": "~1.0.3",
     "amino": "*",
-    "union": "~0.3.0"
+    "union": "~0.3.0",
+    "yuidocjs": "~0.3.13"
   },
   "optionalDependencies": {},
   "engines": {

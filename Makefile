@@ -6,7 +6,8 @@ test:
 		--reporter $(REPORTER)
 
 docs:
-	yuidoc .
+	./node_modules/.bin/yuidoc \
+		--configfile ./yuidoc.json
 
 .PHONY: test
 .PHONY: docs
