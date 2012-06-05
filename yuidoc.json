@@ -6,7 +6,7 @@
   "options": {
     "linkNatives": "true",
     "exclude": "node_modules",
-    "paths": "lib/*",
+    "paths": "lib",
     "outdir": "docs"
   }
 }
