@@ -7,6 +7,7 @@ test:
 
 docs:
 	./node_modules/.bin/yuidoc \
+		--quiet \
 		--configfile ./yuidoc.json
 
 .PHONY: test

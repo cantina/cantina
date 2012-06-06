@@ -7,6 +7,24 @@ An opinionated application framework built on-top of, and compatible with,
 Optionally, empower your application with clustered scalability via
 [amino](https://github.com/cantina/amino).
 
+Super Basic Example
+-------------------
+```
+var cantina = require('cantina'),
+    app = cantina.app;
+
+    app.router.get('/', function() {
+      this.res.end('Hello, world!');
+    });
+
+    app.start();
+
+    // Now hit http://localhost:8080 in your browser.
+```
+
+This is a simple web-server that responds to requests to '/'.  Nothing here is
+very far beyond what flatiron offers.  For more value read on.
+
 Table of Contents
 -----------------
   - [About/Why](#aboutwhy)
