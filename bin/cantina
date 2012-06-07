@@ -13,6 +13,7 @@ var app = cantina.createApp({
     '',
     'where <command> is one of:',
     '    create',
+    '    info',
     ''
   ]
 });
