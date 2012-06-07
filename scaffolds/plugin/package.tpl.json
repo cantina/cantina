@@ -12,10 +12,10 @@
     "test": "make test"
   },
   "dependencies": {
-    "cantina": "git+ssh://git@github.com:cantina/cantina.git",
     "pkginfo": "~0.2.3"
   },
   "devDependencies": {
+    "cantina": "git+ssh://git@github.com:cantina/cantina.git",
     "mocha": "~1.0.3"
   },
   "optionalDependencies": {},

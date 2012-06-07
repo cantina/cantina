@@ -1,14 +1,22 @@
 /**
- * index.js - {{{title}}}
+ * {{{title}}}
+ *
+ * {{{description}}}
+ *
+ * @module cantina
+ * @submodule {{{name}}}
  */
 
-var utils = require('cantina').plugins.utils;
+// Modules dependencies.
+var cantina = require('cantina');
 
-// Expose this service's package info.
-require('pkginfo')(module);
+// Register the plugin on `cantina.plugins`.
+cantina.utils.lazy(cantina.plugins, __dirname, {
+  '{{{name}}}': './plugin'
+});
 
-// Lazy-load sub-modules.
-utils.lazy(exports, __dirname, {
+// Export sub-modules.
+cantina.utils.lazy(exports, __dirname, {
   plugin: './plugin',
   service: './service'
 });

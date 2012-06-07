@@ -21,7 +21,7 @@ describe('Plugin: Controllers', function() {
     var paths = ['apple', 'orange', 'harvest', 'lettuce'],
         path;
 
-    app.use(cantina.plugins.controllers, {path: 'fixtures/controllers'});
+    app.use('controllers', {path: 'fixtures/controllers'});
 
     for (var i in paths) {
       path = paths[i];
@@ -32,7 +32,7 @@ describe('Plugin: Controllers', function() {
   it('should throw an error for a bad options.path', function() {
     assert.throws(
       function() {
-        app.use(cantina.plugins.controllers, {path: 'fixtures/bad'});
+        app.use('controllers', {path: 'fixtures/bad'});
       },
       /directory does not exist/,
       'The error was not thrown.'
@@ -43,7 +43,7 @@ describe('Plugin: Controllers', function() {
     assert.throws(
       function() {
         app.root = undefined;
-        app.use(cantina.plugins.controllers, {path: 'fixtures/controllers'});
+        app.use('controllers', {path: 'fixtures/controllers'});
       },
       /must be defined/,
       'The error was not thrown.'

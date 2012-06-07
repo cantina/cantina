@@ -1,5 +1,5 @@
 /**
- * home.js - {{{title}}}: Home Controller.
+ * {{{title}}}: Home Controller.
  */
 
 // Define the controller.

@@ -1,5 +1,5 @@
 /**
- * app.js - {{{description}}}
+ * {{{description}}}
  */
 
 var cantina = require('cantina');
@@ -11,9 +11,9 @@ var app = module.exports = cantina.createApp({
 });
 
 // Attach plugins.
-app.use(cantina.plugins.controllers);
-app.use(require('cantina-static').plugin);
-app.use(require('cantina-views').plugin);
+app.use('controllers');
+app.use('static');
+app.use('views');
 
 // Views helper.
 app.views.helper({
