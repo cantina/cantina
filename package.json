@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "cantina-utils": "git+ssh://git@github.com:cantina/cantina-utils.git",
-    "flatiron": "~0.1.17",
+    "flatiron": "~0.2.1",
     "nconf": "~0.5.1",
     "prompt": "~0.1.12",
     "hardhat": "~0.0.3",

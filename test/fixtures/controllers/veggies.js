@@ -5,7 +5,7 @@
  */
 
 var veggieController = module.exports = {
-  name: 'fruitController',
+  name: 'veggieController',
   description: 'A test controller: fruit.'
 };
 
