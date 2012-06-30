@@ -2,7 +2,7 @@
   "author": "Brian Link <cpubrian@gmail.com>",
   "name": "cantina",
   "description": "Framework for Cantina applications and services.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": true,
   "homepage": "http://cantina.guthub.com",
   "repository": {
