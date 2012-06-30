@@ -21,7 +21,8 @@
     "flatiron": "~0.1.17",
     "nconf": "~0.5.1",
     "prompt": "~0.1.12",
-    "hardhat": "~0.0.3"
+    "hardhat": "~0.0.3",
+    "handlebars": "1.0.5beta"
   },
   "devDependencies": {
     "mocha": "~1.0.3",
