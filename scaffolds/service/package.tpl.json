@@ -23,7 +23,6 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": "{{node_ver}}",
-    "cantina": "~{{cantina_ver}}"
+    "node": ">= 0.6.0"
   }
 }
