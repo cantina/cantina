@@ -2,14 +2,14 @@
  * Tests plugin sorting based on dependencies.
  */
 
-var cantina = require('../'),
+var Cantina = require('../').Cantina,
     assert = require('assert');
 
 describe('plugin sorting', function() {
   var app;
 
   before(function() {
-    app = new cantina.Cantina();
+    app = new Cantina();
     app.addPlugin({ name: 'alpha' });
     app.addPlugin({ name: 'beta', consumes: ['a'] });
     app.addPlugin({ name: 'gamma', consumes: ['b'] });

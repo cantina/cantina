@@ -2,14 +2,14 @@
  * Tests application initialization.
  */
 
-var cantina = require('../'),
+var Cantina = require('../').Cantina,
     assert = require('assert');
 
 describe('initialization', function() {
   var app;
 
   function setupApp() {
-    app = new cantina.Cantina();
+    app = new Cantina();
 
     app.addPlugin({
       name: 'alpha',
