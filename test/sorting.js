@@ -43,4 +43,20 @@ describe('plugin sorting', function() {
     }, /Could not resolve dependencies/, 'Sorting did not throw the resolve error');
   });
 
+  it('keeps plugins in order that don\'t need to be rearranged', function() {
+    app.removePlugin('eta');
+    app.addPlugin({ name: 'first', consumes: ['a', 'b'] });
+    app.addPlugin({ name: 'second', consumes: ['a', 'b'] });
+    app.addPlugin({ name: 'third', consumes: ['a', 'b'] });
+    app.addPlugin({ name: 'fourth', consumes: ['a', 'b'] });
+
+    var names = app.sortedPlugins().map(function(plugin) {
+      return plugin.name;
+    });
+
+    assert(names.indexOf('first') === names.indexOf('second') - 1, 'first and second not in correct order');
+    assert(names.indexOf('second') === names.indexOf('third') - 1, 'second and third not in correct order');
+    assert(names.indexOf('third') === names.indexOf('fourth') - 1, 'third and fourth not in correct order');
+  });
+
 });
