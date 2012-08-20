@@ -1,7 +1,7 @@
 {
   "name": "Cantina",
-  "description": "Cantina: An application framework built on, and compatible with, flatiron.",
-  "version": "0.4.0",
+  "description": "A application bootstrapper and plugin framework.",
+  "version": "0.6.0",
   "url": "http://cantina.github.com",
   "options": {
     "linkNatives": "true",

@@ -1,4 +1,0 @@
-{{{description}}}
-===============
-
-Powered by Cantina
