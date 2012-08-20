@@ -22,8 +22,7 @@
     "debug": "~0.7.0"
   },
   "devDependencies": {
-    "mocha": "~1.0.3",
-    "yuidocjs": "~0.3.13"
+    "mocha": "~1.0.3"
   },
   "optionalDependencies": {},
   "engines": {
