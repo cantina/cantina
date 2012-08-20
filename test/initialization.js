@@ -11,7 +11,7 @@ describe('initialization', function() {
   function setupApp() {
     app = new Cantina();
 
-    app.addPlugin({
+    app.use({
       name: 'alpha',
       provides: ['a'],
       init: function(options, imports, register) {
@@ -21,7 +21,7 @@ describe('initialization', function() {
       }
     });
 
-    app.addPlugin({
+    app.use({
       name: 'beta',
       consumes: ['a'],
       provides: ['b'],
@@ -46,7 +46,7 @@ describe('initialization', function() {
 
   it('emits errors registered by a plugin', function(done) {
     setupApp();
-    app.addPlugin({
+    app.use({
       name: 'broken',
       init: function(options, imports, register) {
         register(new Error('This is broken'));
@@ -61,7 +61,7 @@ describe('initialization', function() {
 
   it ('calls ready handlers of plugins', function(done) {
     setupApp();
-    app.addPlugin({
+    app.use({
       name: 'eager',
       init: function(options, imports, register) {
         register(null, {});
@@ -76,7 +76,7 @@ describe('initialization', function() {
 
   it ('calls error handlers of plugins', function(done) {
     setupApp();
-    app.addPlugin({
+    app.use({
       name: 'broken',
       init: function(options, imports, register) {
         register(new Error('This is broken'));

@@ -10,12 +10,12 @@ describe('plugin sorting', function() {
 
   before(function() {
     app = new Cantina();
-    app.addPlugin({ name: 'alpha' });
-    app.addPlugin({ name: 'beta', consumes: ['a'] });
-    app.addPlugin({ name: 'gamma', consumes: ['b'] });
-    app.addPlugin({ name: 'delta', consumes: ['a', 'c'] });
-    app.addPlugin({ name: 'epsilon', consumes: ['b'], provides: ['a'] });
-    app.addPlugin({ name: 'zeta', provides: ['b', 'c'] });
+    app.use({ name: 'alpha' });
+    app.use({ name: 'beta', consumes: ['a'] });
+    app.use({ name: 'gamma', consumes: ['b'] });
+    app.use({ name: 'delta', consumes: ['a', 'c'] });
+    app.use({ name: 'epsilon', consumes: ['b'], provides: ['a'] });
+    app.use({ name: 'zeta', provides: ['b', 'c'] });
   });
 
   it('correctly sorts the plugins', function() {
@@ -37,18 +37,18 @@ describe('plugin sorting', function() {
   });
 
   it('throws when plugin dependencies cannot be resolved', function() {
-    app.addPlugin({ name: 'eta', consumes: ['d'] });
+    app.use({ name: 'eta', consumes: ['d'] });
     assert.throws(function() {
       app.sortedPlugins();
     }, /Could not resolve dependencies/, 'Sorting did not throw the resolve error');
   });
 
   it('keeps plugins in order that don\'t need to be rearranged', function() {
-    app.removePlugin('eta');
-    app.addPlugin({ name: 'first', consumes: ['a', 'b'] });
-    app.addPlugin({ name: 'second', consumes: ['a', 'b'] });
-    app.addPlugin({ name: 'third', consumes: ['a', 'b'] });
-    app.addPlugin({ name: 'fourth', consumes: ['a', 'b'] });
+    app.remove('eta');
+    app.use({ name: 'first', consumes: ['a', 'b'] });
+    app.use({ name: 'second', consumes: ['a', 'b'] });
+    app.use({ name: 'third', consumes: ['a', 'b'] });
+    app.use({ name: 'fourth', consumes: ['a', 'b'] });
 
     var names = app.sortedPlugins().map(function(plugin) {
       return plugin.name;
