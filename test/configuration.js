@@ -26,6 +26,16 @@ describe('configuration', function() {
     app = new Cantina();
   });
 
+  it('uses default conf specified by a plugin', function(done) {
+    plugin.conf = { prefix: 'wuzzup ' };
+    app.use(plugin);
+    app.init();
+    app.on('ready', function(app) {
+      assert.equal(app.services.prefix('world'), 'wuzzup world', 'The prefix was not added correctly');
+      done();
+    });
+  });
+
   it('uses per-plugin configuration passed into `app.use()`', function(done) {
     app.use(plugin, { prefix: 'hello:' });
     app.init();
