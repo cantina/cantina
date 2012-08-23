@@ -14,7 +14,7 @@ describe('initialization', function() {
     app.use({
       name: 'alpha',
       provides: ['a'],
-      init: function(options, imports, register) {
+      init: function(conf, imports, register) {
         register(null, {
           a: 'This is a'
         });
@@ -25,7 +25,7 @@ describe('initialization', function() {
       name: 'beta',
       consumes: ['a'],
       provides: ['b'],
-      init: function(options, imports, register) {
+      init: function(conf, imports, register) {
         var a = imports.a;
         register(null, {
           b: 'A said: ' + a
@@ -48,7 +48,7 @@ describe('initialization', function() {
     setupApp();
     app.use({
       name: 'broken',
-      init: function(options, imports, register) {
+      init: function(conf, imports, register) {
         register(new Error('This is broken'));
       }
     });
@@ -63,7 +63,7 @@ describe('initialization', function() {
     setupApp();
     app.use({
       name: 'eager',
-      init: function(options, imports, register) {
+      init: function(conf, imports, register) {
         register(null, {});
       },
       ready: function(app) {
@@ -78,7 +78,7 @@ describe('initialization', function() {
     setupApp();
     app.use({
       name: 'broken',
-      init: function(options, imports, register) {
+      init: function(conf, imports, register) {
         register(new Error('This is broken'));
       },
       error: function(err) {

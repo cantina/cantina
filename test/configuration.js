@@ -37,9 +37,7 @@ describe('configuration', function() {
 
   it('uses configuration specified with `app.conf()`', function(done) {
     app.use(plugin);
-    app.configure({
-      prefixer: { prefix: 'hi ' }
-    });
+    app.conf.set('prefixer', { prefix: 'hi ' });
     app.init();
     app.on('ready', function(app) {
       assert.equal(app.services.prefix('world'), 'hi world', 'The prefix was not added correctly');
