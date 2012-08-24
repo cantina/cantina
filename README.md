@@ -278,13 +278,7 @@ its own package.json), or as a module local to your application.
 ```js
 // myplugin.js
 
-// If your module is local and has no package.json, you should export properties
-// like name, consumes, and provides.
-exports.name = 'MyPlugin';
-exports.consumes = ["db"];
-exports.provides = ["awesomesauce"];
-
-// All plugins MUST implement an init method.
+// Plugin initialization.
 exports.init = function(conf, imports, register) {
   // conf contains plugin settings merged from all relevant sources.
 
@@ -303,6 +297,12 @@ exports.init = function(conf, imports, register) {
     }
   });
 };
+
+// Handle app errors.
+exports.error = function(err, app) {
+  console.log('Something broke!');
+};
+
 ```
 
 ### Plugin properties & methods
