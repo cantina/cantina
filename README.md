@@ -136,34 +136,34 @@ configuration to use.
 During the life-cycle of an application, serveral events are emitted.
 
 - **service**: A plugin service was just initialized.
-  ```js
-  app.on('service', function(name) {
-      console.log('Service attached: ' + name);
-      console.log(app.services[name]);
-  });
-  ```
+```js
+app.on('service', function(name) {
+  console.log('Service attached: ' + name);
+  console.log(app.services[name]);
+});
+```
 
 - **plugin**: A plugin was just initialized.
-  ```js
-  app.on('plugin', function(plugin) {
-      console.log('Attached: ' + plugin.name);
-      console.log(plugin);
-  });
-  ```
+```js
+app.on('plugin', function(plugin) {
+  console.log('Attached: ' + plugin.name);
+  console.log(plugin);
+});
+```
 
 - **ready**: All plugins have finished initializing.
-  ```js
-  app.on('ready', function(app) {
-      // Fully initialized app instance.
-  });
-  ```
+```js
+app.on('ready', function(app) {
+  // Fully initialized app instance.
+});
+```
 
 - **error**: An error occured.
-  ```js
-  app.on('error', function(err, app) {
-      // Respond to the error.
-  });
-  ```
+```js
+app.on('error', function(err, app) {
+  // Respond to the error.
+});
+```
 
 - **destroy**: Triggered by `app.destroy()`. Mostly useful for plugins to bind
   to in case some cleanup is needed.
