@@ -283,7 +283,7 @@ exports.init = function(conf, imports, register) {
   // conf contains plugin settings merged from all relevant sources.
 
   // Use stuff you consume.
-  var db = imports.http;
+  var db = imports.db;
 
   // If your plugin encounters fatal error conditions return them with register.
   if (db.type !== 'nosql') {
