@@ -8,6 +8,8 @@ flexible configuration.
 Example
 -------------------
 ```js
+var cantina = require('cantina');
+
 // Plugins define imports and exports and the load order is automatically
 // determined to sort out depenencies.
 var plugins = [
@@ -30,7 +32,7 @@ var config = {
 };
 
 // Create the application.
-require('cantina').createApp(plugins, conf, function(err, app) {
+cantina.createApp(plugins, conf, function(err, app) {
   if (err) return console.log(err);
 
   // Do something with the app, maybe.
@@ -110,7 +112,7 @@ var conf = {
   http: { host: 'localhost', port: 8080 },
   buffet: {path: 'public', maxAge: 6000 }
 };
-var app = cantina.createApp(plugins, conf, function(err, app) {
+cantina.createApp(plugins, conf, function(err, app) {
   // Respond to initialization.  Generally this will be pretty empty
   // because your plugins should be doing all the interesting stuff.
 });
@@ -174,16 +176,56 @@ app.on('destroy', function(app) {
 ```
 
 ### app.use(plugin, [conf])
-...
+Add a plugin to the application. It will not be initialized until `app.init()`
+is called.
+
+- `plugin`: The name of a plugin module, the path to a plugin module (can be relative),
+  or a plugin object.
+
+- `conf`: (Optional) Plugin-specific configuration. This takes precedence over all
+  other configuration.
+
+**Examples**
+```js
+// Use a plugin module.
+app.use('cantina-http');
+
+// Use a local plugin module.
+app.use('./plugins/myplugin');
+
+// Use a plugin that was already loaded.
+var plugin = {
+  name: 'myplugin',
+  consumes: [ ... ],
+  provides: [ ... ],
+  init: function(conf, imports, register) { ... }
+};
+app.use(plugin);
+```
 
 ### app.remove(name)
-...
+Remove an uninitialized plugin. Generally, MUST be called before `app.init()`.
+
+- `name`: The name of the plugin to remove.
 
 ### app.init()
-...
+Initialize all plugins. Your app MUST listen for the 'error' event and you
+probably also want to listen for 'ready'.
+
+**Example**
+```js
+app.init();
+app.on('error', function(err) {
+  // Do something
+});
+app.on('ready', function(app) {
+  // Do something else
+});
+```
 
 ### app.destroy()
-...
+Destroy the app and allow plugins to perform cleanup if they are listening for
+the 'destroy' event.
 
 
 Configuration
