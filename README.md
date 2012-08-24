@@ -183,7 +183,7 @@ app.on('error', function(err, app) {
 
 Configuration
 -------------
-Cantina delegates to [node-etc](https://www.githuib.com/cpsubrian/node-etc)
+Cantina delegates to [node-etc](https://www.github.com/cpsubrian/node-etc)
 to handle many different configuration sources. When you call `cantina.createApp()`
 or `new Cantina()`, the following sources will be automatically checked and loaded
 (by order or precedence):
