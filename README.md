@@ -110,7 +110,7 @@ var conf = {
   http: { host: 'localhost', port: 8080 },
   buffet: {path: 'public', maxAge: 6000 }
 };
-var app = cantina.createServer(plugins, conf, function(err, app) {
+var app = cantina.createApp(plugins, conf, function(err, app) {
   // Respond to initialization.  Generally this will be pretty empty
   // because your plugins should be doing all the interesting stuff.
 });
@@ -135,9 +135,7 @@ configuration to use.
 ### Events
 During the life-cycle of an application, serveral events are emitted.
 
-- `service`: A plugin service was just initialized.
-
-  **Example**
+- **service**: A plugin service was just initialized.
   ```js
   app.on('service', function(name) {
     console.log('Service attached: ' + name);
@@ -145,9 +143,7 @@ During the life-cycle of an application, serveral events are emitted.
   });
   ```
 
-- `plugin`: A plugin was just initialized.
-
-  **Example**
+- **plugin**: A plugin was just initialized.
   ```js
   app.on('plugin', function(plugin) {
     console.log('Attached: ' + plugin.name);
@@ -155,25 +151,21 @@ During the life-cycle of an application, serveral events are emitted.
   });
   ```
 
-- `ready`: All plugins have finished initializing.
-
-  **Example**
+- **ready**: All plugins have finished initializing.
   ```js
   app.on('ready', function(app) {
     // Fully initialized app instance.
   });
   ```
 
-- `error`: An error occured.
-
-  **Example**
+- **error**: An error occured.
   ```js
   app.on('error', function(err, app) {
     // Respond to the error.
   });
   ```
 
-- `destroy`: Triggered by `app.destroy()`. Mostly useful for plugins to bind
+- **destroy**: Triggered by `app.destroy()`. Mostly useful for plugins to bind
   to in case some cleanup is needed.
 
 
