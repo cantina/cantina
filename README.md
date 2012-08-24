@@ -37,24 +37,6 @@ require('cantina').createApp(plugins, conf, function(err, app) {
 });
 ```
 
-Table of Contents
------------------
-  - [About/Why](#aboutwhy)
-  - [Installation](#installation)
-  - [Quick Start](#quick-start)
-  - [Usage](#usage)
-    - [Create your app](#create-your-app)
-    - [Using plugins](#using-plugins)
-  - [Plugins](#plugins)
-    - [Available plugins](#available-plugins)
-    - [Create your own plugins](#create-your-own-plugin)
-  - [Services](#services)
-    - [Available services](#available-services)
-    - [Create your own service](#create-your-own-service)
-  - [Running the Tests](#running-the-tests)
-  - [Contributing](#contributing)
-  - [Credits](#credits)
-
 About/Why?
 ----------
 After using and evaluating a few different application frameworks, some key
