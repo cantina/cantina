@@ -114,7 +114,6 @@ var app = cantina.createApp(plugins, conf, function(err, app) {
   // Respond to initialization.  Generally this will be pretty empty
   // because your plugins should be doing all the interesting stuff.
 });
-
 ```
 
 ### Cantina class
