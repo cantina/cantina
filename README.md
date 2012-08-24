@@ -90,7 +90,7 @@ or `new Cantina()`, the following sources will be automatically checked and load
 5. **./etc/** - JSON, JS, and YAML fiels in `[app root]/etc` will be parsed and
    added to the config. If the filename is `config.*` then the contents will be
    merged in at the root level of the config. Any other files are assumed to
-   be specific plugin config and will be merged into conf keyed by filename.
+   be plugin specific and will be merged into conf keyed by filename.
 6. **package.json** - If your package.json contains an `etc` key it will be
    merged into the conf.
 7. **plugin defailts** If plugins specify default configuration they will be
@@ -253,13 +253,129 @@ the 'destroy' event.
 
 Plugins
 -------
-Something here.
+A plugin is ultimately just an object that conforms to the Cantina plugin spec.
+Generally, plugins will be defined either as a stand-alone node module (with
+its own package.json), or as a module local to your application.
+
+**Example**
+```js
+// package.json
+{
+  "name": 'MyPlugin',
+  "version": '1.0.4',
+
+  // [other package.json stuff]
+
+  // Optional plugin conf.
+  "cantina": {
+    "consumes": ["db"],
+    "privides": ["awesomesauce"],
+    "color": "blue"
+    // etc.
+  },
+}
+```
+```js
+// myplugin.js
+
+// If your module is local and has no package.json, you should export properties
+// like name, consumes, and provides.
+exports.name = 'MyPlugin';
+exports.consumes = ["db"];
+exports.provides = ["awesomesauce"];
+
+// All plugins MUST implement an init method.
+exports.init = function(conf, imports, register) {
+  // conf contains plugin settings merged from all relevant sources.
+
+  // Use stuff you consume.
+  var db = imports.http;
+
+  // If your plugin encounters fatal error conditions return them with register.
+  if (db.type !== 'nosql') {
+    return register(new Error('You used a relational database!!!'));
+  }
+
+  // Register services provided by your plugin.
+  register(null, {
+    awesomesauce: function() {
+      console.log('Awesome!!!');
+    }
+  });
+};
+```
+
+### Plugin properties & methods
+- **name**: A unique name for your plugin. Only one instance of each plugin can
+  exist on an application. (Required)
+- **consumes**: An array of service names that your plugin depends on.
+- **provides**: An array of service names that your plugin provides.
+- **conf**: Default configuration for your plugin.
+- **init**: The initialization callback for your plugin. (Required)
+- **error**: A handler to bind to application 'error' events.
+- **ready**: A handler to bind to application 'ready' events.
+- **destroy**: A handler to bind to application 'destroy' events.
+
+Example implementation of all plugin properties:
+```js
+module.exports = {
+
+  name: 'myplugin',
+
+  consumes: ['db', 'math', 'draw'],
+
+  provides: ['chart', 'graph'],
+
+  conf: {
+    width: 400,
+    height: 200,
+  },
+
+  init: function(conf, imports, register) {
+    var db = imports.db,
+        math = imports.math,
+        draw = imports.draw;
+
+    register(null, {
+
+      // Chart service.
+      chart: function(headers, data) {
+        // Render a chart or something.
+        // Maybe using conf.width and conf.height.
+      }
+
+      // Graph service.
+      graph: {
+        pie: function(labels, data) {
+          // Render a pie chart.
+        },
+
+        bar: function(labels, data) {
+          // REnder a bar chart.
+        }
+      }
+
+    });
+  },
+
+  error: function(err, app) {
+    console.log('Something went wrong', err);
+  },
+
+  ready: function(app) {
+    console.log('Sweet the app is initialized');
+  },
+
+  destroy: function(app) {
+    // Cleanup temp files or something.
+  },
+
+};
+```
 
 ### Available Plugins ###
 Something here.
 
-### Create your own plugin ###
-Something here.
 
 Credits
 -------
