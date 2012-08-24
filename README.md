@@ -138,30 +138,30 @@ During the life-cycle of an application, serveral events are emitted.
 - **service**: A plugin service was just initialized.
   ```js
   app.on('service', function(name) {
-    console.log('Service attached: ' + name);
-    console.log(app.services[name]);
+      console.log('Service attached: ' + name);
+      console.log(app.services[name]);
   });
   ```
 
 - **plugin**: A plugin was just initialized.
   ```js
   app.on('plugin', function(plugin) {
-    console.log('Attached: ' + plugin.name);
-    console.log(plugin);
+      console.log('Attached: ' + plugin.name);
+      console.log(plugin);
   });
   ```
 
 - **ready**: All plugins have finished initializing.
   ```js
   app.on('ready', function(app) {
-    // Fully initialized app instance.
+      // Fully initialized app instance.
   });
   ```
 
 - **error**: An error occured.
   ```js
   app.on('error', function(err, app) {
-    // Respond to the error.
+      // Respond to the error.
   });
   ```
 
