@@ -92,32 +92,12 @@ Something here.
 ### Create your own plugin ###
 Something here.
 
-Services
---------
-Something here.
-
-### Available Services ###
-Something here.
-
-### Create you own service ###
-Something here.
-
-Running the Tests
------------------
-Something here.
-
-Contributing
-------------
-Something here.
-
 Credits
 -------
-Cantina is the net result of our experiments with a number of different framesworks
+Cantina is the net result of our experiments with a number of different frameworks
 and plugin systems. These include express, flatiron, broadway, and architect.
 Architect, in particular was a tremendous source of influence (and code).
 Gratitude goes out to the authors and contributors of those projects for helping
-us learn more about node.js, what we need, and how to structure complex
-applications.
+us learn more about node.js and how to structure complex applications.
 
-Of course, none of this would be possible without our awesome employer,
-Terra Eclipse.
+
