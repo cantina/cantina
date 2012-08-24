@@ -164,8 +164,14 @@ app.on('error', function(err, app) {
 });
 ```
 
-**destroy**: Triggered by `app.destroy()`. Mostly useful for plugins to bind
-  to in case some cleanup is needed.
+**destroy**: Triggered by `app.destroy()`. This event is most useful to plugins
+that need to preform a cleanup routine if the app is destroyed. Read more about
+plugin event binding in the 'Plugins' section.
+```js
+app.on('destroy', function(app) {
+  // Clean up some stuff
+});
+```
 
 ### app.use(plugin, [conf])
 ...
