@@ -102,7 +102,7 @@ cantina API is exposed through the Cantina class.
 
 - **Returns** `app`: The application instance.
 
-#### Example
+**Example**
 ```js
 var cantina = require('cantina');
 var plugins = ['cantina-http', 'cantina-middler', 'cantina-buffet'];
@@ -167,6 +167,42 @@ app.on('error', function(err, app) {
 
 **destroy**: Triggered by `app.destroy()`. Mostly useful for plugins to bind
   to in case some cleanup is needed.
+
+### app.use(plugin, [conf])
+...
+
+### app.remove(name)
+...
+
+### app.init()
+...
+
+### app.destroy()
+...
+
+
+Configuration
+-------------
+Cantina delegates to [node-etc](https://www.githuib.com/cpsubrian/node-etc)
+to handle many different configuration sources. When you call `cantina.createApp()`
+or `new Cantina()`, the following sources will be automatically checked and loaded
+(by order or precedence):
+
+1. **app.use()** - Conf passed in app.use takes the highest precedence.
+2. **argv** - Command-line arguments parsed by optimist.
+3. **env** - Environment variables that match the prefix: 'app_'
+4. **conf passed to Constructor or createApp()**
+5. **./etc/** - JSON, JS, and YAML fiels in `[app root]/etc` will be parsed and
+   added to the config. If the filename is `config.*` then the contents will be
+   merged in at the root level of the config. Any other files are assumed to
+   be specific plugin config and will be merged into conf keyed by filename.
+6. **package.json** - If your package.json contains an `etc` key it will be
+   merged into the conf.
+7. **plugin defailts** If plugins specify default configuration they will be
+   the last thing used.
+
+If you wish to interact with the etc configuration object directly you can find it
+on `app.conf`.
 
 
 Plugins
