@@ -1,0 +1,12 @@
+{
+  "name": "math",
+  "main": "math.js",
+  "private": true,
+  "cantina": {
+    "conf": {
+      "incr": 10
+    },
+    "consumes": ["add", "subtract"],
+    "provides": ["math"]
+  }
+}
