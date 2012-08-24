@@ -374,7 +374,7 @@ module.exports = {
 ```
 
 ### Available Plugins ###
-Something here.
+Coming soon!
 
 
 Credits
