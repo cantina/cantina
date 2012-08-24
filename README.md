@@ -1,12 +1,13 @@
 Cantina
 =======
 
-A simple application framework based on plugins and dependency injection.
+A simple application framework based on plugins, dependency injection, and
+flexible configuration.
 
 
 Example
 -------------------
-```
+```js
 // Plugins define imports and exports and the load order is automatically
 // determined to sort out depenencies.
 var plugins = [
