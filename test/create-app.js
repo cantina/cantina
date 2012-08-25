@@ -3,7 +3,8 @@
  */
 
 var cantina = require('../'),
-    assert = require('assert');
+    assert = require('assert'),
+    path = require('path');
 
 describe('createApp()', function() {
   var app;
@@ -32,6 +33,20 @@ describe('createApp()', function() {
       assert.ifError(err);
       assert.equal(app.services.math.incr(10), 15);
       done();
+    });
+  });
+
+  it('can resolve the application root', function(done) {
+    var root = path.dirname(module.filename);
+    var resolveTest = {
+      name: 'resolveTest',
+      init: function(conf, imports, register) {
+        assert.equal(imports.core.resolve('./'), root);
+        done();
+      }
+    };
+    cantina.createApp([resolveTest], function(err, app) {
+      // The test is finished during plugin initialization.
     });
   });
 

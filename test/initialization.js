@@ -3,7 +3,8 @@
  */
 
 var Cantina = require('../').Cantina,
-    assert = require('assert');
+    assert = require('assert'),
+    path = require('path');
 
 describe('initialization', function() {
   var app;
@@ -90,6 +91,20 @@ describe('initialization', function() {
     app.on('error', function(err) {
       // We're ignoreing the error here.
     });
+  });
+
+  it('can resolve the application root', function(done) {
+    var root = path.dirname(module.filename);
+    var resolveTest = {
+      name: 'resolveTest',
+      init: function(conf, imports, register) {
+        assert.equal(imports.core.resolve('./'), root);
+        done();
+      }
+    };
+    setupApp();
+    app.use(resolveTest);
+    app.init();
   });
 
 });
