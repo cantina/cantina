@@ -21,7 +21,7 @@ var plugins = [
 
 // A number of different configuration setups are supported, one of which
 // is passing config in manually.
-var config = {
+var conf = {
   http: {
     host: 'localhost',
     port: 8080
