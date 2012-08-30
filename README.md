@@ -141,7 +141,7 @@ module.exports = {
 
   provides: ['chart', 'graph'],
 
-  conf: {
+  defaults: {
     width: 400,
     height: 200,
   },
