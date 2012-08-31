@@ -139,7 +139,7 @@ Available Plugins
   <tr>
     <td><a href="https://github.com/cantina/cantina-buffet">cantina-buffet</a></td>
     <td>buffet</td>
-    <td>Wraps <a href="http://github.com/carlos8f/buffet">buffet</a> to provide static file serving</td>
+    <td>Wraps <a href="http://github.com/carlos8f/node-buffet">buffet</a> to provide static file serving</td>
   </tr>
   <tr>
     <td><a href="https://github.com/cantina/cantina-http">cantina-http</a></td>
@@ -149,7 +149,7 @@ Available Plugins
   <tr>
     <td><a href="https://github.com/cantina/cantina-middler">cantina-middler</a></td>
     <td>middler</td>
-    <td>Provides a middleware layer for your app via <a href="http://github.com/carlos8f/middler">middler</a></td>
+    <td>Provides a middleware layer for your app via <a href="http://github.com/carlos8f/node-middler">middler</a></td>
   </tr>
   <tr>
     <td><a href="https://github.com/cantina/cantina-session/tree/1.x">cantina-session</a></td>
