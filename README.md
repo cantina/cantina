@@ -139,11 +139,11 @@ Cantina ships with a few core plugins that most web-apps need to get started.
   </tr>
   <tr>
     <td><a href="https://github.com/cantina/cantina/tree/1.x/plugins/middleware">middleware</a></td>
-    <td>Provides a middleware layer for your app via <a href="http://github.com/carlos8f/middler">middler</a></td>
+    <td>Provides a middleware layer for your app via <a href="http://github.com/carlos8f/node-middler">middler</a></td>
   </tr>
   <tr>
     <td><a href="https://github.com/cantina/cantina/tree/1.x/plugins/static">static</a></td>
-    <td>Provides static file serving for you app via <a href="http://github.com/carlos8f/buffet">buffet</a></td>
+    <td>Provides static file serving for you app via <a href="http://github.com/carlos8f/node-buffet">buffet</a></td>
   </tr>
 </table>
 
