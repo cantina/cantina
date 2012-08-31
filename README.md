@@ -129,7 +129,39 @@ module.exports = {
 
 Available Plugins
 -----------------
-Coming soon!
+<table>
+  <thead><tr><th>Name</th><th>Repo</th><th>Description</th></tr></thead>
+  <tr>
+    <td>cantina-auth</td>
+    <td>[https://github.com/cantina/cantina-auth/tree/1.x](https://github.com/cantina/cantina-auth/tree/1.x)</td>
+    <td>Wraps [passport](https://github.com/jaredhanson/passport) to provide authentication for your app</td>
+  </tr>
+  <tr>
+    <td>cantina-buffet</td>
+    <td>[https://github.com/cantina/cantina-buffet](https://github.com/cantina/cantina-buffet/tree/1.x)</td>
+    <td>Wraps [buffet](http://github.com/carlos8f/buffet)to provide static file serving</td>
+  </tr>
+  <tr>
+    <td>cantina-http</td>
+    <td>[https://github.com/cantina/cantina-http](https://github.com/cantina/cantina-http/tree/1.x)</td>
+    <td>Provides an http server for your app</td>
+  </tr>
+  <tr>
+    <td>cantina-middler</td>
+    <td>[https://github.com/cantina/cantina-middler](https://github.com/cantina/cantina-middler/tree/1.x)</td>
+    <td>Provides a middleware layer for your app via [middler](http://github.com/carlos8f/middler)</td>
+  </tr>
+  <tr>
+    <td>cantina-session</td>
+    <td>[https://github.com/cantina/cantina-session/tree/1.x](https://github.com/cantina/cantina-session/tree/1.x)</td>
+    <td>Adds connect-sesison powered sessions with a redis store to your app</td>
+  </tr>
+  <tr>
+    <td>cantina-views</td>
+    <td>[https://github.com/cantina/cantina-views/tree/1.x](https://github.com/cantina/cantina-views/tree/1.x)</td>
+    <td>Wraps [views](github.com/cpsubrian/views) to provide template rendering and partials</td>
+  </tr>
+</table>
 
 Configuration
 -------------
