@@ -127,29 +127,36 @@ module.exports = {
 };
 ```
 
+Core Plugins
+------------
+Cantina ships with a few core plugins that most web-apps need to get started.
+
+<table>
+  <thead><tr><th>Name</th><th>Description</th></tr></thead>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina/tree/1.x/plugins/http">http</a></td>
+    <td>Provides an http server for your app</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina/tree/1.x/plugins/middleware">middleware</a></td>
+    <td>Provides a middleware layer for your app via <a href="http://github.com/carlos8f/middler">middler</a></td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina/tree/1.x/plugins/static">static</a></td>
+    <td>Provides static file serving for you app via <a href="http://github.com/carlos8f/buffet">buffet</a></td>
+  </tr>
+</table>
+
 Available Plugins
 -----------------
+Other plugins are available either as part of the cantina family or from 3rd parties.
+
 <table>
   <thead><tr><th>Module</th><th>Name</th><th>Description</th></tr></thead>
   <tr>
     <td><a href="https://github.com/cantina/cantina-auth/tree/1.x">cantina-auth</a></td>
     <td>auth</td>
     <td>Wraps <a href="https://github.com/jaredhanson/passport">passport</a> to provide authentication for your app</td>
-  </tr>
-  <tr>
-    <td><a href="https://github.com/cantina/cantina-buffet">cantina-buffet</a></td>
-    <td>buffet</td>
-    <td>Wraps <a href="http://github.com/carlos8f/node-buffet">buffet</a> to provide static file serving</td>
-  </tr>
-  <tr>
-    <td><a href="https://github.com/cantina/cantina-http">cantina-http</a></td>
-    <td>http</td>
-    <td>Provides an http server for your app</td>
-  </tr>
-  <tr>
-    <td><a href="https://github.com/cantina/cantina-middler">cantina-middler</a></td>
-    <td>middler</td>
-    <td>Provides a middleware layer for your app via <a href="http://github.com/carlos8f/node-middler">middler</a></td>
   </tr>
   <tr>
     <td><a href="https://github.com/cantina/cantina-session/tree/1.x">cantina-session</a></td>

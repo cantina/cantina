@@ -19,10 +19,13 @@
     "etc": "*",
     "etc-yaml": "*",
     "witwip": "~0.0.2",
-    "semver": "1.0.14"
+    "semver": "1.0.14",
+    "middler": "~0.4.5",
+    "buffet": "~0.4.3"
   },
   "devDependencies": {
-    "mocha": "~1.4.0"
+    "mocha": "~1.4.0",
+    "superagent": "~0.8.1"
   },
   "optionalDependencies": {},
   "engines": {
