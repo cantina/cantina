@@ -130,36 +130,36 @@ module.exports = {
 Available Plugins
 -----------------
 <table>
-  <thead><tr><th>Name</th><th>Repo</th><th>Description</th></tr></thead>
+  <thead><tr><th>Module</th><th>Name</th><th>Description</th></tr></thead>
   <tr>
-    <td>cantina-auth</td>
-    <td>https://github.com/cantina/cantina-auth/tree/1.x</td>
-    <td>Wraps <a src="passport">https://github.com/jaredhanson/passport</a> to provide authentication for your app</td>
+    <td><a src="https://github.com/cantina/cantina-auth/tree/1.x">cantina-auth</a></td>
+    <td>auth</td>
+    <td>Wraps <a src="https://github.com/jaredhanson/passport">passport</a> to provide authentication for your app</td>
   </tr>
   <tr>
-    <td>cantina-buffet</td>
-    <td>https://github.com/cantina/cantina-buffet]</td>
-    <td>Wraps <a src="buffet">http://github.com/carlos8f/buffet</a> to provide static file serving</td>
+    <td><a src="https://github.com/cantina/cantina-buffet">cantina-buffet</a></td>
+    <td>buffet</td>
+    <td>Wraps <a src="http://github.com/carlos8f/buffet">buffet</a> to provide static file serving</td>
   </tr>
   <tr>
-    <td>cantina-http</td>
-    <td>https://github.com/cantina/cantina-http</td>
+    <td><a src="https://github.com/cantina/cantina-http">cantina-http</a></td>
+    <td>http</td>
     <td>Provides an http server for your app</td>
   </tr>
   <tr>
-    <td>cantina-middler</td>
-    <td>https://github.com/cantina/cantina-middler</td>
-    <td>Provides a middleware layer for your app via <a src="middler">http://github.com/carlos8f/middler</a></td>
+    <td><a src="https://github.com/cantina/cantina-middler">cantina-middler</a></td>
+    <td>middler</td>
+    <td>Provides a middleware layer for your app via <a src="http://github.com/carlos8f/middler">middler</a></td>
   </tr>
   <tr>
-    <td>cantina-session</td>
-    <td>https://github.com/cantina/cantina-session/tree/1.x</td>
+    <td><a src="https://github.com/cantina/cantina-session/tree/1.x">cantina-session</a></td>
+    <td>session</td>
     <td>Adds connect-sesison powered sessions with a redis store to your app</td>
   </tr>
   <tr>
-    <td>cantina-views</td>
-    <td>https://github.com/cantina/cantina-views/tree/1.x</td>
-    <td>Wraps <a src="views">github.com/cpsubrian/views</a> to provide template rendering and partials</td>
+    <td><a src="https://github.com/cantina/cantina-views/tree/1.x">cantina-views</a></td>
+    <td>views</td>
+    <td>Wraps <a src="github.com/cpsubrian/views">views</a> to provide template rendering and partials</td>
   </tr>
 </table>
 
