@@ -14,33 +14,31 @@ describe('initialization', function() {
 
     app.use({
       name: 'alpha',
-      provides: ['a'],
+      version: "0.0.1",
       init: function(conf, imports, register) {
-        register(null, {
-          a: 'This is a'
-        });
+        register(null, 'This is alpha');
       }
     });
 
     app.use({
       name: 'beta',
-      consumes: ['a'],
-      provides: ['b'],
+      version: "0.0.1",
+      imports: {
+        "alpha": ">=0.0.1"
+      },
       init: function(conf, imports, register) {
-        var a = imports.a;
-        register(null, {
-          b: 'A said: ' + a
-        });
+        var alpha = imports.alpha;
+        register(null, 'Alpha said: ' + alpha);
       }
     });
   }
 
   it('should initialize and emit the `ready` event', function(done) {
     setupApp();
-    app.init();
-    app.on('ready', function(app) {
-      assert.equal(app.services.a, 'This is a', '`alpha` plugin was not correctly initialized');
-      assert.equal(app.services.b, 'A said: This is a', '`beta` plugin was not correctly initialized');
+    app.init(function(err, app) {
+      assert.ifError(err);
+      assert.equal(app.alpha, 'This is alpha', '`alpha` plugin was not correctly initialized');
+      assert.equal(app.beta, 'Alpha said: This is alpha', '`beta` plugin was not correctly initialized');
       done();
     });
   });
@@ -49,11 +47,12 @@ describe('initialization', function() {
     setupApp();
     app.use({
       name: 'broken',
+      version: "0.0.1",
       init: function(conf, imports, register) {
         register(new Error('This is broken'));
       }
     });
-    app.init();
+    app.init(function(){});
     app.on('error', function(err) {
       assert.equal(err.toString(), 'Error: This is broken');
       done();
@@ -64,21 +63,23 @@ describe('initialization', function() {
     setupApp();
     app.use({
       name: 'eager',
+      version: "0.0.1",
       init: function(conf, imports, register) {
         register(null, {});
       },
-      ready: function(app) {
-        assert.equal(app.services.a, 'This is a', 'App was not initialized');
+      ready: function(app, cb) {
+        assert.equal(app.services.a, 'This is alpha', 'App was not initialized');
         done();
       }
     });
-    app.init();
+    app.init(function(){});
   });
 
   it ('calls error handlers of plugins', function(done) {
     setupApp();
     app.use({
-      name: 'broken',
+      name: 'wanterror',
+      version: "0.0.1",
       init: function(conf, imports, register) {
         register(new Error('This is broken'));
       },
@@ -87,7 +88,7 @@ describe('initialization', function() {
         done();
       }
     });
-    app.init();
+    app.init(function(){});
     app.on('error', function(err) {
       // We're ignoreing the error here.
     });
@@ -97,6 +98,7 @@ describe('initialization', function() {
     var root = path.dirname(module.filename);
     var resolveTest = {
       name: 'resolveTest',
+      version: "0.0.1",
       init: function(conf, imports, register) {
         assert.equal(imports.core.resolve('./'), root);
         done();
@@ -104,7 +106,6 @@ describe('initialization', function() {
     };
     setupApp();
     app.use(resolveTest);
-    app.init();
   });
 
 });

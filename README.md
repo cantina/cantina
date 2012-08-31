@@ -19,8 +19,7 @@ var plugins = [
   './plugins/myotherplugin'
 ];
 
-// A number of different configuration setups are supported, one of which
-// is passing config in manually.
+// You can pass configuration here (though the preferred location is ./etc)
 var conf = {
   http: {
     host: 'localhost',
@@ -53,6 +52,120 @@ include it in your package.json as a dependency like:
 Then runnning `npm install` will check out the lastest version into your
 `node_modules/` folder.
 
+Plugins
+-------
+Plugins are modules that export specific meta-data and methods that
+Cantina uses to bootstrap your application.
+
+### Example
+```js
+// myplugin.js
+
+// Name and version will be grabbed from package.json if this is a stand-alone
+// plugin. Local plugins should specify a name and version.
+exports.name = 'myplugin';
+exports.version = '0.4.0';
+
+// Specify your plugin's dependencies (other plugins);
+exports.imports = ['db'];
+
+// Default conf.
+exports.defaults: {
+  message: 'Awesome!!!!'
+};
+
+// Initialze your plugin using conf and imports. Call register(err, obj) when you
+// are done.
+exports.init = function(conf, imports, register) {
+  // Use stuff you consume.
+  var db = imports.db;
+
+  // If your plugin encounters fatal error conditions return them with register.
+  if (db.type !== 'nosql') {
+    return export(new Error('You used a relational database!!!'));
+  }
+
+  // Register services provided by your plugin.
+  register(null, {
+    awesomesauce: function() {
+      // Use configuration data.
+      console.log(conf.message);
+    }
+  });
+};
+```
+
+### All Plugin properties & methods (* required)
+- **name**: * A unique name for your plugin. Only one instance of each plugin can
+  exist on an application.
+- **version**: * A semver to identify your plugin's version.
+- **init**: * `function(conf, imports, register)` The initialization callback for your plugin.
+- **imports**: A hash of plugins that your plugin depends on. Same format as
+  `dependencies` in package.json.
+- **defaults**: Default configuration for your plugin.
+- **error**: `function(err, app)` A handler to bind to application 'error' events.
+- **ready**: `function(app, done)` A handler to run when all plugins have been
+  attached to the app. Asynchronous.
+
+Example implementation of all plugin properties:
+```js
+module.exports = {
+
+  name: 'graphtastic',
+  version: '0.3.1',
+
+  imports: {
+    'db': '~0.3.0',
+    'math': '>= 1.0.0',
+    'draw': '1.3.37'
+  },
+
+  defaults: {
+    width: 400,
+    height: 200,
+  },
+
+  init: function(conf, imports, register) {
+    var db = imports.db,
+        math = imports.math,
+        draw = imports.draw;
+
+    register(null, {
+
+      chart: function(headers, data) {
+        // Render a chart or something.
+        // Maybe using conf.width and conf.height.
+      },
+
+      graph: {
+        pie: function(labels, data) {
+          // Render a pie chart.
+        },
+
+        bar: function(labels, data) {
+          // REnder a bar chart.
+        }
+      }
+
+    });
+  },
+
+  error: function(err, app) {
+    console.log('Something went wrong', err);
+  },
+
+  ready: function(app, done) {
+    console.log('Sweet the app is initialized');
+    done();
+  },
+
+};
+```
+
+Available Plugins
+-----------------
+Coming soon!
+
 Configuration
 -------------
 An important function of Cantina is to centralize your app's configuration.
@@ -77,120 +190,6 @@ or `new Cantina()`, the following sources will be automatically checked and load
 
 Most applications should just store their configuration in `./etc` and rely
 on plugin defaults and argv for the rest.
-
-Plugins
--------
-Plugins are modules that export specific meta-data and methods that
-Cantina uses to bootstrap your application.
-
-### Example
-```js
-// myplugin.js
-
-exports.name = 'myplugin';
-exports.consumes = ['db'];
-exports.provides = ['awesomesauce'];
-
-exports.defaults: {
-  message: 'Awesome!!!!'
-};
-
-exports.init = function(conf, imports, register) {
-  // conf contains plugin settings merged from all relevant sources.
-
-  // Use stuff you consume.
-  var db = imports.db;
-
-  // If your plugin encounters fatal error conditions return them with register.
-  if (db.type !== 'nosql') {
-    return register(new Error('You used a relational database!!!'));
-  }
-
-  // Register services provided by your plugin.
-  register(null, {
-    awesomesauce: function() {
-      console.log(conf.message);
-    }
-  });
-};
-
-exports.error = function(err, app) {
-  console.log('Something broke!');
-};
-
-```
-
-### Plugin properties & methods (* required)
-- **name** *: A unique name for your plugin. Only one instance of each plugin can
-  exist on an application.
-- **init** *: The initialization callback for your plugin.
-- **consumes**: An array of service names that your plugin depends on.
-- **provides**: An array of service names that your plugin provides.
-- **defaults**: Default configuration for your plugin.
-- **error**: A handler to bind to application 'error' events.
-- **ready**: A handler to bind to application 'ready' events.
-- **close**: A handler to bind to application 'close' events.
-
-Example implementation of all plugin properties:
-```js
-module.exports = {
-
-  name: 'myplugin',
-
-  consumes: ['db', 'math', 'draw'],
-
-  provides: ['chart', 'graph'],
-
-  defaults: {
-    width: 400,
-    height: 200,
-  },
-
-  init: function(conf, imports, register) {
-    var db = imports.db,
-        math = imports.math,
-        draw = imports.draw;
-
-    register(null, {
-
-      // Chart service.
-      chart: function(headers, data) {
-        // Render a chart or something.
-        // Maybe using conf.width and conf.height.
-      }
-
-      // Graph service.
-      graph: {
-        pie: function(labels, data) {
-          // Render a pie chart.
-        },
-
-        bar: function(labels, data) {
-          // REnder a bar chart.
-        }
-      }
-
-    });
-  },
-
-  error: function(err, app) {
-    console.log('Something went wrong', err);
-  },
-
-  ready: function(app) {
-    console.log('Sweet the app is initialized');
-  },
-
-  destroy: function(app) {
-    // Cleanup temp files or something.
-  },
-
-};
-```
-
-Available Plugins
------------------
-Coming soon!
 
 About/Why?
 ----------

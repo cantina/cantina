@@ -1,11 +1,9 @@
 module.exports = {
   name: 'add',
-  provides: ['add'],
+  version: "0.0.1",
   init: function(conf, imports, register) {
-    register(null, {
-      add: function(a, b) {
-        return a + b;
-      }
+    register(null, function(a, b) {
+      return a + b;
     });
   }
 };

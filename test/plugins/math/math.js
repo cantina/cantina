@@ -1,11 +1,19 @@
-module.exports = function(conf, imports, register) {
+
+exports.imports = {
+  "add": "*",
+  "subtract": "*"
+};
+
+exports.defaults = {
+  "incr": 10
+};
+
+exports.init = function(conf, imports, register) {
   register(null, {
-    math: {
-      add: imports.add,
-      subtract: imports.subtract,
-      incr: function(num) {
-        return imports.add(num, conf.incr);
-      }
+    add: imports.add,
+    subtract: imports.subtract,
+    incr: function(num) {
+      return imports.add(num, conf.incr);
     }
   });
 };

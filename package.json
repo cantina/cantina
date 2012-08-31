@@ -18,7 +18,8 @@
     "debug": "~0.7.0",
     "etc": "*",
     "etc-yaml": "*",
-    "witwip": "~0.0.2"
+    "witwip": "~0.0.2",
+    "semver": "1.0.14"
   },
   "devDependencies": {
     "mocha": "~1.4.0"

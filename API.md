@@ -126,11 +126,6 @@ var plugin = {
 app.use(plugin);
 ```
 
-### app.remove(name)
-Remove an uninitialized plugin. Generally, MUST be called before `app.init()`.
-
-- `name`: The name of the plugin to remove.
-
 ### app.init()
 Initialize all plugins. Your app MUST listen for the 'error' event and you
 probably also want to listen for 'ready'.
