@@ -166,7 +166,7 @@ Other plugins are available either as part of the cantina family or from 3rd par
   <tr>
     <td><a href="https://github.com/cantina/cantina-views/tree/1.x">cantina-views</a></td>
     <td>views</td>
-    <td>Wraps <a href="https://github.com/cpsubrian/views">views</a> to provide template rendering and partials</td>
+    <td>Wraps <a href="https://github.com/cpsubrian/node-views">views</a> to provide template rendering and partials</td>
   </tr>
 </table>
 
