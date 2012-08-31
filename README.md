@@ -61,7 +61,7 @@ Cantina uses to bootstrap your application.
 - **name**: * A unique name for your plugin. Only one instance of each plugin can
   exist on an application.
 - **version**: * A semver to identify your plugin's version.
-- **init**: * `function(conf, imports, register)` The initialization callback for your plugin.
+- **init**: * `function(app, done)` The initialization callback for your plugin.
 - **dependencies**: A hash of plugins that your plugin depends on. Same format as
   `dependencies` in package.json.
 - **defaults**: Default configuration for your plugin.
