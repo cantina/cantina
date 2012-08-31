@@ -28,17 +28,17 @@ describe('versioning', function() {
     app.use(plugin({
       name: 'beta',
       version: "1.5.0",
-      imports: { "alpha": ">=0.0.0"}
+      dependencies: { "alpha": ">=0.0.0"}
     }));
     app.use(plugin({
       name: 'gamma',
       version: "2.0.0",
-      imports: { "beta": ">=1.5.0"}
+      dependencies: { "beta": ">=1.5.0"}
     }));
     app.use(plugin({
       name: 'epsilon',
       version: "0.0.1",
-      imports: { "alpha": "1.0.0", "beta": "1.5.0" }
+      dependencies: { "alpha": "1.0.0", "beta": "1.5.0" }
     }));
   });
 
@@ -48,7 +48,7 @@ describe('versioning', function() {
         app.use(plugin({
           name: "zeta",
           version: "1.0.0",
-          imports: { "delta": "0.4.0" }
+          dependencies: { "delta": "0.4.0" }
         }));
       },
       /missing/
@@ -61,7 +61,7 @@ describe('versioning', function() {
         app.use(plugin({
           name: "kappa",
           version: "1.0.0",
-          imports: { "alpha": "~0.4.0" }
+          dependencies: { "alpha": "~0.4.0" }
         }));
       },
       /wrong version/

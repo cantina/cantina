@@ -15,20 +15,21 @@ describe('initialization', function() {
     app.use({
       name: 'alpha',
       version: "0.0.1",
-      init: function(conf, imports, register) {
-        register(null, 'This is alpha');
+      init: function(app, cb) {
+        app.alpha = 'This is alpha';
+        cb();
       }
     });
 
     app.use({
       name: 'beta',
       version: "0.0.1",
-      imports: {
+      dependencies: {
         "alpha": ">=0.0.1"
       },
-      init: function(conf, imports, register) {
-        var alpha = imports.alpha;
-        register(null, 'Alpha said: ' + alpha);
+      init: function(app, cb) {
+        app.beta = 'Alpha said: ' + app.alpha;
+        cb();
       }
     });
   }
@@ -48,14 +49,16 @@ describe('initialization', function() {
     app.use({
       name: 'broken',
       version: "0.0.1",
-      init: function(conf, imports, register) {
-        register(new Error('This is broken'));
+      init: function(app, cb) {
+        cb(new Error('This is broken'));
       }
     });
-    app.init(function(){});
     app.on('error', function(err) {
       assert.equal(err.toString(), 'Error: This is broken');
       done();
+    });
+    app.init(function(err){
+      // do nothing.
     });
   });
 
@@ -64,11 +67,11 @@ describe('initialization', function() {
     app.use({
       name: 'eager',
       version: "0.0.1",
-      init: function(conf, imports, register) {
-        register(null, {});
+      init: function(app, cb) {
+        cb();
       },
       ready: function(app, cb) {
-        assert.equal(app.services.a, 'This is alpha', 'App was not initialized');
+        assert.equal(app.alpha, 'This is alpha', 'App was not initialized');
         done();
       }
     });
@@ -80,8 +83,8 @@ describe('initialization', function() {
     app.use({
       name: 'wanterror',
       version: "0.0.1",
-      init: function(conf, imports, register) {
-        register(new Error('This is broken'));
+      init: function(app, cb) {
+        cb(new Error('This is broken'));
       },
       error: function(err) {
         assert.equal(err.toString(), 'Error: This is broken');
@@ -99,13 +102,16 @@ describe('initialization', function() {
     var resolveTest = {
       name: 'resolveTest',
       version: "0.0.1",
-      init: function(conf, imports, register) {
-        assert.equal(imports.core.resolve('./'), root);
-        done();
+      init: function(app, cb) {
+        assert.equal(app.resolve('./'), root);
+        cb();
       }
     };
     setupApp();
     app.use(resolveTest);
+    app.init(function(err) {
+      done();
+    });
   });
 
 });

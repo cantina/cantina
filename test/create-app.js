@@ -41,13 +41,13 @@ describe('createApp()', function() {
     var resolveTest = {
       name: 'resolveTest',
       version: "0.0.1",
-      init: function(conf, imports, register) {
-        assert.equal(imports.core.resolve('./'), root);
-        done();
+      init: function(app, cb) {
+        assert.equal(app.resolve('./'), root);
+        cb();
       }
     };
     cantina.createApp([resolveTest], function(err, app) {
-      // The test is finished during plugin initialization.
+      done();
     });
   });
 

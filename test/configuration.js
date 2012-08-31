@@ -10,13 +10,15 @@ describe('configuration', function() {
   var plugin = {
     name: 'prefix',
     version: "0.0.1",
-    init: function(conf, imports, register) {
+    init: function(app, done) {
+      var conf = app.conf.get('prefix');
       if (!conf.prefix) {
-        return register(new Error('No prefix in config'));
+        return done(new Error('No prefix in config'));
       }
-      register(null, function(str) {
+      app.prefix = function(str) {
         return conf.prefix + str;
-      });
+      };
+      done();
     }
   };
 

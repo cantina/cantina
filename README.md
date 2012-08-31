@@ -57,64 +57,26 @@ Plugins
 Plugins are modules that export specific meta-data and methods that
 Cantina uses to bootstrap your application.
 
-### Example
-```js
-// myplugin.js
-
-// Name and version will be grabbed from package.json if this is a stand-alone
-// plugin. Local plugins should specify a name and version.
-exports.name = 'myplugin';
-exports.version = '0.4.0';
-
-// Specify your plugin's dependencies (other plugins);
-exports.imports = ['db'];
-
-// Default conf.
-exports.defaults: {
-  message: 'Awesome!!!!'
-};
-
-// Initialze your plugin using conf and imports. Call register(err, obj) when you
-// are done.
-exports.init = function(conf, imports, register) {
-  // Use stuff you consume.
-  var db = imports.db;
-
-  // If your plugin encounters fatal error conditions return them with register.
-  if (db.type !== 'nosql') {
-    return export(new Error('You used a relational database!!!'));
-  }
-
-  // Register services provided by your plugin.
-  register(null, {
-    awesomesauce: function() {
-      // Use configuration data.
-      console.log(conf.message);
-    }
-  });
-};
-```
-
-### All Plugin properties & methods (* required)
+### Plugin properties & methods (* required)
 - **name**: * A unique name for your plugin. Only one instance of each plugin can
   exist on an application.
 - **version**: * A semver to identify your plugin's version.
 - **init**: * `function(conf, imports, register)` The initialization callback for your plugin.
-- **imports**: A hash of plugins that your plugin depends on. Same format as
+- **dependencies**: A hash of plugins that your plugin depends on. Same format as
   `dependencies` in package.json.
 - **defaults**: Default configuration for your plugin.
 - **error**: `function(err, app)` A handler to bind to application 'error' events.
 - **ready**: `function(app, done)` A handler to run when all plugins have been
   attached to the app. Asynchronous.
 
-Example implementation of all plugin properties:
+### Example
 ```js
 module.exports = {
 
   name: 'graphtastic',
   version: '0.3.1',
 
-  imports: {
+  dependencies: {
     'db': '~0.3.0',
     'math': '>= 1.0.0',
     'draw': '1.3.37'
@@ -125,12 +87,13 @@ module.exports = {
     height: 200,
   },
 
-  init: function(conf, imports, register) {
-    var db = imports.db,
-        math = imports.math,
-        draw = imports.draw;
+  init: function(app, done) {
+    var conf = app.conf.get('graphtasitc'),
+        db = app.db,
+        math = app.math,
+        draw = app.draw;
 
-    register(null, {
+    app.graphtastic = {
 
       chart: function(headers, data) {
         // Render a chart or something.
@@ -147,7 +110,9 @@ module.exports = {
         }
       }
 
-    });
+    };
+
+    done();
   },
 
   error: function(err, app) {
@@ -190,29 +155,6 @@ or `new Cantina()`, the following sources will be automatically checked and load
 
 Most applications should just store their configuration in `./etc` and rely
 on plugin defaults and argv for the rest.
-
-About/Why?
-----------
-After using and evaluating a few different application frameworks, some key
-points became clear:
-
-- A giant framework that does everything you need is great for getting started,
-  but bad for high performance custom applications.
-- Building your application around a collection of small, fast, tested modules
-  is the way to go.
-- Flatiron is a solid framework, but across the board its modules are
-  trying to do too much for our taste (for example, Director supports both
-  server-side and client-side routing).
-- A simple plugin system can aid in breaking apart application logic. Broadway
-  was a really good start, but we tired of working with a big bloated `app`
-  object.
-- Architect brought to light a really clever way of managing dependencies
-  between plugins, but it didnt support the type of configuration and app
-  structure we wanted.
-
-So we created a simple system that pulls together plugins who explicitly
-declare their dependencies and exports, added a flexible configuration
-layer, and called it 'Cantina'.
 
 Credits
 -------
