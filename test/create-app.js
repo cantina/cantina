@@ -40,7 +40,6 @@ describe('createApp()', function() {
     var root = path.dirname(module.filename);
     var resolveTest = {
       name: 'resolveTest',
-      version: "0.0.1",
       init: function(app, cb) {
         assert.equal(app.resolve('./'), root);
         cb();

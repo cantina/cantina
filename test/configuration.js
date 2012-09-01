@@ -9,7 +9,6 @@ describe('configuration', function() {
   var app;
   var plugin = {
     name: 'prefix',
-    version: "0.0.1",
     init: function(app, done) {
       var conf = app.conf.get('prefix');
       if (!conf.prefix) {
