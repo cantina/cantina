@@ -12,7 +12,6 @@ module.exports = {
   init: function (app, done) {
     var conf = app.conf.get('http');
     var server = http.createServer();
-    server.once('listening', app.emit.bind(app, 'listening'));
     app.http = server;
     done();
   },
