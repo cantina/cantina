@@ -9,25 +9,31 @@ module.exports = {
     "port": 8080
   },
 
-  init: function(app, done) {
+  init: function (app, done) {
     var conf = app.conf.get('http');
     var server = http.createServer();
+    server.once('listening', app.emit.bind(app, 'listening'));
+    app.http = server;
+    done();
+  },
 
-    function cb() {
-      var addr = server.address();
+  ready: function (app, done) {
+    var conf = app.conf.get('http')
+
+    function cb () {
+      var addr = app.http.address();
       if (!conf.silent) {
         console.log('Opened an http server on http://' + addr.address + ':' + addr.port);
       }
-      app.http = server;
       done();
     }
 
-    if (conf.listen && conf.port) {
+    if (conf.listen && !app.amino && conf.port) {
       if (conf.host) {
-        server.listen(conf.port, conf.host, cb);
+        app.http.listen(conf.port, conf.host, cb);
       }
       else {
-        server.listen(conf.port, cb);
+        app.http.listen(conf.port, cb);
       }
     }
     else {
