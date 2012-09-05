@@ -145,6 +145,10 @@ Cantina ships with a few core plugins that most web-apps need to get started.
     <td><a href="https://github.com/cantina/cantina/tree/1.x/plugins/static">static</a></td>
     <td>Provides static file serving for you app via <a href="http://github.com/carlos8f/node-buffet">buffet</a></td>
   </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina/tree/1.x/plugins/controllers">controllers</a></td>
+    <td>Route URL paths to your app logic</td>
+  </tr>
 </table>
 
 Available Plugins
