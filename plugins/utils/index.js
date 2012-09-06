@@ -9,9 +9,9 @@ module.exports = {
     app.utils.glob = require('glob');
 
     app.utils.defaults = function (obj, defaults) {
-      Object.keys(defaults).forEach(function(key) {
-        if (!obj.hasOwnProperty(key)) {
-          obj[key] = copy[key];
+      Object.keys(defaults).forEach(function(k) {
+        if (typeof obj[k] === 'undefined') {
+          obj[k] = defaults[k];
         }
       });
     };
