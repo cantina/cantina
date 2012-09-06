@@ -8,7 +8,7 @@ module.exports = {
     app.utils.async = require('async');
     app.utils.glob = require('glob');
 
-    app.defaults = function (obj, defaults) {
+    app.utils.defaults = function (obj, defaults) {
       Object.keys(defaults).forEach(function(key) {
         if (!obj.hasOwnProperty(key)) {
           obj[key] = copy[key];
