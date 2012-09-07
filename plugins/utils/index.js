@@ -27,7 +27,7 @@ module.exports = {
 
       // Clone the defaults so we dont transfer any properties by reference.
       if (deep) {
-        copy = utils.clone(defaults);
+        copy = app.utils.clone(defaults);
       }
       else {
         copy = defaults;
