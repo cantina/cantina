@@ -35,7 +35,7 @@ module.exports = {
 
       Object.keys(copy).forEach(function(key) {
         if (deep && (typeof obj[key] === 'object') && (typeof copy[key] === 'object')) {
-          module.exports(deep, obj[key], copy[key]);
+          app.utils.defaults(deep, obj[key], copy[key]);
         }
         else if (!obj.hasOwnProperty(key)) {
           obj[key] = copy[key];
