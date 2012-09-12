@@ -18,7 +18,7 @@ describe('error', function() {
     });
   });
 
-  it('catches runtime error', function (done) {
+  it('can listen for runtime error', function (done) {
     cantina.createApp([{
       name: 'runtime-error-test',
       init: function (app, cb) {
@@ -29,6 +29,21 @@ describe('error', function() {
         setTimeout(function () {
           app.emit('error', new Error('geez'));
         }, 100);
+      }
+    }], assert.ifError);
+  });
+
+  it('error method listens for error', function (done) {
+    cantina.createApp([{
+      name: 'runtime-error-test',
+      init: function (app, cb) {
+        setTimeout(function () {
+          app.emit('error', new Error('geez'));
+        }, 100);
+      },
+      error: function (err) {
+        assert.equal(err.message, 'geez');
+        done();
       }
     }], assert.ifError);
   });

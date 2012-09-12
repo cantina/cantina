@@ -44,24 +44,6 @@ describe('initialization', function() {
     });
   });
 
-  it('emits errors registered by a plugin', function(done) {
-    setupApp();
-    app.use({
-      name: 'broken',
-      version: "0.0.1",
-      init: function(app, cb) {
-        cb(new Error('This is broken'));
-      }
-    });
-    app.on('error', function(err) {
-      assert.equal(err.toString(), 'Error: This is broken');
-      done();
-    });
-    app.init(function(err){
-      // do nothing.
-    });
-  });
-
   it ('calls ready handlers of plugins', function(done) {
     setupApp();
     app.use({
@@ -76,25 +58,6 @@ describe('initialization', function() {
       }
     });
     app.init(function(){});
-  });
-
-  it ('calls error handlers of plugins', function(done) {
-    setupApp();
-    app.use({
-      name: 'wanterror',
-      version: "0.0.1",
-      init: function(app, cb) {
-        cb(new Error('This is broken'));
-      },
-      error: function(err) {
-        assert.equal(err.toString(), 'Error: This is broken');
-        done();
-      }
-    });
-    app.init(function(){});
-    app.on('error', function(err) {
-      // We're ignoreing the error here.
-    });
   });
 
   it('can resolve the application root', function(done) {
