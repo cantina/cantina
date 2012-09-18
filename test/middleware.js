@@ -1,4 +1,4 @@
-var cantina = require('../'),
+var Cantina = require('../').Cantina,
     request = require('superagent'),
     assert = require('assert');
 
@@ -6,9 +6,10 @@ describe('middleware plugin', function() {
   var port = 5000, app;
 
   before(function(done) {
-    var plugins = ['http', 'middleware'];
-    var conf = {http: {port: port, silent: true}};
-    app = cantina.createApp(plugins, conf, function(err, app) {
+    app = new Cantina({http: {port: port, silent: true}});
+    app.use('http');
+    app.use('middleware');
+    app.init(function(err, app) {
       if (err) throw err;
       app.middleware.add(function(req, res, next) {
         res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});

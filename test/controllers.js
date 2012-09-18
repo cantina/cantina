@@ -1,4 +1,4 @@
-var cantina = require('../'),
+var Cantina = require('../').Cantina,
     request = require('superagent'),
     assert = require('assert');
 
@@ -6,9 +6,7 @@ describe('controllers plugin', function() {
   var port = 5000, app;
 
   before(function(done) {
-    var plugins = ['http', 'middleware', 'controllers'];
-
-    plugins.push({
+    var posts = {
       name: 'posts',
       dependencies: { controllers: '~1.0' },
       init: function (app, done) {
@@ -23,14 +21,16 @@ describe('controllers plugin', function() {
         });
         app.controllers.push(controller);
         done();
-      }
-    });
+      }    };
 
-    var conf = {http: {port: port, silent: true}};
-    app = cantina.createApp(plugins, conf, function(err, app) {
-      if (err) throw err;
-      done();
-    });
+    app = new Cantina({http: {port: port, silent: true}});
+
+    app.use('http');
+    app.use('middleware');
+    app.use('controllers');
+    app.use(posts);
+
+    app.init(done);
   });
 
   after(function(done) {

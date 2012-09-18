@@ -1,4 +1,4 @@
-var cantina = require('../'),
+var Cantina = require('../').Cantina,
     request = require('superagent'),
     assert = require('assert');
 
@@ -6,12 +6,16 @@ describe('error', function() {
   var port = 5000, app;
 
   it('catches init error', function (done) {
-    cantina.createApp([{
+    app = new Cantina();
+
+    app.use({
       name: 'init-error-test',
       init: function (app, cb) {
         cb(new Error('whoops'));
       }
-    }], function (err, app) {
+    });
+
+    app.init(function (err, app) {
       assert(err);
       assert.equal(err.message, 'whoops');
       done();
@@ -19,7 +23,9 @@ describe('error', function() {
   });
 
   it('can listen for runtime error', function (done) {
-    cantina.createApp([{
+    app = new Cantina();
+
+    app.use({
       name: 'runtime-error-test',
       init: function (app, cb) {
         app.on('error', function (err) {
@@ -30,11 +36,15 @@ describe('error', function() {
           app.emit('error', new Error('geez'));
         }, 100);
       }
-    }], assert.ifError);
+    });
+
+    app.init(assert.ifError);
   });
 
   it('error method listens for error', function (done) {
-    cantina.createApp([{
+    app = new Cantina();
+
+    app.use({
       name: 'runtime-error-test',
       init: function (app, cb) {
         setTimeout(function () {
@@ -45,6 +55,8 @@ describe('error', function() {
         assert.equal(err.message, 'geez');
         done();
       }
-    }], assert.ifError);
+    });
+
+    app.init(assert.ifError);
   });
 });

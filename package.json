@@ -9,7 +9,7 @@
     "type": "git",
     "url": "git://github.com/cantina/cantina.git"
   },
-  "main": "./lib",
+  "main": "cantina.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha -R spec"
   },

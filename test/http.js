@@ -1,4 +1,4 @@
-var cantina = require('../'),
+var Cantina = require('../').Cantina,
     request = require('superagent'),
     assert = require('assert');
 
@@ -6,8 +6,9 @@ describe('http plugin', function() {
   var port = 5000, app;
 
   before(function(done) {
-    var conf = {http: {port: port, silent: true}};
-    app = cantina.createApp(['http'], conf, function(err, app) {
+    app = new Cantina({http: {port: port, silent: true}});
+    app.use('http');
+    app.init(function(err, app) {
       if (err) throw err;
 
       app.http.on('request', function(req, res) {

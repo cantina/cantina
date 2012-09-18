@@ -17,7 +17,7 @@ var EventEmitter = require('events').EventEmitter,
 function Cantina(conf) {
   this.plugins = {};
   this.services = {};
-  this.parent = module.parent.parent;
+  this.parent = module.parent;
 
   try {
     this.pkgPath = findPkg(path.dirname(this.parent.filename));
@@ -50,7 +50,6 @@ function Cantina(conf) {
   EventEmitter.call(this);
 }
 inherits(Cantina, EventEmitter);
-module.exports = Cantina;
 
 /**
  * Use a plugin.
@@ -142,8 +141,8 @@ Cantina.prototype.loadPlugin = function(pluginPath) {
   }
 
   // Check if this is a core plugin.
-  if (existsSync(path.join(__dirname, '../plugins', pluginPath))) {
-    pluginPath = path.join(__dirname, '../plugins', pluginPath);
+  if (existsSync(path.join(__dirname, './plugins', pluginPath))) {
+    pluginPath = path.join(__dirname, './plugins', pluginPath);
   }
 
   // Load the plugin.
@@ -197,3 +196,8 @@ Cantina.prototype.checkPlugin = function(plugin) {
     });
   }
 };
+
+// Export an instance of Cantina as well as the class itself.
+var app = module.exports = new Cantina();
+app.Cantina = Cantina;
+
