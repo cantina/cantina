@@ -70,18 +70,32 @@ Cantina.prototype.setup = function (root, callback) {
 Cantina.prototype.init = function (callback) {
   var app = this;
 
+  // Default error handler.
+  if (!app.listeners('error').length) {
+    app.on('error', function(err) {
+      console.error(err);
+    });
+  }
+
+  // Run plugin 'init' and 'ready' listeners.
   app.series('init', function (err) {
     if (err) {
-      if (callback) {
+      if (callback)
         callback(err);
-      }
-      else {
+      else
         app.emit('error', err);
-      }
     }
     else {
       app.series('ready', function(err) {
-        if (callback) callback(err);
+        if (err) {
+          if (callback)
+            callback(err);
+          else
+            app.emit('error', err);
+        }
+        else if (callback) {
+          callback();
+        }
       });
     }
   });
