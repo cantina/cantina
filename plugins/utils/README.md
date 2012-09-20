@@ -11,8 +11,7 @@ Provides
 - **app.utils.clone** - The [clone](https://github.com/pvorb/node-clone) module.
 - **app.utils.defaults** - Extend an object with defaults.
 
-app.utils.defaults([deep], obj, defaults)
------------------------------------------
+### app.utils.defaults([deep], obj, defaults)
 Extend an object with defaults.
 
 - **[deep]** {Boolean} If true, performs a deep (recursive) merge. Optional.
