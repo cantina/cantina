@@ -1,41 +1,70 @@
 Cantina
 =======
 
-A simple application framework based on plugins, dependency injection, and
-flexible configuration.
-
+A node.js application framework that leverages the power of a shared event
+emitter, a simple plugin pattern, and a flexible configuration engine.
 
 Example
 -------------------
 ```js
-var cantina = require('cantina');
+var app = require('cantina');
 
-// Plugins define imports and exports and the load order is automatically
-// determined to sort out depenencies.
-var plugins = [
-  'cantina-http',
-  'cantina-middler',
-  './plugins/myplugin',
-  './plugins/myotherplugin'
-];
-
-// You can pass configuration here (though the preferred location is ./etc)
-var conf = {
-  http: {
-    host: 'localhost',
-    port: 8080
-  },
-  myplugin: {
-    time: 5000
-  }
-};
-
-// Create the application.
-cantina.createApp(plugins, conf, function(err, app) {
+// Setup your application
+// ----------------------
+//
+// 1. Locates your application root directory (so plugins can reference it).
+// 2. Creates an `etc` configuration object and loads configuration from a
+//    variety of default sources.
+// 3. Loads default core plugin(s):
+//      - utils
+app.setup(function(err) {
+  // Handle setup errors.
   if (err) return console.log(err);
 
-  // Do something with the app, maybe.
+  // Optionally, add default configuration.
+  // (a better practice is to put your configuration in `./etc/config.json`)
+  app.config.add({
+    http: {
+      host: 'localhost',
+      port: 8080
+    },
+    static: {
+      path: './public'
+    },
+    myplugin: {
+      time: 5000
+    }
+  });
+
+  // Optionally, handle errors (by default they output with `console.error`).
+  app.on('error', function(err) {
+    // Save the error to your logs or something.
+  });
+
+  // Load plugins
+  // ------------
+
+  // Core plugins:
+  require(app.plugins.http);
+  require(app.plugins.middleware);
+  require(app.plugins.controllers);
+  require(app.plugins.static);
+
+  // Third-party plugins:
+  require('cantina-views');
+
+  // Local plugin:
+  require('./plugins/myplugin');
+
+  // Initialize your application
+  // ---------------------------
+  //
+  // 1. Runs all 'init' event listeners asynchronously, in order.
+  // 2. Runs all 'ready' event listeners asynchronously, in order.
+  // 3. Optionally, you can respond to initialization errors with a callback.
+  app.init();
 });
+
 ```
 
 Installation
@@ -45,7 +74,7 @@ include it in your package.json as a dependency like:
 
 ```
   "dependencies": {
-    "cantina": "git+ssh://git@github.com:cantina/cantina.git"
+    "cantina": "git+ssh://git@github.com:cantina/cantina.git#2.x"
   },
 ```
 
@@ -54,77 +83,61 @@ Then runnning `npm install` will check out the lastest version into your
 
 Plugins
 -------
-Plugins are modules that export specific meta-data and methods that
-Cantina uses to bootstrap your application.
-
-### Plugin properties & methods (* required)
-- **name**: * A unique name for your plugin. Only one instance of each plugin can
-  exist on an application.
-- **version**: * A semver to identify your plugin's version.
-- **init**: * `function(app, done)` The initialization callback for your plugin.
-- **dependencies**: A hash of plugins that your plugin depends on. Same format as
-  `dependencies` in package.json.
-- **defaults**: Default configuration for your plugin.
-- **error**: `function(err, app)` A handler to bind to application 'error' events.
-- **ready**: `function(app, done)` A handler to run when all plugins have been
-  attached to the app. Asynchronous.
+Cantina plugins use `require('cantina')` to access to the `app` event emitter.
+Plugins can really do whatever they want, however, there are a few conventions
+that can be followed in order to cooperate with the application initialization
+process.
 
 ### Example
 ```js
-module.exports = {
+var app = require('cantina');
 
-  name: 'graphtastic',
-  version: '0.3.1',
-
-  dependencies: {
-    'db': '~0.3.0',
-    'math': '>= 1.0.0',
-    'draw': '1.3.37'
+// Add some default configuration options.
+app.conf.add({
+  square: {
+    color: 'red',
+    height: 200
   },
+  circle: {
+    color: 'blue',
+    radius: 4
+  }
+});
 
-  defaults: {
-    width: 400,
-    height: 200,
-  },
+// Bind to application events, such as 'error', or custom ones that your
+// application uses.
+app.on('create:circle', function(options) {
+  var defaults = app.conf.get('circle');
+  var circle = {
+    color: options.color || defaults.color,
+    radius: options.radius || defaults.radius
+  };
+  app.shapes.circles.push(circle);
+});
 
-  init: function(app, done) {
-    var conf = app.conf.get('graphtasitc'),
-        db = app.db,
-        math = app.math,
-        draw = app.draw;
+// Register an 'init' listener. Commonly used to attach functionality to the
+// app or to initialize application namespaces.
+app.on('init', function() {
+  app.shapes = {
+    squares: [],
+    circles: []
+  };
+});
 
-    app.graphtastic = {
-
-      chart: function(headers, data) {
-        // Render a chart or something.
-        // Maybe using conf.width and conf.height.
-      },
-
-      graph: {
-        pie: function(labels, data) {
-          // Render a pie chart.
-        },
-
-        bar: function(labels, data) {
-          // REnder a bar chart.
-        }
-      }
-
-    };
-
-    done();
-  },
-
-  error: function(err, app) {
-    console.log('Something went wrong', err);
-  },
-
-  ready: function(app, done) {
-    console.log('Sweet the app is initialized');
-    done();
-  },
-
-};
+// Register a 'ready' listener. All plugins will be initialized and their APIs
+// will be available for use.
+//
+// Note: Both 'init' and 'ready' events can use a continuation callback if their
+// logic is asynchronous.
+app.on('ready', function(callback) {
+  app.db.loadCircles(function(err, circles) {
+    if (err) return callback(err);
+    circles.forEach(function(circle) {
+      app.emit('create:circle', circle);
+    });
+    callback();
+  });
+});
 ```
 
 Core Plugins
@@ -134,26 +147,32 @@ Cantina ships with a few core plugins that most web-apps need to get started.
 <table>
   <thead><tr><th>Name</th><th>Description</th></tr></thead>
   <tr>
-    <td><a href="https://github.com/cantina/cantina/tree/1.x/plugins/http">http</a></td>
+    <td><a href="https://github.com/cantina/cantina/tree/2.x/plugins/http">http</a></td>
     <td>Provides an http server for your app</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina/tree/1.x/plugins/middleware">middleware</a></td>
+    <td><a href="https://github.com/cantina/cantina/tree/2.x/plugins/middleware">middleware</a></td>
     <td>Provides a middleware layer for your app via <a href="http://github.com/carlos8f/node-middler">middler</a></td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina/tree/1.x/plugins/static">static</a></td>
+    <td><a href="https://github.com/cantina/cantina/tree/2.x/plugins/static">static</a></td>
     <td>Provides static file serving for you app via <a href="http://github.com/carlos8f/node-buffet">buffet</a></td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina/tree/1.x/plugins/controllers">controllers</a></td>
+    <td><a href="https://github.com/cantina/cantina/tree/2.x/plugins/controllers">controllers</a></td>
     <td>Route URL paths to your app logic</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina/tree/2.x/plugins/utils">utils</a></td>
+    <td>Exposes `app.utils` which is a collection of useful methods and third-party modules.</td>
   </tr>
 </table>
 
 Available Plugins
 -----------------
 Other plugins are available either as part of the cantina family or from 3rd parties.
+
+TODO: Update this table.
 
 <table>
   <thead><tr><th>Module</th><th>Name</th><th>Description</th></tr></thead>
@@ -193,19 +212,14 @@ or `new Cantina()`, the following sources will be automatically checked and load
    be plugin specific and will be merged into conf keyed by filename.
 6. **package.json** - If your package.json contains an `etc` key it will be
    merged into the conf.
-7. **plugin defailts** If plugins specify default configuration they will be
-   the last thing used.
 
 Most applications should just store their configuration in `./etc` and rely
 on plugin defaults and argv for the rest.
 
-Credits
--------
-Cantina is the net result of our experiments with a number of different frameworks
-and plugin systems. These include express, flatiron, broadway, and architect.
-Architect, in particular was a tremendous source of influence (and code).
-Gratitude goes out to the authors and contributors of those projects for helping
-us learn more about node.js and how to structure complex applications.
+Examples
+-------------
+Sample applications an be found in the [./examples](https://github.com/cantina/cantina/tree/2.x/examples)
+folder.
 
 - - -
 
