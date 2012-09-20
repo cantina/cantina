@@ -4,7 +4,7 @@ var app = require('../../'),
 
 app.conf.add({
   static: {
-    'root': './public',
+    'path': './public',
     'notFound': true
   }
 });
@@ -13,10 +13,10 @@ app.on('init', function () {
   var conf = app.conf.get('static');
 
   // Resolve root to the app root.
-  conf.root = path.resolve(app.root, conf.root);
+  var rootPath = path.resolve(app.root, conf.path);
 
   // Create buffet middleware.
-  var buffetMiddleware = buffet(conf.root, conf);
+  var buffetMiddleware = buffet(rootPath, conf);
 
   // Add buffet to middler stack.
   app.middleware.add(buffetMiddleware);

@@ -13,6 +13,39 @@ describe('Cantina Application', function () {
   });
 
   /****************************************************************************/
+  describe('error', function () {
+    it('can listen for runtime error', function (done) {
+      app.on('error', function (err) {
+        assert.equal(err.message, 'geez');
+        done();
+      });
+
+      setTimeout(function () {
+        app.emit('error', new Error('geez'));
+      }, 100);
+
+      app.init(assert.ifError);
+    });
+
+    it('catches init error', function (done) {
+      var caught = false;
+      app.on('init', function (cb) {
+        if (!caught)
+          cb(new Error('whoops'));
+        else
+          cb();
+      });
+      app.init(function (err) {
+        assert(err);
+        assert.equal(err.message, 'whoops');
+        caught = true;
+        done();
+      });
+    });
+  });
+
+
+  /****************************************************************************/
   describe('configuration', function () {
     before(function () {
       app.on('init', function (cb) {
@@ -42,38 +75,6 @@ describe('Cantina Application', function () {
         assert.equal(app.prefix('world'), 'hi world', 'The prefix was not added correctly');
         done();
       });
-    });
-  });
-
-  /****************************************************************************/
-  describe('error', function () {
-    it('catches init error', function (done) {
-      var caught = false;
-      app.on('init', function (cb) {
-        if (!caught)
-          cb(new Error('whoops'));
-        else
-          cb();
-      });
-      app.init(function (err) {
-        assert(err);
-        assert.equal(err.message, 'whoops');
-        caught = true;
-        done();
-      });
-    });
-
-    it('can listen for runtime error', function (done) {
-      app.on('error', function (err) {
-        assert.equal(err.message, 'geez');
-        done();
-      });
-
-      setTimeout(function () {
-        app.emit('error', new Error('geez'));
-      }, 100);
-
-      app.init(assert.ifError);
     });
   });
 
@@ -156,7 +157,7 @@ describe('Cantina Application', function () {
     });
 
     it('can serve static files from an alternative root', function(done) {
-      app.conf.set('static:root', './public-alt');
+      app.conf.set('static:path', './public-alt');
       app.init(function(err) {
         assert.ifError(err);
         request.get('http://localhost:' + port + '/hello.txt', function(res) {
@@ -170,7 +171,7 @@ describe('Cantina Application', function () {
 
     it('can serve static files from an absolute root', function(done) {
       var root = path.join(__dirname, 'public-alt');
-      app.conf.set('static:root', root);
+      app.conf.set('static:path', root);
       app.init(function(err) {
         assert.ifError(err);
         request.get('http://localhost:' + port + '/hello.txt', function(res) {
