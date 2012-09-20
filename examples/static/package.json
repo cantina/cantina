@@ -1,12 +1,6 @@
 {
   "name": "cantina-example-static",
   "description": "Example cantina static file server",
-  "version": "0.0.1",
-  "private": true,
-  "dependencies": {
-    "cantina": "git+ssh://git@github.com/cantina/cantina.git#1.x",
-    "cantina-http": "git+ssh://git@github.com/cantina/cantina-http.git",
-    "cantina-middler": "git+ssh://git@github.com/cantina/cantina-middler.git",
-    "cantina-buffet": "git+ssh://git@github.com/cantina/cantina-buffet.git"
-  }
+  "version": "2.0.0",
+  "private": true
 }
