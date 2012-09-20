@@ -5,25 +5,23 @@ A node.js application framework that leverages the power of a shared event
 emitter, a simple plugin pattern, and a flexible configuration engine.
 
 Example
--------------------
+-------
 ```js
 var app = require('cantina');
 
 // Setup your application
 // ----------------------
-//
 // 1. Locates your application root directory (so plugins can reference it).
 // 2. Creates an `etc` configuration object and loads configuration from a
 //    variety of default sources.
-// 3. Loads default core plugin(s):
-//      - utils
+// 3. Loads default core plugin(s): utils
 app.setup(function(err) {
   // Handle setup errors.
   if (err) return console.log(err);
 
   // Optionally, add default configuration.
-  // (a better practice is to put your configuration in `./etc/config.json`)
-  app.config.add({
+  // (a better practice is to put your configuration in `./etc/conf.json`)
+  app.conf.add({
     http: {
       host: 'localhost',
       port: 8080
@@ -43,22 +41,18 @@ app.setup(function(err) {
 
   // Load plugins
   // ------------
-
   // Core plugins:
   require(app.plugins.http);
   require(app.plugins.middleware);
   require(app.plugins.controllers);
   require(app.plugins.static);
-
-  // Third-party plugins:
+  // External plugins:
   require('cantina-views');
-
-  // Local plugin:
+  // Local plugins:
   require('./plugins/myplugin');
 
   // Initialize your application
   // ---------------------------
-  //
   // 1. Runs all 'init' event listeners asynchronously, in order.
   // 2. Runs all 'ready' event listeners asynchronously, in order.
   // 3. Optionally, you can respond to initialization errors with a callback.
@@ -88,7 +82,7 @@ Plugins can really do whatever they want, however, there are a few conventions
 that can be followed in order to cooperate with the application initialization
 process.
 
-### Example
+### Example Plugin
 ```js
 var app = require('cantina');
 
@@ -216,10 +210,12 @@ or `new Cantina()`, the following sources will be automatically checked and load
 Most applications should just store their configuration in `./etc` and rely
 on plugin defaults and argv for the rest.
 
-Examples
+More Examples
 -------------
 Sample applications an be found in the [./examples](https://github.com/cantina/cantina/tree/2.x/examples)
 folder.
+
+
 
 - - -
 
