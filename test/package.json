@@ -1,3 +1,5 @@
 {
-  "name": "Placeholder for cantina-buffet tests"
+  "name": "tests",
+  "description": "Placeholder for cantina tests",
+  "version": "0.0.0"
 }

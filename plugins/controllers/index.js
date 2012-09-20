@@ -1,25 +1,18 @@
-exports.name = 'controllers';
+var app = require('../../');
 
-exports.version = require('../../package.json').version;
+app.conf.add({
+  controllers: {
+    path: './controllers'
+  }
+});
 
-exports.dependencies = {
-  middleware: '~1.0'
-};
-
-exports.defaults = {
-  path: './controllers'
-};
-
-exports.init = function (app, done) {
-  var conf = app.conf.get(exports.name);
+app.on('init', function () {
   app.controllers = [];
   app.controller = app.middler;
-  done();
-};
+});
 
-exports.ready = function (app, done) {
+app.on('ready', function () {
   app.controllers.forEach(function (controller) {
     app.middleware.add(controller.handler);
   });
-  done();
-};
+});
