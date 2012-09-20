@@ -9,8 +9,10 @@ Provides
 - **app.utils.async** - The [async](https://github.com/caolan/async) module.
 - **app.utils.glob** - The [glob](https://github.com/isaacs/node-glob) module.
 - **app.utils.clone** - The [clone](https://github.com/pvorb/node-clone) module.
-- **app.utils.defaults** - Extend an object with defaults.
+- The custom methods listed below...
 
+Methods
+-------
 ### app.utils.defaults([deep], obj, defaults)
 Extend an object with defaults.
 
