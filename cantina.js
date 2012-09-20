@@ -60,7 +60,7 @@ Cantina.prototype.setup = function (root, callback) {
     findPkg(root, _setup.bind(this, callback));
   }
   else {
-    findPkg(path.resolve(__dirname, '../'), _setup.bind(this, callback));
+    findPkg(path.dirname(module.parent.filename), _setup.bind(this, callback));
   }
 };
 
