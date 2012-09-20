@@ -192,20 +192,22 @@ Configuration
 An important function of Cantina is to centralize your app's configuration.
 
 Cantina delegates to [node-etc](https://www.github.com/cpsubrian/node-etc)
-to handle many different configuration sources. When you call `cantina.createApp()`
-or `new Cantina()`, the following sources will be automatically checked and loaded
-(by order or precedence):
+to handle many different configuration sources. When you call `app.setup()` the
+following sources will be automatically checked and loaded (by order of
+precedence):
 
-1. **app.use()** - Conf passed in app.use takes the highest precedence.
-2. **argv** - Command-line arguments parsed by optimist.
-3. **env** - Environment variables that match the prefix: 'app_'
-4. **conf passed to Constructor or createApp()**
-5. **./etc/** - JSON, JS, and YAML fiels in `[app root]/etc` will be parsed and
+1. **argv** - Command-line arguments parsed by optimist.
+2. **env** - Environment variables that match the prefix: 'app_'
+3. **./etc/** - JSON, JS, and YAML files in `[app root]/etc` will be parsed and
    added to the config. If the filename is `config.*` then the contents will be
    merged in at the root level of the config. Any other files are assumed to
    be plugin specific and will be merged into conf keyed by filename.
-6. **package.json** - If your package.json contains an `etc` key it will be
+4. **package.json** - If your package.json contains an `etc` key it will be
    merged into the conf.
+
+After setup has finished, you can add more configuration either in your
+application or in plugins via `app.conf.add`, `app.conf.set`, or any other
+means of adding configuration that **etc** exposes.
 
 Most applications should just store their configuration in `./etc` and rely
 on plugin defaults and argv for the rest.
