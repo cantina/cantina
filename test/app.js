@@ -7,7 +7,7 @@ var app = require('../'),
 describe('Cantina Application', function () {
 
   before(function (done) {
-    app.setup(function () {
+    app.load(function () {
       done();
     });
   });

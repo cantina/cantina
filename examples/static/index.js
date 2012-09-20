@@ -1,8 +1,8 @@
 var app = require('../../');
 
-// Setup the app. Loads configuration, locates the application root, and loads
+// Load the app. Loads configuration, locates the application root, and loads
 // default core plugins (utils).
-app.setup(function(err) {
+app.load(function(err) {
   if (err) return console.log(err);
 
   // Load plugins.

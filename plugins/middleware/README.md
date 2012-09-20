@@ -17,7 +17,7 @@ Example
 ```js
 var app = require('cantina');
 
-app.setup(function(err) {
+app.load(function(err) {
   if (err) return console.error(err);
 
   // Load plugins.

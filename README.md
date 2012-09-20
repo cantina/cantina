@@ -9,14 +9,14 @@ Example
 ```js
 var app = require('cantina');
 
-// Setup your application
-// ----------------------
+// Load the application
+// --------------------
 // 1. Locates your application root directory (so plugins can reference it).
 // 2. Creates an `etc` configuration object and loads configuration from a
 //    variety of default sources.
 // 3. Loads default core plugin(s): utils
-app.setup(function(err) {
-  // Handle setup errors.
+app.load(function(err) {
+  // Handle load errors.
   if (err) return console.log(err);
 
   // Optionally, add default configuration.
@@ -192,7 +192,7 @@ Configuration
 An important function of Cantina is to centralize your app's configuration.
 
 Cantina delegates to [node-etc](https://www.github.com/cpsubrian/node-etc)
-to handle many different configuration sources. When you call `app.setup()` the
+to handle many different configuration sources. When you call `app.load()` the
 following sources will be automatically checked and loaded (by order of
 precedence):
 
@@ -205,7 +205,7 @@ precedence):
 4. **package.json** - If your package.json contains an `etc` key it will be
    merged into the conf.
 
-After setup has finished, you can add more configuration either in your
+After `app.load()` has finished, you can add more configuration either in your
 application or in plugins via `app.conf.add`, `app.conf.set`, or any other
 means of adding configuration that **etc** exposes.
 

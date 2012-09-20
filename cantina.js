@@ -26,41 +26,43 @@ fs.readdirSync(path.join(__dirname, 'plugins')).forEach(function (plugin) {
 });
 
 /**
- * Setup the app.
+ * Load the application.
  */
-Cantina.prototype.setup = function (root, callback) {
-  this.conf = etc().use(etcYaml).argv().env();
+Cantina.prototype.load = function (root, callback) {
+  var app = this;
+
+  app.conf = etc().use(etcYaml).argv().env();
 
   if (typeof root === 'function') {
     callback = root;
     root = null;
   }
 
-  function _setup (done, err, pkgPath, pkgData) {
-    if (err) return done(err);
+  function setup (err, pkgPath, pkgData) {
+    if (err) return callback(err);
 
     // Set pkg and root paths.
-    this.pkgPath = pkgPath;
-    this.pkgData = pkgData;
-    this.root = path.dirname(pkgPath);
+    app.pkgPath = pkgPath;
+    app.pkgData = pkgData;
+    app.root = path.dirname(pkgPath);
 
     // Add ./etc of parent.
-    this.conf.folder(path.join(this.root, 'etc'));
+    app.conf.folder(path.join(app.root, 'etc'));
 
     // Add package.json of the app.
-    this.conf.pkg(this.pkgPath);
+    app.conf.pkg(app.pkgPath);
 
     // Load the utils plugin.
-    require(this.plugins.utils);
+    require(app.plugins.utils);
 
-    done();
+    callback();
   }
 
   if (root) {
-    findPkg(root, _setup.bind(this, callback));
+    findPkg(root, setup);
   }
   else {
-    findPkg(path.dirname(module.parent.filename), _setup.bind(this, callback));
+    findPkg(path.dirname(module.parent.filename), setup);
   }
 };
 
