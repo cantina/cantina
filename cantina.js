@@ -5,10 +5,6 @@ var EventEmitter = require('events').EventEmitter,
     findPkg = require('witwip'),
     fs = require('fs'),
     path = require('path'),
-    existsSync = fs.existsSync || path.existsSync,
-    async = require('async'),
-    debug = require('debug')('cantina'),
-    semver = require('semver'),
     inherits = require('util').inherits,
     eventflow = require('eventflow');
 

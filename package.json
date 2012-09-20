@@ -15,11 +15,9 @@
   },
   "dependencies": {
     "async": "~0.1.22",
-    "debug": "~0.7.0",
     "etc": "*",
     "etc-yaml": "*",
     "witwip": "~1.0.2",
-    "semver": "1.0.14",
     "middler": "~0.4.5",
     "buffet": "~0.4.3",
     "glob": "~3.1.12",
