@@ -1,5 +1,5 @@
-Cantina
-=======
+Cantina 2.x
+===========
 
 A node.js application framework that leverages the power of a shared event
 emitter, a simple plugin pattern, and a flexible configuration engine.
