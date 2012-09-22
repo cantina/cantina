@@ -169,51 +169,51 @@ Other plugins are available either as part of the cantina family or from 3rd par
 <table>
   <thead><tr><th>Module</th><th>Description</th></tr></thead>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-auth">cantina-amino</a></td>
+    <td><a href="https://github.com/cantina/cantina-auth">cantina&#8209;amino</a></td>
     <td>Wraps <a href="https://github.com/amino/amino">amino</a> to provide automatic clustering to your app</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-auth">cantina-auth</a></td>
+    <td><a href="https://github.com/cantina/cantina-auth">cantina&#8209;auth</a></td>
     <td>Wraps <a href="https://github.com/jaredhanson/passport">passport</a> to provide authentication for your app</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-auth-dummy">cantina-auth-dummy</a></td>
+    <td><a href="https://github.com/cantina/cantina-auth-dummy">cantina&#8209;auth&#8209;dummy</a></td>
     <td>Provides dummy authentication for use in benchmarks and testing</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-auth-facebook">cantina-auth-facebook</a></td>
+    <td><a href="https://github.com/cantina/cantina-auth-facebook">cantina&#8209;auth&#8209;facebook</a></td>
     <td>Provides support for authentication via Facebook</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-auth-freedomworks">cantina-auth-freedomworks</a></td>
+    <td><a href="https://github.com/cantina/cantina-auth-freedomworks">cantina&#8209;auth&#8209;freedomworks</a></td>
     <td>Provides support for authentication via FreedomWorks</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-auth-twitter">cantina-auth-twitter</a></td>
+    <td><a href="https://github.com/cantina/cantina-auth-twitter">cantina&#8209;auth&#8209;twitter</a></td>
     <td>Provides support for authentication via Twitter</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-engine.io">cantina-engine.io</a></td>
+    <td><a href="https://github.com/cantina/cantina-engine.io">cantina&#8209;engine.io</a></td>
     <td>Wraps <a href="https://github.com/carlos8f/engine.oil">engine.oil</a> to provide engine.io support for your app</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-model">cantina-model</a></td>
+    <td><a href="https://github.com/cantina/cantina-model">cantina&#8209;model</a></td>
     <td>Provides a basic Model class to build from</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-redis">cantina-redis</a></td>
+    <td><a href="https://github.com/cantina/cantina-redis">cantina&#8209;redis</a></td>
     <td>Provides an [haredis](https://github.com/carlos8f/haredis) client, RedisModel, RedisCollection, and RedisView classes.</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-session">cantina-session</a></td>
+    <td><a href="https://github.com/cantina/cantina-session">cantina&#8209;session</a></td>
     <td>Adds connect-sesison powered sessions with a redis store to your app</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-user">cantina-user</a></td>
+    <td><a href="https://github.com/cantina/cantina-user">cantina&#8209;user</a></td>
     <td>Provides a simple user model to kick-start your app.</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-views">cantina-views</a></td>
+    <td><a href="https://github.com/cantina/cantina-views">cantina&#8209;views</a></td>
     <td>Wraps <a href="https://github.com/cpsubrian/node-views">views</a> to provide template rendering and partials</td>
   </tr>
 </table>
