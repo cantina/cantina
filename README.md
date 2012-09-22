@@ -202,7 +202,7 @@ Other plugins are available either as part of the cantina family or from 3rd par
   </tr>
   <tr>
     <td><a href="https://github.com/cantina/cantina-redis">cantina&#8209;redis</a></td>
-    <td>Provides an [haredis](https://github.com/carlos8f/haredis) client, RedisModel, RedisCollection, and RedisView classes.</td>
+    <td>Provides a <a href="https://github.com/carlos8f/haredis">haredis</a> client, RedisModel, RedisCollection, and RedisView classes.</td>
   </tr>
   <tr>
     <td><a href="https://github.com/cantina/cantina-session">cantina&#8209;session</a></td>
