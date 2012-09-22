@@ -1,15 +1,34 @@
-var app = require('../'),
-    request = require('superagent'),
+var request = require('superagent'),
     assert = require('assert'),
     path = require('path'),
     port = 5000;
 
 describe('Cantina Application', function () {
+  var app;
 
-  before(function (done) {
-    app.load(function () {
+  beforeEach(function (done) {
+    app = require('../');
+    app.load(function(err) {
+      if (err) return done(err);
+      app.conf.add({
+        http: {port: port, silent: true}
+      });
       done();
     });
+  });
+
+  afterEach(function (done) {
+    delete require.cache[require.resolve('../')];
+    Object.keys(app.plugins).forEach(function(plugin) {
+      var modulePath = require.resolve(app.plugins[plugin]);
+      delete require.cache[modulePath];
+    });
+    if (app.http) {
+      app.http.close(done);
+    }
+    else {
+      done();
+    }
   });
 
   /****************************************************************************/
@@ -47,7 +66,7 @@ describe('Cantina Application', function () {
 
   /****************************************************************************/
   describe('configuration', function () {
-    before(function () {
+    beforeEach(function () {
       app.on('init', function (cb) {
         var prefix = app.conf.get('prefix');
         app.prefix = function (str) {
@@ -80,8 +99,7 @@ describe('Cantina Application', function () {
 
   /****************************************************************************/
   describe('http plugin', function () {
-    before(function (done) {
-      app.conf.add({http: {port: port, silent: true}});
+    beforeEach(function (done) {
       require(app.plugins.http);
       app.init(function () {
         app.http.on('request', function (req, res) {
@@ -90,10 +108,6 @@ describe('Cantina Application', function () {
         });
         done();
       });
-    });
-
-    after(function (done) {
-      app.http.close(done);
     });
 
     it ('can respond to a request', function (done) {
@@ -108,9 +122,9 @@ describe('Cantina Application', function () {
 
   /****************************************************************************/
   describe('middleware plugin', function() {
-    before(function (done) {
+    beforeEach(function (done) {
+      require(app.plugins.http);
       require(app.plugins.middleware);
-
       app.init(function () {
         app.middleware.add(function(req, res, next) {
           res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
@@ -118,10 +132,6 @@ describe('Cantina Application', function () {
         });
         done();
       });
-    });
-
-    after(function(done) {
-      app.http.close(done);
     });
 
     it ('can respond to a request', function(done) {
@@ -136,12 +146,10 @@ describe('Cantina Application', function () {
 
   /****************************************************************************/
   describe('static plugin', function() {
-    before(function() {
+    beforeEach(function() {
+      require(app.plugins.http);
+      require(app.plugins.middleware);
       require(app.plugins.static);
-    });
-
-    afterEach(function(done) {
-      app.http.close(done);
     });
 
     it('can serve static files from default root', function(done) {
@@ -196,7 +204,9 @@ describe('Cantina Application', function () {
 
   /****************************************************************************/
   describe('controllers plugin', function () {
-    before(function (done) {
+    beforeEach(function (done) {
+      require(app.plugins.http);
+      require(app.plugins.middleware);
       require(app.plugins.controllers);
 
       app.on('init', function () {
@@ -213,10 +223,6 @@ describe('Cantina Application', function () {
       });
 
       app.init(done);
-    });
-
-    after(function (done) {
-      app.http.close(done);
     });
 
     it ('get /posts', function (done) {

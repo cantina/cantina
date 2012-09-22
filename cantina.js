@@ -13,6 +13,7 @@ var EventEmitter = require('events').EventEmitter,
  */
 function Cantina() {
   EventEmitter.call(this);
+  this.setMaxListeners(0);
 }
 inherits(Cantina, EventEmitter);
 eventflow(Cantina);
