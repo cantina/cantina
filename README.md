@@ -166,23 +166,54 @@ Available Plugins
 -----------------
 Other plugins are available either as part of the cantina family or from 3rd parties.
 
-TODO: Update this table.
-
 <table>
-  <thead><tr><th>Module</th><th>Name</th><th>Description</th></tr></thead>
+  <thead><tr><th>Module</th><th>Description</th></tr></thead>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-auth/tree/1.x">cantina-auth</a></td>
-    <td>auth</td>
+    <td><a href="https://github.com/cantina/cantina-auth">cantina-amino</a></td>
+    <td>Wraps <a href="https://github.com/amino/amino">amino</a> to provide automatic clustering to your app</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina-auth">cantina-auth</a></td>
     <td>Wraps <a href="https://github.com/jaredhanson/passport">passport</a> to provide authentication for your app</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-session/tree/1.x">cantina-session</a></td>
-    <td>session</td>
+    <td><a href="https://github.com/cantina/cantina-auth-dummy">cantina-auth-dummy</a></td>
+    <td>Provides dummy authentication for use in benchmarks and testing</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina-auth-facebook">cantina-auth-facebook</a></td>
+    <td>Provides support for authentication via Facebook</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina-auth-freedomworks">cantina-auth-freedomworks</a></td>
+    <td>Provides support for authentication via FreedomWorks</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina-auth-twitter">cantina-auth-twitter</a></td>
+    <td>Provides support for authentication via Twitter</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina-engine.io">cantina-engine.io</a></td>
+    <td>Wraps <a href="https://github.com/carlos8f/engine.oil">engine.oil</a> to provide engine.io support for your app</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina-model">cantina-model</a></td>
+    <td>Provides a basic Model class to build from</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina-redis">cantina-redis</a></td>
+    <td>Provides an [haredis](https://github.com/carlos8f/haredis) client, RedisModel, RedisCollection, and RedisView classes.</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina-session">cantina-session</a></td>
     <td>Adds connect-sesison powered sessions with a redis store to your app</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/cantina/cantina-views/tree/1.x">cantina-views</a></td>
-    <td>views</td>
+    <td><a href="https://github.com/cantina/cantina-user">cantina-user</a></td>
+    <td>Provides a simple user model to kick-start your app.</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/cantina/cantina-views">cantina-views</a></td>
     <td>Wraps <a href="https://github.com/cpsubrian/node-views">views</a> to provide template rendering and partials</td>
   </tr>
 </table>
@@ -212,12 +243,21 @@ means of adding configuration that **etc** exposes.
 Most applications should just store their configuration in `./etc` and rely
 on plugin defaults and argv for the rest.
 
+Use Events, Silly
+-----------------
+Events should be your go-to solution for organizing and implementing your
+application logic. To that end, Cantina uses [EventFlow](https://github.com/cpsubrian/node-eventflow)
+internally to handle flow control for the `init` and `ready` events. You can
+use it in your plugins too!
+
+EventFlow exposes `app.series`, `app.parallel`, and `app.invoke`: three
+powerful ways to use special kinds of event listeners. Head on over to the
+EventFlow docs to learn more.
+
 More Examples
 -------------
 Sample applications an be found in the [./examples](https://github.com/cantina/cantina/tree/2.x/examples)
 folder.
-
-
 
 - - -
 
