@@ -1,5 +1,5 @@
 var app = require('../../')
-  , resolve = require('path')
+  , resolve = require('path').resolve
 
 app.conf.add({
   controllers: {
