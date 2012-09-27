@@ -11,10 +11,10 @@ app.controllers = [];
 app.controller = app.middler;
 
 app.controllers.load = function (dir, parent) {
-  dir || (dir = app.conf.get('controllers').path);
+  dir || (dir = resolve(app.root, app.conf.get('controllers').path));
   parent || (parent = app.middleware);
   app.utils.glob.sync(dir + '/**.js').forEach(function (file) {
-    var controller = require(resolve(__dirname, file));
+    var controller = require(file);
     if (controller.handler) {
       app.controllers.push(controller);
     }
