@@ -8,9 +8,7 @@ app.conf.add({
   }
 });
 
-app.on('init', function() {
-  app.http = http.createServer();
-});
+app.http = http.createServer();
 
 app.on('ready', function() {
   var conf = app.conf.get('http');
