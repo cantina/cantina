@@ -13,13 +13,17 @@ app.controller = app.middler;
 app.controllers.load = function (dir, parent) {
   dir || (dir = resolve(app.root, app.conf.get('controllers').path));
   parent || (parent = app.middleware);
-  app.utils.glob.sync(dir + '/**.js').forEach(function (file) {
+  var controllers = [];
+  app.utils.glob.sync(dir + '/**/*.js').forEach(function (file) {
     var controller = require(file);
     if (controller.handler) {
-      app.controllers.push(controller);
+      controllers.push(controller);
     }
   });
-  app.controllers.forEach(function (controller) {
+  if (app.controllers.length) {
+    controllers = controllers.concat(app.controllers.splice(0));
+  }
+  controllers.forEach(function (controller) {
     parent.add(controller.handler);
   });
 };
