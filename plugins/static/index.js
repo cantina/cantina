@@ -26,5 +26,5 @@ app.on('init', function () {
     app.middleware.last(buffetMiddleware.notFound);
   }
 
-  app.buffet = buffetMiddleware;
+  app.buffet = buffet;
 });
