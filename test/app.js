@@ -208,24 +208,10 @@ describe('Cantina Application', function () {
       require(app.plugins.http);
       require(app.plugins.middleware);
       require(app.plugins.controllers);
-
-      app.on('init', function () {
-        var controller = app.controller();
-        controller.get('/posts', function (req, res, next) {
-          res.writeHead(200, {'Content-Type': 'text/plain'});
-          res.end('list posts');
-        });
-        controller.post('/posts', function (req, res, next) {
-          res.writeHead(200, {'Content-Type': 'text/plain'});
-          res.end('create new post');
-        });
-        app.controllers.push(controller);
-      });
-
       app.init(done);
     });
 
-    it ('get /posts', function (done) {
+    it('get /posts', function (done) {
       request.get('http://localhost:' + port + '/posts', function (res) {
         assert.equal(res.statusCode, 200);
         assert.equal(res.headers['content-type'], 'text/plain');
@@ -234,11 +220,29 @@ describe('Cantina Application', function () {
       });
     });
 
-    it ('post /posts', function (done) {
+    it('get /posts?alt', function (done) {
+      request.get('http://localhost:' + port + '/posts?alt', function (res) {
+        assert.equal(res.statusCode, 200);
+        assert.equal(res.headers['content-type'], 'text/plain');
+        assert.equal(res.text, 'list alt posts');
+        done();
+      });
+    });
+
+    it('post /posts', function (done) {
       request.post('http://localhost:' + port + '/posts', function (res) {
         assert.equal(res.statusCode, 200);
         assert.equal(res.headers['content-type'], 'text/plain');
         assert.equal(res.text, 'create new post');
+        done();
+      });
+    });
+
+    it('post /posts?alt', function (done) {
+      request.post('http://localhost:' + port + '/posts?alt', function (res) {
+        assert.equal(res.statusCode, 200);
+        assert.equal(res.headers['content-type'], 'text/plain');
+        assert.equal(res.text, 'create new alt post');
         done();
       });
     });
