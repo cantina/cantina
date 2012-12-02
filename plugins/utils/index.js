@@ -15,14 +15,31 @@ app.utils.clone = require('clone');
 app.utils.defaults = function (deep, obj, defaults) {
   var copy;
 
+  // Shallow.
   if (arguments.length === 2) {
     defaults = obj;
     obj = deep;
     deep = false;
   }
 
+  // Support arbitrary number of defaults objects.
+  if (arguments.length > 2) {
+    var mixins = Array.prototype.slice.call(arguments, (deep === true) ? 2 : 1);
+    if (mixins.length > 1) {
+      mixins.forEach(function (mixin) {
+        if (deep === true) {
+          app.utils.defaults(true, obj, mixin);
+        }
+        else {
+          app.utils.defaults(obj, mixin);
+        }
+      });
+      return obj;
+    }
+  }
+
   // Clone the defaults so we dont transfer any properties by reference.
-  if (deep) {
+  if (deep === true) {
     copy = app.utils.clone(defaults);
   }
   else {
