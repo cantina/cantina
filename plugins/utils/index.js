@@ -16,7 +16,7 @@ app.utils.defaults = function (deep, obj, defaults) {
   var copy;
 
   // Shallow.
-  if (arguments.length === 2) {
+  if (deep !== true) {
     defaults = obj;
     obj = deep;
     deep = false;
@@ -47,11 +47,21 @@ app.utils.defaults = function (deep, obj, defaults) {
   }
 
   Object.keys(copy).forEach(function(key) {
-    if (deep && (typeof obj[key] === 'object') && (typeof copy[key] === 'object')) {
+    // Only dive into object literals.
+    if (deep && app.utils.isObjectLiteral(obj[key]) && app.utils.isObjectLiteral(copy[key])) {
       app.utils.defaults(deep, obj[key], copy[key]);
     }
     else if (!obj.hasOwnProperty(key)) {
       obj[key] = copy[key];
     }
   });
+
+  return obj;
+};
+
+/**
+ * Check if an object is an object literal.
+ */
+app.utils.isObjectLiteral = function (obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]';
 };
