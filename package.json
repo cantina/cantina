@@ -1,0 +1,12 @@
+{
+  "name": "cantina",
+  "description": "An application bootstrapper and plugin framework.",
+  "version": "0.0.0",
+  "main": "./cantina.js",
+  "dependencies": {
+    "eventflow": "~0.0.10"
+  },
+  "devDependencies": {
+    "mocha": "~1.8.1"
+  }
+}
