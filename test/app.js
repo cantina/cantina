@@ -149,10 +149,10 @@ describe('Cantina Application', function () {
     beforeEach(function() {
       require(app.plugins.http);
       require(app.plugins.middleware);
-      require(app.plugins.static);
     });
 
     it('can serve static files from default root', function(done) {
+      require(app.plugins.static);
       app.init(function (err) {
         assert.ifError(err);
         request.get('http://localhost:' + port + '/', function(res) {
@@ -166,6 +166,7 @@ describe('Cantina Application', function () {
 
     it('can serve static files from an alternative root', function(done) {
       app.conf.set('static:path', './public-alt');
+      require(app.plugins.static);
       app.init(function(err) {
         assert.ifError(err);
         request.get('http://localhost:' + port + '/hello.txt', function(res) {
@@ -180,6 +181,7 @@ describe('Cantina Application', function () {
     it('can serve static files from an absolute root', function(done) {
       var root = path.join(__dirname, 'public-alt');
       app.conf.set('static:path', root);
+      require(app.plugins.static);
       app.init(function(err) {
         assert.ifError(err);
         request.get('http://localhost:' + port + '/hello.txt', function(res) {
@@ -192,6 +194,7 @@ describe('Cantina Application', function () {
     });
 
     it('can serve a 404', function(done) {
+      require(app.plugins.static);
       app.init(function(err, app) {
         assert.ifError(err);
         request.get('http://localhost:' + port + '/nothere', function(res) {
