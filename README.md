@@ -156,10 +156,6 @@ Cantina ships with a few core plugins that most web-apps need to get started.
     <td><a href="https://github.com/cantina/cantina/tree/2.x/plugins/controllers">controllers</a></td>
     <td>Route URL paths to your app logic</td>
   </tr>
-  <tr>
-    <td><a href="https://github.com/cantina/cantina/tree/2.x/plugins/utils">utils</a></td>
-    <td>Exposes `app.utils` which is a collection of useful methods and third-party modules.</td>
-  </tr>
 </table>
 
 Available Plugins

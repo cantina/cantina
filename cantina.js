@@ -53,9 +53,6 @@ Cantina.prototype.load = function (root, callback) {
     // Add package.json of the app.
     app.conf.pkg(app.pkgPath);
 
-    // Load the utils plugin.
-    require(app.plugins.utils);
-
     callback();
   }
 

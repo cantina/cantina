@@ -1,5 +1,6 @@
 var app = require('../../')
   , resolve = require('path').resolve
+  , glob = require('glob');
 
 app.conf.add({
   controllers: {
@@ -11,10 +12,10 @@ app.controllers = [];
 app.controller = app.middler;
 
 app.controllers.load = function (dir, parent) {
-  dir || (dir = resolve(app.root, app.conf.get('controllers').path));
-  parent || (parent = app.middleware);
+  if (!dir) dir = resolve(app.root, app.conf.get('controllers').path);
+  if (!parent) parent = app.middleware;
   var controllers = [];
-  app.utils.glob.sync(dir + '/**/*.js').forEach(function (file) {
+  glob.sync(dir + '/**/*.js').forEach(function (file) {
     var controller = require(file);
     if (controller.handler) {
       controllers.push(controller);
