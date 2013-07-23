@@ -78,10 +78,17 @@ app.start = function (callback) {
 /**
  * Helper to load 'plugins' from a directory.
  */
-app.load = function (dir, cwd, callback) {
+app.load = function (dir, cwd) {
   cwd = cwd || app.root;
-  return glob.sync(dir + '/**.js', {cwd: cwd}).map(function (p) {
-    return require(resolve(cwd, p));
+
+  // Load .js files in the directory.
+  glob.sync(dir + '/*.js', {cwd: cwd}).forEach(function (p) {
+    require(path.resolve(cwd, p));
+  });
+
+  // Load index.js files one level down.
+  glob.sync(dir + '/**/index.js', {cwd: cwd}).forEach(function (p) {
+    require(path.resolve(cwd, p));
   });
 };
 

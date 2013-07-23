@@ -78,4 +78,14 @@ describe('Cantina Application', function () {
     });
   });
 
+  describe('load', function () {
+
+    it('can load plugins relative to app.root', function () {
+      app.load('testPlugins');
+      assert(app.folderLoaded);
+      assert(app.pluginLoaded);
+    });
+
+  });
+
 });
