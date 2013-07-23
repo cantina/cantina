@@ -4,7 +4,6 @@ var EventEmitter = require('events').EventEmitter
   , etcYaml = require('etc-yaml')
   , witwip = require('witwip')
   , path = require('path')
-  , inherits = require('util').inherits
   , glob = require('glob')
   , createHooks = require('stact-hooks');
 
