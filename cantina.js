@@ -18,6 +18,12 @@ app.setMaxListeners(0);
 // Create a hooks stack.
 app.hooks = createHooks();
 
+// Expose basic logging.
+app.log = console.log;
+app.log.error = console.error;
+app.log.info = console.log;
+app.log.warn = console.warn;
+
 /**
  * Boot the application.
  */
