@@ -4,7 +4,7 @@ Cantina
 A node.js application framework that leverages the power of a shared event
 emitter, a simple plugin pattern, and a flexible configuration engine.
 
-Current Version: 3.x
+**Current Version:** `3.x`
 
 Example
 -------
