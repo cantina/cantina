@@ -1,35 +1,28 @@
 // Modules dependencies.
-var EventEmitter = require('events').EventEmitter,
-    etc = require('etc'),
-    etcYaml = require('etc-yaml'),
-    findPkg = require('witwip'),
-    fs = require('fs'),
-    path = require('path'),
-    inherits = require('util').inherits,
-    eventflow = require('eventflow');
+var EventEmitter = require('events').EventEmitter
+  , etc = require('etc')
+  , etcYaml = require('etc-yaml')
+  , witwip = require('witwip')
+  , path = require('path')
+  , inherits = require('util').inherits
+  , glob = require('glob')
+  , createHooks = require('stact-hooks');
 
 /**
- * Cantina application class.
+ * Create and export the app object.
  */
-function Cantina() {
-  EventEmitter.call(this);
-  this.setMaxListeners(0);
-}
-inherits(Cantina, EventEmitter);
-eventflow(Cantina);
+var app = module.exports = new EventEmitter();
+
+// Set max listeners.
+app.setMaxListeners(0);
+
+// Create a hooks stack.
+app.hooks = createHooks();
 
 /**
- * Expose the paths to Cantina's core plugins.
+ * Boot the application.
  */
-Cantina.prototype.plugins = {};
-fs.readdirSync(path.join(__dirname, 'plugins')).forEach(function (plugin) {
-  Cantina.prototype.plugins[path.basename(plugin)] = path.join(__dirname, 'plugins', plugin);
-});
-
-/**
- * Load the application.
- */
-Cantina.prototype.load = function (root, callback) {
+app.boot = function (root, callback) {
   var app = this;
 
   app.conf = etc().use(etcYaml).argv().env();
@@ -57,49 +50,55 @@ Cantina.prototype.load = function (root, callback) {
   }
 
   if (root) {
-    findPkg(root, setup);
+    witwip(root, setup);
   }
   else {
-    findPkg(path.dirname(module.parent.filename), setup);
+    witwip(path.dirname(module.parent.filename), setup);
   }
 };
 
 /**
- * Initialize the app.
+ * 'Start' the application.
  */
-Cantina.prototype.init = function (callback) {
-  var app = this;
-
-  // Default error handler.
-  if (!app.listeners('error').length) {
-    app.on('error', function(err) {
-      console.error(err);
+app.start = function (callback) {
+  callback = callback || function startCallback (err) {
+    if (!err) return;
+    app.hooks('error').run(err, function startError (hookErr) {
+      app.emit('error', hookErr || err);
     });
-  }
+  };
 
-  // Run plugin 'init' and 'ready' listeners.
-  app.series('init', function (err) {
-    if (err) {
-      if (callback)
-        callback(err);
-      else
-        app.emit('error', err);
-    }
-    else {
-      app.series('ready', function(err) {
-        if (err) {
-          if (callback)
-            callback(err);
-          else
-            app.emit('error', err);
-        }
-        else if (callback) {
-          callback();
-        }
-      });
-    }
+  // Run 'start' and 'started' hooks.
+  app.hooks('start').runSeries(function (err) {
+    if (err) return callback(err);
+    app.hooks('started').run(callback);
   });
 };
 
-// Export a Cantina instance.
-module.exports = new Cantina();
+/**
+ * Helper to load 'plugins' from a directory.
+ */
+app.load = function (dir, cwd, callback) {
+  cwd = cwd || app.root;
+  return glob.sync(dir + '/**.js', {cwd: cwd}).map(function (p) {
+    return require(resolve(cwd, p));
+  });
+};
+
+/**
+ * Helper to destroy the app.
+ */
+app.destroy = function (callback) {
+  // Run 'destroy' hooks.
+  app.hooks('destroy').runSeries(function (err) {
+    if (err) return callback(err);
+
+    // Clear the require cache.
+    Object.keys(require.cache).forEach(function (key) {
+      delete require.cache[key];
+    });
+
+    callback();
+  });
+};
+
