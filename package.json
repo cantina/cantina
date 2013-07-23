@@ -14,7 +14,7 @@
     "test": "./node_modules/.bin/mocha -R spec"
   },
   "dependencies": {
-    "etc": "~0.2.2",
+    "etc": "~0.3.0",
     "etc-yaml": "~0.0.4",
     "witwip": "~1.0.3",
     "glob": "~3.2.3",
