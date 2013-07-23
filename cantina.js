@@ -63,9 +63,7 @@ app.boot = function (root, callback) {
 app.start = function (callback) {
   callback = callback || function startCallback (err) {
     if (!err) return;
-    app.hooks('error').run(err, function startError (hookErr) {
-      app.emit('error', hookErr || err);
-    });
+    app.emit('error', err);
   };
 
   // Run 'start' and 'started' hooks.
