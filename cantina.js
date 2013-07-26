@@ -16,7 +16,7 @@ var app = module.exports = new EventEmitter();
 app.setMaxListeners(0);
 
 // Create a hooks stack.
-app.hooks = createHooks();
+app.hook = createHooks();
 
 // Expose basic logging.
 app.log = console.log;
@@ -72,9 +72,9 @@ app.start = function (callback) {
   };
 
   // Run 'start' and 'started' hooks.
-  app.hooks('start').runSeries(function (err) {
+  app.hook('start').runSeries(function (err) {
     if (err) return callback(err);
-    app.hooks('started').run(callback);
+    app.hook('started').run(callback);
   });
 };
 
@@ -104,7 +104,7 @@ app.load = function (dir, cwd) {
  */
 app.destroy = function (callback) {
   // Run 'destroy' hooks.
-  app.hooks('destroy').runSeries(function (err) {
+  app.hook('destroy').runSeries(function (err) {
     if (err) return callback(err);
 
     // Clear the require cache.

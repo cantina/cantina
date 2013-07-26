@@ -31,7 +31,7 @@ describe('Cantina Application', function () {
 
     it('catches init error', function (done) {
       var caught = false;
-      app.hooks('start').add(function (next) {
+      app.hook('start').add(function (next) {
         if (!caught)
           next(new Error('whoops'));
         else
@@ -48,7 +48,7 @@ describe('Cantina Application', function () {
 
   describe('configuration', function () {
     beforeEach(function () {
-      app.hooks('start').add(function (next) {
+      app.hook('start').add(function (next) {
         var prefix = app.conf.get('prefix');
         app.prefix = function (str) {
           return prefix + str;

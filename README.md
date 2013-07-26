@@ -115,7 +115,7 @@ app.on('create:circle', function(options) {
 // Add a 'start' hook.
 // Hooks run asynchronously, so if you setup requires hitting a database or doing
 // other asynchronous work, you should do that here.
-app.hooks('start').add(function (next) {
+app.hook('start').add(function (next) {
   app.db.loadCircles(function(err, circles) {
     if (err) return next(err);
     circles.forEach(function(circle) {
@@ -126,7 +126,7 @@ app.hooks('start').add(function (next) {
 });
 
 // Add a 'destroy' hook.
-app.hooks('destroy').add(function (next) {
+app.hook('destroy').add(function (next) {
   // Clean-up if the app is destroyed.
   next();
 })
@@ -161,7 +161,7 @@ Events and Hooks
 -----------------
 Events and hooks should be your go-to solutions for organizing and implementing
 application logic. Use `app.on()` and `app.emit()` when you want to deal with
-synchronous tasks. `app.hooks()` exposes an api for registering asynchronous
+synchronous tasks. `app.hook()` exposes an api for registering asynchronous
 tasks. It is powered by [stact-hooks](https://github.com/cpsubrian/node-stact-hooks).
 
 - - -
