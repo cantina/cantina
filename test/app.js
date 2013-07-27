@@ -1,37 +1,20 @@
-var request = require('superagent'),
-    assert = require('assert'),
-    path = require('path'),
-    port = 5000;
+var assert = require('assert');
 
 describe('Cantina Application', function () {
   var app;
 
   beforeEach(function (done) {
     app = require('../');
-    app.load(function(err) {
+    app.boot(function(err) {
       if (err) return done(err);
-      app.conf.add({
-        http: {port: port, silent: true}
-      });
-      done();
+      done(err);
     });
   });
 
   afterEach(function (done) {
-    delete require.cache[require.resolve('../')];
-    Object.keys(app.plugins).forEach(function(plugin) {
-      var modulePath = require.resolve(app.plugins[plugin]);
-      delete require.cache[modulePath];
-    });
-    if (app.http) {
-      app.http.close(done);
-    }
-    else {
-      done();
-    }
+    app.destroy(done);
   });
 
-  /****************************************************************************/
   describe('error', function () {
     it('can listen for runtime error', function (done) {
       app.on('error', function (err) {
@@ -43,18 +26,18 @@ describe('Cantina Application', function () {
         app.emit('error', new Error('geez'));
       }, 100);
 
-      app.init(assert.ifError);
+      app.start(assert.ifError);
     });
 
     it('catches init error', function (done) {
       var caught = false;
-      app.on('init', function (cb) {
+      app.hook('start').add(function (next) {
         if (!caught)
-          cb(new Error('whoops'));
+          next(new Error('whoops'));
         else
-          cb();
+          next();
       });
-      app.init(function (err) {
+      app.start(function (err) {
         assert(err);
         assert.equal(err.message, 'whoops');
         caught = true;
@@ -63,16 +46,14 @@ describe('Cantina Application', function () {
     });
   });
 
-
-  /****************************************************************************/
   describe('configuration', function () {
     beforeEach(function () {
-      app.on('init', function (cb) {
+      app.hook('start').add(function (next) {
         var prefix = app.conf.get('prefix');
         app.prefix = function (str) {
           return prefix + str;
         };
-        cb();
+        next();
       });
     });
 
@@ -80,7 +61,7 @@ describe('Cantina Application', function () {
       app.conf.add({
         prefix: 'wuzzup '
       });
-      app.init(function (err) {
+      app.start(function (err) {
         assert.ifError(err);
         assert.equal(app.prefix('world'), 'wuzzup world', 'The prefix was not added correctly');
         done();
@@ -89,7 +70,7 @@ describe('Cantina Application', function () {
 
     it('uses configuration specified with `app.conf().set`', function (done) {
       app.conf.set('prefix', 'hi ');
-      app.init(function (err) {
+      app.start(function (err) {
         assert.ifError(err);
         assert.equal(app.prefix('world'), 'hi world', 'The prefix was not added correctly');
         done();
@@ -97,236 +78,13 @@ describe('Cantina Application', function () {
     });
   });
 
-  /****************************************************************************/
-  describe('http plugin', function () {
-    beforeEach(function (done) {
-      require(app.plugins.http);
-      app.init(function () {
-        app.http.on('request', function (req, res) {
-          res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
-          res.end('hello world');
-        });
-        done();
-      });
-    });
-
-    it ('can respond to a request', function (done) {
-      request.get('http://localhost:' + port + '/', function (res) {
-        assert.equal(res.statusCode, 200);
-        assert.equal(res.headers['content-type'], 'text/plain; charset=utf-8');
-        assert.equal(res.text, 'hello world');
-        done();
-      });
+  describe('load', function () {
+    it('can load plugins relative to app.root', function () {
+      var modules = app.load('testPlugins');
+      assert(app.folderLoaded);
+      assert(app.pluginLoaded);
+      assert(modules.length, 2);
     });
   });
-
-  /****************************************************************************/
-  describe('middleware plugin', function() {
-    beforeEach(function (done) {
-      require(app.plugins.http);
-      require(app.plugins.middleware);
-      app.init(function () {
-        app.middleware.add(function(req, res, next) {
-          res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
-          res.end('hello world');
-        });
-        done();
-      });
-    });
-
-    it ('can respond to a request', function(done) {
-      request.get('http://localhost:' + port + '/', function(res) {
-        assert.equal(res.statusCode, 200);
-        assert.equal(res.headers['content-type'], 'text/plain; charset=utf-8');
-        assert.equal(res.text, 'hello world');
-        done();
-      });
-    });
-  });
-
-  /****************************************************************************/
-  describe('static plugin', function() {
-    beforeEach(function() {
-      require(app.plugins.http);
-      require(app.plugins.middleware);
-      require(app.plugins.static);
-    });
-
-    it('can serve static files from default root', function(done) {
-      app.init(function (err) {
-        assert.ifError(err);
-        request.get('http://localhost:' + port + '/', function(res) {
-          assert.equal(res.statusCode, 200);
-          assert.equal(res.headers['content-type'], 'text/html');
-          assert.equal(res.text, 'hello world');
-          done();
-        });
-      });
-    });
-
-    it('can serve static files from an alternative root', function(done) {
-      app.conf.set('static:path', './public-alt');
-      app.init(function(err) {
-        assert.ifError(err);
-        request.get('http://localhost:' + port + '/hello.txt', function(res) {
-          assert.equal(res.statusCode, 200);
-          assert.equal(res.headers['content-type'], 'text/plain');
-          assert.equal(res.text, 'world');
-          done();
-        });
-      });
-    });
-
-    it('can serve static files from an absolute root', function(done) {
-      var root = path.join(__dirname, 'public-alt');
-      app.conf.set('static:path', root);
-      app.init(function(err) {
-        assert.ifError(err);
-        request.get('http://localhost:' + port + '/hello.txt', function(res) {
-          assert.equal(res.statusCode, 200);
-          assert.equal(res.headers['content-type'], 'text/plain');
-          assert.equal(res.text, 'world');
-          done();
-        });
-      });
-    });
-
-    it('can serve a 404', function(done) {
-      app.init(function(err, app) {
-        assert.ifError(err);
-        request.get('http://localhost:' + port + '/nothere', function(res) {
-          assert.equal(res.statusCode, 404);
-          done();
-        });
-      });
-    });
-  });
-
-  /****************************************************************************/
-  describe('controllers plugin', function () {
-    beforeEach(function (done) {
-      require(app.plugins.http);
-      require(app.plugins.middleware);
-      require(app.plugins.controllers);
-      app.init(done);
-    });
-
-    it('get /posts', function (done) {
-      request.get('http://localhost:' + port + '/posts', function (res) {
-        assert.equal(res.statusCode, 200);
-        assert.equal(res.headers['content-type'], 'text/plain');
-        assert.equal(res.text, 'list posts');
-        done();
-      });
-    });
-
-    it('get /posts?alt', function (done) {
-      request.get('http://localhost:' + port + '/posts?alt', function (res) {
-        assert.equal(res.statusCode, 200);
-        assert.equal(res.headers['content-type'], 'text/plain');
-        assert.equal(res.text, 'list alt posts');
-        done();
-      });
-    });
-
-    it('post /posts', function (done) {
-      request.post('http://localhost:' + port + '/posts', function (res) {
-        assert.equal(res.statusCode, 200);
-        assert.equal(res.headers['content-type'], 'text/plain');
-        assert.equal(res.text, 'create new post');
-        done();
-      });
-    });
-
-    it('post /posts?alt', function (done) {
-      request.post('http://localhost:' + port + '/posts?alt', function (res) {
-        assert.equal(res.statusCode, 200);
-        assert.equal(res.headers['content-type'], 'text/plain');
-        assert.equal(res.text, 'create new alt post');
-        done();
-      });
-    });
-  });
-
-/****************************************************************************/
-describe('utils plugin', function () {
-  beforeEach(function (done) {
-    app.init(done);
-  });
-
-  it('can use app.utils.defaults()', function () {
-    var obj = {
-      a: 'A',
-      b: 'B'
-    };
-    var defaults = {
-      b: 'F',
-      c: 'C'
-    };
-    app.utils.defaults(obj, defaults);
-    assert.deepEqual(obj, {
-      a: 'A',
-      b: 'B',
-      c: 'C'
-    });
-  });
-
-  it('can use app.utils.defaults(true) (Deep)', function () {
-    var obj = {
-      a: 'A',
-      b: {
-        c: 'C',
-        d: 'D'
-      }
-    };
-    var defaults = {
-      b: {
-        d: 'P',
-        e: 'E'
-      },
-      f: 'F'
-    };
-    app.utils.defaults(true, obj, defaults);
-    assert.deepEqual(obj, {
-      a: 'A',
-      b: {
-        c: 'C',
-        d: 'D',
-        e: 'E'
-      },
-      f: 'F'
-    });
-  });
-
-  it('can call app.utils.defaults() with more than one defaults', function () {
-    var obj = {
-      a: 'A'
-    };
-    var one = {
-      b: 'B',
-      c: {
-        d: 'D'
-      }
-    };
-    var two = {
-      e: 'E'
-    };
-    var three = {
-      c: {
-        f: 'F'
-      }
-    };
-    app.utils.defaults.apply(app.utils, [true, obj, one, two, three]);
-    assert.deepEqual(obj, {
-      a: 'A',
-      b: 'B',
-      c: {
-        d: 'D',
-        f: 'F'
-      },
-      e: 'E'
-    });
-  });
-});
 
 });
