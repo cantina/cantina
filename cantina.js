@@ -116,3 +116,13 @@ app.destroy = function (callback) {
   });
 };
 
+/**
+ * 'Silence' the app.
+ */
+app.silence = function () {
+  app.log = function () {};
+  app.log.error = app.log;
+  app.log.info = app.log;
+  app.log.warn = app.log;
+};
+
