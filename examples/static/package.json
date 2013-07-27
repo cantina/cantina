@@ -1,6 +1,0 @@
-{
-  "name": "cantina-example-static",
-  "description": "Example cantina static file server",
-  "version": "2.0.0",
-  "private": true
-}
