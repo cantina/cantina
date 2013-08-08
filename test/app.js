@@ -83,8 +83,9 @@ describe('Cantina Application', function () {
       var modules = app.load('testPlugins');
       assert(app.folderLoaded);
       assert(app.pluginLoaded);
-      assert(modules.length, 2);
+      assert(modules.folder);
+      assert(modules.plugin);
+      assert(Object.keys(modules).length, 2);
     });
   });
-
 });

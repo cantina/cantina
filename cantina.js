@@ -79,22 +79,22 @@ app.start = function (callback) {
 };
 
 /**
- * Helper to load 'plugins' from a directory.
+ * Helper to load modules from a directory.
  */
 app.load = function (dir, cwd) {
-  var modules;
+  var modules = {};
 
   cwd = cwd || app.root;
 
   // Load .js files in the directory.
-  modules = glob.sync(dir + '/*.js', {cwd: cwd}).map(function (p) {
-    return require(path.resolve(cwd, p));
+  glob.sync(dir + '/*.js', {cwd: cwd}).forEach(function (p) {
+    modules[path.basename(p, '.js')] = require(path.resolve(cwd, p));
   });
 
   // Load index.js files one level down.
-  modules = modules.concat(glob.sync(dir + '/**/index.js', {cwd: cwd}).map(function (p) {
-    return require(path.resolve(cwd, p));
-  }));
+  glob.sync(dir + '/**/index.js', {cwd: cwd}).forEach(function (p) {
+    modules[path.dirname(p).split('/').pop()] = require(path.resolve(cwd, p));
+  });
 
   return modules;
 };
