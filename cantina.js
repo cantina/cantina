@@ -120,9 +120,12 @@ app.destroy = function (callback) {
  * 'Silence' the app.
  */
 app.silence = function () {
+  var noops = Object.keys(app.log).filter(function (prop) {
+    return Object.hasOwnProperty.call(app.log, prop) && typeof app.log[prop] === 'function';
+  });
   app.log = function () {};
-  app.log.error = app.log;
-  app.log.info = app.log;
-  app.log.warn = app.log;
+  noops.forEach(function (noop) {
+    app.log[noop] = app.log;
+  });
 };
 
