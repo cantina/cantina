@@ -121,7 +121,7 @@ app.destroy = function (callback) {
  */
 app.silence = function () {
   var noops = Object.keys(app.log).filter(function (prop) {
-    return Object.hasOwnProperty.call(app.log, prop) && typeof app.log[prop] === 'function';
+    return typeof app.log[prop] === 'function';
   });
   app.log = function () {};
   noops.forEach(function (noop) {
