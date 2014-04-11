@@ -2,7 +2,7 @@
   "author": "Brian Link <cpubrian@gmail.com>",
   "name": "cantina",
   "description": "An application bootstrapper and plugin framework.",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "homepage": "http://cantina.guthub.com",
   "repository": {
     "type": "git",
