@@ -20,7 +20,8 @@
     "etc-yaml": "~0.0.4",
     "witwip": "~1.0.3",
     "glob": "~4.0.2",
-    "stact-hooks": "~0.0.3"
+    "stact-hooks": "~0.0.3",
+    "caller-id": "^0.1.0"
   },
   "devDependencies": {
     "mocha": "~1.20.0"

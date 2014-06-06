@@ -5,6 +5,7 @@ var EventEmitter = require('events').EventEmitter
   , witwip = require('witwip')
   , path = require('path')
   , glob = require('glob')
+  , callerId = require('caller-id')
   , createHooks = require('stact-hooks');
 
 /**
@@ -63,7 +64,7 @@ app.boot = function (root, callback) {
 };
 
 /**
- * 'Start' the application.
+ * Start the application.
  */
 app.start = function (callback) {
   callback = callback || function startCallback (err) {
@@ -79,28 +80,7 @@ app.start = function (callback) {
 };
 
 /**
- * Helper to load modules from a directory.
- */
-app.load = function (dir, cwd) {
-  var modules = {};
-
-  cwd = cwd || app.root;
-
-  // Load .js files in the directory.
-  glob.sync(dir + '/*.js', {cwd: cwd}).forEach(function (p) {
-    modules[path.basename(p, '.js')] = require(path.resolve(cwd, p));
-  });
-
-  // Load index.js files one level down.
-  glob.sync(dir + '/**/index.js', {cwd: cwd}).forEach(function (p) {
-    modules[path.dirname(p).split('/').pop()] = require(path.resolve(cwd, p));
-  });
-
-  return modules;
-};
-
-/**
- * Helper to destroy the app.
+ * Destroy the app.
  */
 app.destroy = function (callback) {
   // Run 'destroy' hooks.
@@ -129,3 +109,66 @@ app.silence = function () {
   });
 };
 
+/**
+ * Private registry of 'loaders'.
+ */
+app._loaders = {};
+
+/**
+ * Register a loader.
+ */
+app.loader = function (type, handler) {
+  app._loaders[type] = handler;
+};
+
+/**
+ * Run a loader.
+ *
+ * Options:
+ *   - parent: The root directory where the target directory is found. Defaults
+ *             to the calling function's directory.
+ *   - dir: The name of the directory we are loading. Defaults to type.
+ */
+app.load = function (type, options) {
+  if (!app._loaders[type]) throw new Error('Tried to load an unregistered type: ' + type);
+
+  options = options || {};
+  if (!options.parent) {
+    options.parent = path.dirname(callerId.getData().filePath);
+  }
+  if (!options.dir) {
+    options.dir = type;
+  }
+  options.path = path.resolve(options.parent, options.dir);
+
+  return app._loaders[type](options);
+};
+
+/**
+ * Register a 'modules' type loader. Loads .js files in the target directory
+ * OR index.js files in nested directories. Returns the required modules.
+ */
+app.loader('modules', function (options) {
+  var modules = {};
+
+  // Load .js files in the directory.
+  glob.sync(options.path + '/*.js').forEach(function (p) {
+    modules[path.basename(p, '.js')] = require(path.resolve(p));
+  });
+
+  // Load index.js files one level down.
+  glob.sync(options.path + '/**/index.js').forEach(function (p) {
+    modules[path.dirname(p).split('/').pop()] = require(path.resolve(p));
+  });
+
+  return modules;
+});
+
+/**
+ * Registers a plugins loader.
+ */
+app.loader('plugins', function (options) {
+  options = options || {};
+  options.dir = options.dir || 'plugins';
+  return app.load('modules', options);
+});
