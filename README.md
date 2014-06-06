@@ -4,7 +4,7 @@ Cantina
 A node.js application framework that leverages the power of a shared event
 emitter, a simple plugin pattern, and a flexible configuration engine.
 
-**Current Version:** `3.x`
+**Current Version:** `4.x`
 
 Example
 -------
@@ -45,8 +45,16 @@ app.boot(function(err) {
   // ------------
   // To load a 'plugin' you just require it.
   //
-  // A helper, app.load(dir), is available if you just want to load a whole
-  // directory of plugin modules.
+  // For example, load the cantina-web plugins like so:
+  require('cantina-web');
+
+  // Loaders
+  // -------
+  // Cantina provides an api for registering and calling 'loader' methods.
+  // 'Loaders' generally require modules from a folder and make them available
+  // in some way.  For example, cantina provides a 'plugins' loader that loads
+  // all the modules in the 'plugins/' directory.
+  app.load('plugins');
 
   // Start the application
   // ---------------------
@@ -170,30 +178,3 @@ tasks. It is powered by [stact-hooks](https://github.com/cpsubrian/node-stact-ho
 
 Terra Eclipse, Inc. is a nationally recognized political technology and
 strategy firm located in Santa Cruz, CA and Washington, D.C.
-
-- - -
-
-### License: MIT
-
-Copyright (C) 2013 Terra Eclipse, Inc. ([http://www.terraeclipse.com](http://www.terraeclipse.com))
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is furnished
-to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-
