@@ -3,13 +3,13 @@
   "name": "cantina",
   "description": "An application bootstrapper and plugin framework.",
   "version": "4.0.0-dev",
+  "publishConfig": {
+    "registry": "https://npm-registry.terraeclipse.com"
+  },
   "homepage": "http://cantina.guthub.com",
   "repository": {
     "type": "git",
     "url": "git://github.com/cantina/cantina.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm-registry.terraeclipse.com"
   },
   "main": "cantina.js",
   "scripts": {
