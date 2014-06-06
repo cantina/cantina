@@ -168,7 +168,5 @@ app.loader('modules', function (options) {
  * Registers a plugins loader.
  */
 app.loader('plugins', function (options) {
-  options = options || {};
-  options.dir = options.dir || 'plugins';
   return app.load('modules', options);
 });
