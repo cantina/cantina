@@ -2,7 +2,7 @@
   "author": "Brian Link <cpubrian@gmail.com>",
   "name": "cantina",
   "description": "An application bootstrapper and plugin framework.",
-  "version": "3.1.2",
+  "version": "4.0.0-dev",
   "homepage": "http://cantina.guthub.com",
   "repository": {
     "type": "git",
@@ -16,14 +16,14 @@
     "test": "./node_modules/.bin/mocha -R spec"
   },
   "dependencies": {
-    "etc": "~0.3.0",
+    "etc": "~0.4.0",
     "etc-yaml": "~0.0.4",
     "witwip": "~1.0.3",
-    "glob": "~3.2.3",
-    "stact-hooks": "~0.0.1"
+    "glob": "~4.0.2",
+    "stact-hooks": "~0.0.3"
   },
   "devDependencies": {
-    "mocha": "~1.4.0"
+    "mocha": "~1.20.0"
   },
   "optionalDependencies": {}
 }
