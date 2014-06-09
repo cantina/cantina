@@ -80,7 +80,7 @@ describe('Cantina Application', function () {
 
   describe('load', function () {
     it('can load plugins relative to app.root', function () {
-      var modules = app.load('plugins', {dir: 'testPlugins'});
+      var modules = app.load('plugins');
       assert(app.folderLoaded);
       assert(app.pluginLoaded);
       assert(modules.folder);

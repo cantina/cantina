@@ -5,6 +5,7 @@ var EventEmitter = require('events').EventEmitter
   , witwip = require('witwip')
   , path = require('path')
   , glob = require('glob')
+  , _ = require('underscore')
   , callerId = require('caller-id')
   , createHooks = require('stact-hooks');
 
@@ -117,8 +118,18 @@ app._loaders = {};
 /**
  * Register a loader.
  */
-app.loader = function (type, handler) {
-  app._loaders[type] = handler;
+app.loader = function (type, defaults, handler) {
+  if (typeof handler !== 'function') {
+    handler = defaults;
+    defaults = {};
+  }
+  _.defaults(defaults, {
+    dir: type
+  });
+  app._loaders[type] = {
+    defaults: defaults,
+    handler: handler
+  };
 };
 
 /**
@@ -132,16 +143,16 @@ app.loader = function (type, handler) {
 app.load = function (type, options) {
   if (!app._loaders[type]) throw new Error('Tried to load an unregistered type: ' + type);
 
-  options = options || {};
-  if (!options.parent) {
-    options.parent = path.dirname(callerId.getData().filePath);
-  }
-  if (!options.dir) {
-    options.dir = type;
-  }
+  // Apply options, loader defaults, and invocation defaults.
+  options = _.defaults({}, options, app._loaders[type].defaults, {
+    parent: path.dirname(callerId.getData().filePath)
+  });
+
+  // Set the path.
   options.path = path.resolve(options.parent, options.dir);
 
-  return app._loaders[type](options);
+  // Call the loader handler.
+  return app._loaders[type].handler(options);
 };
 
 /**
