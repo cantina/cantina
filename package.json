@@ -2,7 +2,7 @@
   "author": "Brian Link <cpubrian@gmail.com>",
   "name": "cantina",
   "description": "An application bootstrapper and plugin framework.",
-  "version": "4.0.0-dev4",
+  "version": "4.0.0-dev5",
   "publishConfig": {
     "registry": "https://npm-registry.terraeclipse.com"
   },

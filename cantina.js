@@ -4,6 +4,7 @@ var EventEmitter = require('events').EventEmitter
   , etcYaml = require('etc-yaml')
   , witwip = require('witwip')
   , path = require('path')
+  , fs = require('fs')
   , glob = require('glob')
   , _ = require('underscore')
   , callerId = require('caller-id')
@@ -180,4 +181,16 @@ app.loader('modules', function (options) {
  */
 app.loader('plugins', function (options) {
   return app.load('modules', options);
+});
+
+/**
+ * Register a configuration loader.
+ */
+app.loader('conf', function (options) {
+  if (fs.existsSync(path.join(options.parent, 'etc'))) {
+    app.conf.etc(path.join(options.parent, 'etc'));
+  }
+  if (fs.existsSync(path.join(options.parent, 'package.json'))) {
+    app.conf.pkg(path.join(options.parent, 'package.json'));
+  }
 });

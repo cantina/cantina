@@ -87,5 +87,10 @@ describe('Cantina Application', function () {
       assert(modules.plugin);
       assert(Object.keys(modules).length, 2);
     });
+
+    it('can load conf (like a plugin would)', function () {
+      app.load('plugins');
+      assert.equal(app.conf.get('folder:test'), 'foo');
+    });
   });
 });
