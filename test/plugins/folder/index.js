@@ -1,6 +1,9 @@
-var app = require('../../../');
+module.exports = function (app) {
+  app.folderLoaded = true;
 
-app.folderLoaded = true;
+  // Load plugin's conf.
+  app.load('conf');
 
-// Load plugin's conf.
-app.load('conf');
+  // Return some api or something.
+  return 'something';
+};

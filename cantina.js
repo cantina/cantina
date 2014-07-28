@@ -1,36 +1,47 @@
 // Modules dependencies.
 var EventEmitter = require('events').EventEmitter
+  , inherits = require('util').inherits
   , etc = require('etc')
   , etcYaml = require('etc-yaml')
   , witwip = require('witwip')
   , path = require('path')
   , fs = require('fs')
+  , resolve = require('resolve')
   , glob = require('glob')
   , _ = require('underscore')
   , callerId = require('caller-id')
   , createHooks = require('stact-hooks');
 
 /**
- * Create and export the app object.
+ * Application constructor.
  */
-var app = module.exports = new EventEmitter();
+function Cantina (options) {
+  EventEmitter.call(this);
 
-// Set max listeners.
-app.setMaxListeners(0);
+  var app = this;
+  options = options || {};
 
-// Create a hooks stack.
-app.hook = createHooks();
+  // Set max listeners.
+  app.setMaxListeners(0);
 
-// Expose basic logging.
-app.log = console.log;
-app.log.error = console.error;
-app.log.info = console.log;
-app.log.warn = console.warn;
+  // Create a hooks stack.
+  app.hook = createHooks();
+
+  // Expose basic logging.
+  app.log = console.log;
+  app.log.error = console.error;
+  app.log.info = console.log;
+  app.log.warn = console.warn;
+
+  // Cached plugins.
+  app._plugins = {};
+}
+inherits(Cantina, EventEmitter);
 
 /**
  * Boot the application.
  */
-app.boot = function (root, callback) {
+Cantina.prototype.boot = function (root, callback) {
   var app = this;
 
   app.conf = etc().use(etcYaml).argv().env();
@@ -68,7 +79,9 @@ app.boot = function (root, callback) {
 /**
  * Start the application.
  */
-app.start = function (callback) {
+Cantina.prototype.start = function (callback) {
+  var app = this;
+
   callback = callback || function startCallback (err) {
     if (!err) return;
     app.emit('error', err);
@@ -84,7 +97,9 @@ app.start = function (callback) {
 /**
  * Destroy the app.
  */
-app.destroy = function (callback) {
+Cantina.prototype.destroy = function (callback) {
+  var app = this;
+
   // Run 'destroy' hooks.
   app.hook('destroy').runSeries(function (err) {
     if (err) return callback(err);
@@ -94,6 +109,9 @@ app.destroy = function (callback) {
       delete require.cache[key];
     });
 
+    // Clear the plugin cache.
+    app._plugins = {};
+
     callback();
   });
 };
@@ -101,7 +119,9 @@ app.destroy = function (callback) {
 /**
  * 'Silence' the app.
  */
-app.silence = function () {
+Cantina.prototype.silence = function () {
+  var app = this;
+
   var noops = Object.keys(app.log).filter(function (prop) {
     return typeof app.log[prop] === 'function';
   });
@@ -112,14 +132,32 @@ app.silence = function () {
 };
 
 /**
+ * Load a plugin (cached).
+ */
+Cantina.prototype.require = function (name) {
+  var app = this
+    , base = path.dirname(callerId.getData().filePath)
+    , resolved = resolve.sync(name, {basedir: base});
+
+  if (typeof app._plugins[resolved] === 'undefined') {
+    var func = require(resolved);
+    app._plugins[resolved] = func(app);
+  }
+
+  return app._plugins[resolved];
+};
+
+/**
  * Private registry of 'loaders'.
  */
-app._loaders = {};
+Cantina._loaders = {};
 
 /**
  * Register a loader.
  */
-app.loader = function (type, defaults, handler) {
+Cantina.loader = function (type, defaults, handler) {
+  var app = this;
+
   if (typeof handler !== 'function') {
     handler = defaults;
     defaults = {};
@@ -127,7 +165,8 @@ app.loader = function (type, defaults, handler) {
   _.defaults(defaults, {
     dir: type
   });
-  app._loaders[type] = {
+
+  Cantina._loaders[type] = {
     defaults: defaults,
     handler: handler
   };
@@ -141,11 +180,13 @@ app.loader = function (type, defaults, handler) {
  *             to the calling function's directory.
  *   - dir: The name of the directory we are loading. Defaults to type.
  */
-app.load = function (type, options) {
-  if (!app._loaders[type]) throw new Error('Tried to load an unregistered type: ' + type);
+Cantina.prototype.load = function (type, options) {
+  var app = this;
+
+  if (!Cantina._loaders[type]) throw new Error('Tried to load an unregistered type: ' + type);
 
   // Apply options, loader defaults, and invocation defaults.
-  options = _.defaults({}, options, app._loaders[type].defaults, {
+  options = _.defaults({}, options, Cantina._loaders[type].defaults, {
     parent: path.dirname(callerId.getData().filePath)
   });
 
@@ -153,24 +194,25 @@ app.load = function (type, options) {
   options.path = path.resolve(options.parent, options.dir);
 
   // Call the loader handler.
-  return app._loaders[type].handler(options);
+  return Cantina._loaders[type].handler.call(this, options);
 };
 
 /**
  * Register a 'modules' type loader. Loads .js files in the target directory
  * OR index.js files in nested directories. Returns the required modules.
  */
-app.loader('modules', function (options) {
-  var modules = {};
+Cantina.loader('modules', function (options) {
+  var app = this
+    , modules = {};
 
   // Load .js files in the directory.
   glob.sync(options.path + '/*.js').forEach(function (p) {
-    modules[path.basename(p, '.js')] = require(path.resolve(p));
+    modules[path.basename(p, '.js')] = app.require(path.resolve(p));
   });
 
   // Load index.js files one level down.
   glob.sync(options.path + '/**/index.js').forEach(function (p) {
-    modules[path.dirname(p).split('/').pop()] = require(path.resolve(p));
+    modules[path.dirname(p).split('/').pop()] = app.require(path.resolve(p));
   });
 
   return modules;
@@ -179,18 +221,26 @@ app.loader('modules', function (options) {
 /**
  * Registers a plugins loader.
  */
-app.loader('plugins', function (options) {
-  return app.load('modules', options);
+Cantina.loader('plugins', function (options) {
+  return this.load('modules', options);
 });
 
 /**
  * Register a configuration loader.
  */
-app.loader('conf', function (options) {
+Cantina.loader('conf', function (options) {
   if (fs.existsSync(path.join(options.parent, 'etc'))) {
-    app.conf.etc(path.join(options.parent, 'etc'));
+    this.conf.etc(path.join(options.parent, 'etc'));
   }
   if (fs.existsSync(path.join(options.parent, 'package.json'))) {
-    app.conf.pkg(path.join(options.parent, 'package.json'));
+    this.conf.pkg(path.join(options.parent, 'package.json'));
   }
 });
+
+/**
+ * Exports.
+ */
+module.exports = Cantina;
+module.exports.createApp = function (options) {
+  return new Cantina(options);
+};

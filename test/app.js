@@ -1,10 +1,11 @@
-var assert = require('assert');
+var assert = require('assert')
+  , createApp = require('../').createApp;
 
 describe('Cantina Application', function () {
   var app;
 
   beforeEach(function (done) {
-    app = require('../');
+    app = createApp();
     app.boot(function(err) {
       if (err) return done(err);
       done(err);
@@ -83,8 +84,8 @@ describe('Cantina Application', function () {
       var modules = app.load('plugins');
       assert(app.folderLoaded);
       assert(app.pluginLoaded);
-      assert(modules.folder);
-      assert(modules.plugin);
+      assert.equal(modules.plugin, undefined);
+      assert.equal(modules.folder, 'something');
       assert(Object.keys(modules).length, 2);
     });
 

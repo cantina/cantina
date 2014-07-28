@@ -1,3 +1,3 @@
-var app = require('../../');
-
-app.pluginLoaded = true;
+module.exports = function (app) {
+  app.pluginLoaded = true;
+};
