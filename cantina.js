@@ -35,6 +35,49 @@ function Cantina (options) {
 
   // Cached plugins.
   app._plugins = {};
+
+  // Loaders registry.
+  app._loaders = {};
+
+  /**
+   * Register a 'modules' type loader. Loads .js files in the target directory
+   * OR index.js files in nested directories. Returns the required modules.
+   */
+  app.loader('modules', function (options) {
+    var app = this
+      , modules = {};
+
+    // Load .js files in the directory.
+    glob.sync(options.path + '/*.js').forEach(function (p) {
+      modules[path.basename(p, '.js')] = app.require(path.resolve(p));
+    });
+
+    // Load index.js files one level down.
+    glob.sync(options.path + '/**/index.js').forEach(function (p) {
+      modules[path.dirname(p).split('/').pop()] = app.require(path.resolve(p));
+    });
+
+    return modules;
+  });
+
+  /**
+   * Registers a plugins loader.
+   */
+  app.loader('plugins', function (options) {
+    return this.load('modules', options);
+  });
+
+  /**
+   * Register a configuration loader.
+   */
+  app.loader('conf', function (options) {
+    if (fs.existsSync(path.join(options.parent, 'etc'))) {
+      this.conf.etc(path.join(options.parent, 'etc'));
+    }
+    if (fs.existsSync(path.join(options.parent, 'package.json'))) {
+      this.conf.pkg(path.join(options.parent, 'package.json'));
+    }
+  });
 }
 inherits(Cantina, EventEmitter);
 
@@ -147,15 +190,11 @@ Cantina.prototype.require = function (name) {
   return app._plugins[resolved];
 };
 
-/**
- * Private registry of 'loaders'.
- */
-Cantina._loaders = {};
 
 /**
  * Register a loader.
  */
-Cantina.loader = function (type, defaults, handler) {
+Cantina.prototype.loader = function (type, defaults, handler) {
   var app = this;
 
   if (typeof handler !== 'function') {
@@ -166,7 +205,7 @@ Cantina.loader = function (type, defaults, handler) {
     dir: type
   });
 
-  Cantina._loaders[type] = {
+  app._loaders[type] = {
     defaults: defaults,
     handler: handler
   };
@@ -183,10 +222,10 @@ Cantina.loader = function (type, defaults, handler) {
 Cantina.prototype.load = function (type, options) {
   var app = this;
 
-  if (!Cantina._loaders[type]) throw new Error('Tried to load an unregistered type: ' + type);
+  if (!app._loaders[type]) throw new Error('Tried to load an unregistered type: ' + type);
 
   // Apply options, loader defaults, and invocation defaults.
-  options = _.defaults({}, options, Cantina._loaders[type].defaults, {
+  options = _.defaults({}, options, app._loaders[type].defaults, {
     parent: path.dirname(callerId.getData().filePath)
   });
 
@@ -194,48 +233,8 @@ Cantina.prototype.load = function (type, options) {
   options.path = path.resolve(options.parent, options.dir);
 
   // Call the loader handler.
-  return Cantina._loaders[type].handler.call(this, options);
+  return app._loaders[type].handler.call(this, options);
 };
-
-/**
- * Register a 'modules' type loader. Loads .js files in the target directory
- * OR index.js files in nested directories. Returns the required modules.
- */
-Cantina.loader('modules', function (options) {
-  var app = this
-    , modules = {};
-
-  // Load .js files in the directory.
-  glob.sync(options.path + '/*.js').forEach(function (p) {
-    modules[path.basename(p, '.js')] = app.require(path.resolve(p));
-  });
-
-  // Load index.js files one level down.
-  glob.sync(options.path + '/**/index.js').forEach(function (p) {
-    modules[path.dirname(p).split('/').pop()] = app.require(path.resolve(p));
-  });
-
-  return modules;
-});
-
-/**
- * Registers a plugins loader.
- */
-Cantina.loader('plugins', function (options) {
-  return this.load('modules', options);
-});
-
-/**
- * Register a configuration loader.
- */
-Cantina.loader('conf', function (options) {
-  if (fs.existsSync(path.join(options.parent, 'etc'))) {
-    this.conf.etc(path.join(options.parent, 'etc'));
-  }
-  if (fs.existsSync(path.join(options.parent, 'package.json'))) {
-    this.conf.pkg(path.join(options.parent, 'package.json'));
-  }
-});
 
 /**
  * Exports.
