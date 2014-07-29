@@ -116,15 +116,22 @@ Cantina.prototype.boot = function (root, callback) {
     if (err) return callback(err);
 
     // Set pkg and root paths.
-    app.pkgPath = pkgPath;
-    app.pkgData = pkgData;
-    app.root = path.dirname(pkgPath);
+    if (pkgPath) {
+      app.pkgPath = pkgPath;
+      app.pkgData = pkgData;
+      app.root = path.dirname(pkgPath);
+    }
+    else {
+      app.root = root;
+    }
 
     // Add ./etc of parent.
     app.conf.folder(path.join(app.root, 'etc'));
 
     // Add package.json of the app.
-    app.conf.pkg(app.pkgPath);
+    if (app.pkgPath) {
+      app.conf.pkg(app.pkgPath);
+    }
 
     callback();
   }
