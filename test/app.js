@@ -86,13 +86,17 @@ describe('Cantina Application', function () {
 
     it('can load plugins relative to app.root', function () {
       var modules = app.load('plugins');
+
       assert(app.loaded.indexOf('zplugin') === 0);
       assert(app.loaded.indexOf('plugin') > 0);
       assert(app.loaded.indexOf('folder') > 0);
       assert.equal(modules.zplugin, undefined);
       assert.equal(modules.plugin, undefined);
       assert.equal(modules.folder, 'something');
-      assert(Object.keys(modules).length, 2);
+      assert.equal(Object.keys(modules).length, 3);
+
+      app.load('plugins');
+      assert.equal(app.loaded.length, 3);
     });
 
     it('can load conf (like a plugin would)', function () {

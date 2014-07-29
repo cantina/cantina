@@ -201,11 +201,12 @@ Cantina.prototype.require = function (name) {
     , resolved = resolve.sync(name, {basedir: base});
 
   if (typeof app._plugins[resolved] === 'undefined') {
-    var func = require(resolved);
-    app._plugins[resolved] = func(app);
+    app._plugins[resolved] = {
+      result: require(resolved)(app)
+    };
   }
 
-  return app._plugins[resolved];
+  return app._plugins[resolved].result;
 };
 
 
