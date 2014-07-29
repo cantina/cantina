@@ -1,5 +1,5 @@
 module.exports = function (app) {
-  app.folderLoaded = true;
+  app.loaded.push('folder');
 
   // Load plugin's conf.
   app.load('conf');

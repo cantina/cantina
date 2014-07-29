@@ -1,3 +1,3 @@
 module.exports = function (app) {
-  app.pluginLoaded = true;
+  app.loaded.push('plugin');
 };

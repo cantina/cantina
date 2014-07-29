@@ -42,22 +42,40 @@ function Cantina (options) {
   /**
    * Register a 'modules' type loader. Loads .js files in the target directory
    * OR index.js files in nested directories. Returns the required modules.
+   * Respects `module.exports.weight` for each module.
    */
   app.loader('modules', function (options) {
     var app = this
-      , modules = {};
+      , modules = [];
 
-    // Load .js files in the directory.
+    // Find files in the directory.
     glob.sync(options.path + '/*.js').forEach(function (p) {
-      modules[path.basename(p, '.js')] = app.require(path.resolve(p));
+      modules.push({
+        name: path.basename(p, '.js'),
+        path: path.resolve(p),
+        weight: require(path.resolve(p)).weight || 0
+      });
     });
 
-    // Load index.js files one level down.
+    // Find index.js files one level down.
     glob.sync(options.path + '/**/index.js').forEach(function (p) {
-      modules[path.dirname(p).split('/').pop()] = app.require(path.resolve(p));
+      modules.push({
+        name: path.dirname(p).split('/').pop(),
+        path: path.resolve(p),
+        weight: require(path.resolve(p)).weight || 0
+      });
     });
 
-    return modules;
+    // Sort by weight.
+    modules.sort(function (a, b) {
+      return a.weight - b.weight;
+    });
+
+    // Load all modules.
+    return modules.reduce(function (hash, module) {
+      hash[module.name] = app.require(module.path);
+      return hash;
+    }, {});
   });
 
   /**
