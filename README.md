@@ -9,7 +9,7 @@ emitter, a simple plugin pattern, and a flexible configuration engine.
 Example
 -------
 ```js
-var app = require('cantina');
+var app = require('cantina').createApp();
 
 // Boot the application
 // --------------------
@@ -43,10 +43,10 @@ app.boot(function(err) {
 
   // Load plugins
   // ------------
-  // To load a 'plugin' you just require it.
+  // To load a 'plugin', use app.require().
   //
   // For example, load the cantina-web plugins like so:
-  require('cantina-web');
+  app.require('cantina-web');
 
   // Loaders
   // -------
@@ -66,78 +66,65 @@ app.boot(function(err) {
 
 ```
 
-Installation
-------------
-Until cantina is hosted through npm, the easiest way to use it in your app is to
-include it in your package.json as a dependency like:
-
-```
-  "dependencies": {
-    "cantina": "git+ssh://git@github.com:cantina/cantina.git#3.x"
-  },
-```
-
-Then runnning `npm install` will check out the lastest version into your
-`node_modules/` folder.
-
 Plugins
 -------
-Cantina plugins use `require('cantina')` to access to the `app` event emitter.
+Cantina plugins get access to the `app` object and can extend or use apis attached to it.
 Plugins can really do whatever they want, however, there are a few conventions
 that can be followed in order to cooperate with the application initialization
 process.
 
 ### Example Plugin
 ```js
-var app = require('cantina');
+module.export = function (app) {
 
-// Add some default configuration options.
-app.conf.add({
-  square: {
-    color: 'red',
-    height: 200
-  },
-  circle: {
-    color: 'blue',
-    radius: 4
-  }
-});
+  // Add some default configuration options.
+  app.conf.add({
+    square: {
+      color: 'red',
+      height: 200
+    },
+    circle: {
+      color: 'blue',
+      radius: 4
+    }
+  });
 
-// Expose data or an API on the app.
-app.shapes = {
-  squares: [],
-  circles: []
-};
-
-// Bind to application events, such as 'error', or custom ones that your
-// application uses.
-app.on('create:circle', function(options) {
-  var defaults = app.conf.get('circle');
-  var circle = {
-    color: options.color || defaults.color,
-    radius: options.radius || defaults.radius
+  // Expose data or an API on the app.
+  app.shapes = {
+    squares: [],
+    circles: []
   };
-  app.shapes.circles.push(circle);
-});
 
-// Add a 'start' hook.
-// Hooks run asynchronously, so if you setup requires hitting a database or doing
-// other asynchronous work, you should do that here.
-app.hook('start').add(function (next) {
-  app.db.loadCircles(function(err, circles) {
-    if (err) return next(err);
-    circles.forEach(function(circle) {
-      app.emit('create:circle', circle);
+  // Bind to application events, such as 'error', or custom ones that your
+  // application uses.
+  app.on('create:circle', function(options) {
+    var defaults = app.conf.get('circle');
+    var circle = {
+      color: options.color || defaults.color,
+      radius: options.radius || defaults.radius
+    };
+    app.shapes.circles.push(circle);
+  });
+
+  // Add a 'start' hook.
+  // Hooks run asynchronously, so if you setup requires hitting a database or doing
+  // other asynchronous work, you should do that here.
+  app.hook('start').add(function (next) {
+    app.db.loadCircles(function(err, circles) {
+      if (err) return next(err);
+      circles.forEach(function(circle) {
+        app.emit('create:circle', circle);
+      });
+      next();
     });
+  });
+
+  // Add a 'destroy' hook.
+  app.hook('destroy').add(function (next) {
+    // Clean-up if the app is destroyed.
     next();
   });
-});
-
-// Add a 'destroy' hook.
-app.hook('destroy').add(function (next) {
-  // Clean-up if the app is destroyed.
-  next();
-})
+};
 ```
 
 Configuration
