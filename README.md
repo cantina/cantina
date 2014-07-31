@@ -75,7 +75,7 @@ process.
 
 ### Example Plugin
 ```js
-module.export = function (app) {
+module.exports = function (app) {
 
   // Add some default configuration options.
   app.conf.add({
