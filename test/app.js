@@ -79,6 +79,25 @@ describe('Cantina Application', function () {
     });
   });
 
+  describe('require', function () {
+    beforeEach(function () {
+      app.loaded = [];
+    });
+
+    it('can require a single item', function () {
+      var result = app.require('./plugins/folder');
+      assert.equal(result, 'something');
+    });
+
+    it('can require multiple items', function () {
+      var results = app.require('./plugins/folder', './plugins/plugin', './plugins/zplugin');
+      assert.equal(results[0], 'something');
+      assert.equal(results.length, 3);
+      assert.equal(app.loaded[1], 'plugin');
+      assert.equal(app.loaded[2], 'zplugin');
+    });
+  });
+
   describe('load', function () {
     beforeEach(function () {
       app.loaded = [];

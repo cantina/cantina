@@ -205,18 +205,28 @@ Cantina.prototype.silence = function () {
 /**
  * Load a plugin (cached).
  */
-Cantina.prototype.require = function (name) {
+Cantina.prototype.require = function () {
   var app = this
     , base = path.dirname(callerId.getData().filePath)
-    , resolved = resolve.sync(name, {basedir: base});
+    , args = Array.prototype.slice.call(arguments, 0)
+    , results = [];
 
-  if (typeof app._plugins[resolved] === 'undefined') {
-    app._plugins[resolved] = {
-      result: require(resolved)(app)
-    };
+  args.forEach(function (arg) {
+    var resolved = resolve.sync(arg, {basedir: base});
+    if (typeof app._plugins[resolved] === 'undefined') {
+      app._plugins[resolved] = {
+        result: require(resolved)(app)
+      };
+    }
+    results.push(app._plugins[resolved].result);
+  });
+
+  if (args.length > 1) {
+    return results;
   }
-
-  return app._plugins[resolved].result;
+  else {
+    return results.shift();
+  }
 };
 
 
