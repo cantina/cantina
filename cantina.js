@@ -74,6 +74,9 @@ function Cantina (options) {
     // Load all modules.
     return modules.reduce(function (hash, module) {
       hash[module.name] = app.require(module.path);
+      if (hash[module.name] && (typeof hash[module.name].weight === 'undefined')) {
+        hash[module.name].weight = module.weight;
+      }
       return hash;
     }, {});
   });
