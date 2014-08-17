@@ -58,7 +58,7 @@ function Cantina (options) {
     });
 
     // Find index.js files one level down.
-    glob.sync(options.path + '/**/index.js').forEach(function (p) {
+    glob.sync(options.path + '/*/index.js').forEach(function (p) {
       modules.push({
         name: path.dirname(p).split('/').pop(),
         path: path.resolve(p),
