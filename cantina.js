@@ -212,11 +212,17 @@ Cantina.prototype.require = function () {
     , results = [];
 
   args.forEach(function (arg) {
-    var resolved = resolve.sync(arg, {basedir: base});
+    var resolved = resolve.sync(arg, {basedir: base})
+      , plugin;
+
     if (typeof app._plugins[resolved] === 'undefined') {
-      app._plugins[resolved] = {
-        result: require(resolved)(app)
-      };
+      app._plugins[resolved] = {}
+      app._plugins[resolved].result = 'APP_REQUIRE_CIRCULAR_DEP_PLACEHOLDER';
+      app._plugins[resolved].plugin = require(resolved);
+      if (typeof app._plugins[resolved].plugin !== 'function') {
+        throw new Error('Export of `' + resolved + '` is not a cantina plugin');
+      }
+      app._plugins[resolved].result = app._plugins[resolved].plugin(app);
     }
     results.push(app._plugins[resolved].result);
   });
@@ -228,7 +234,6 @@ Cantina.prototype.require = function () {
     return results.shift();
   }
 };
-
 
 /**
  * Register a loader.

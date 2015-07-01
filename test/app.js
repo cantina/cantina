@@ -96,6 +96,12 @@ describe('Cantina Application', function () {
       assert.equal(app.loaded[1], 'plugin');
       assert.equal(app.loaded[2], 'zplugin');
     });
+
+    it('throws when loading a non-plugin', function () {
+      assert.throws(function () {
+        app.require('./lib/bad-plugin');
+      }, /not a cantina plugin/)
+    });
   });
 
   describe('load', function () {
