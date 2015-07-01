@@ -282,3 +282,4 @@ module.exports = Cantina;
 module.exports.createApp = function (options) {
   return new Cantina(options);
 };
+module.exports.etc = etc;
